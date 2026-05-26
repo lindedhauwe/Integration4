@@ -2,7 +2,7 @@
 Integration 4 github repo
 
 ## Our team:
-This is our team woth their connected Belbin Team Roles:
+This is our team with their connected Belbin Team Roles:
 
 ### Femke
 - Shaper
