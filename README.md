@@ -9,7 +9,7 @@ This is our team with their connected Belbin Team Roles:
 - Coordinator
 - Completer finisher
 
-=>People-oriënted
+=> People-oriënted
 
 ---
 
