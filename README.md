@@ -4,10 +4,11 @@ Integration 4 github repo
 ## Our team:
 
 ### Femke
-- 
-- 
-- 
-=>
+- Shaper
+- Coordinator
+- Completer finisher
+
+=>People-oriënted
 
 ---
 
