@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import UGCBlock from './ugc-test.jsx'
 
 function App() {
   const [name, setName] = useState('')
@@ -80,6 +81,8 @@ function App() {
       </form>
 
       {status ? <p>{status}</p> : null}
+
+      <UGCBlock />
     </main>
   )
 }
