@@ -5,7 +5,7 @@ export default function Account() {
         <>
             <header>
                 <h1>Account</h1>
-                <Link to="/recommendations">Go to recommendations</Link>
+                <Link to="/recommendations">Go back to recommendations</Link>
             </header>
 
             <main className="account-page">
