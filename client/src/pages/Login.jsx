@@ -1,15 +1,37 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../supabase";
 
 export default function Login() {
-    const [identifier, setIdentifier] = useState(""); // email or username
+    const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
 
-    function handleLogin(e) {
+    const navigate = useNavigate();
+
+    async function handleLogin(e) {
         e.preventDefault();
 
-        console.log("Logging in:", { identifier, password });
-        // hier komt later je login API call
+        // user zoeken op email OF username
+        const { data, error } = await supabase
+            .from("users")
+            .select("*")
+            .or(`email.eq.${identifier},name.eq.${identifier}`)
+            .single();
+
+        if (error || !data) {
+            alert("User not found");
+            return;
+        }
+
+        if (data.password !== password) {
+            alert("Incorrect password");
+            return;
+        }
+
+        // user opslaan
+        localStorage.setItem("user", JSON.stringify(data));
+
+        navigate("/account");
     }
 
     return (
@@ -40,13 +62,7 @@ export default function Login() {
                         />
                     </label>
 
-                    <Link to="/forgot-password" className="auth-link small">
-                        Forget password?
-                    </Link>
-
-                    <Link to="/account" className="auth-link small">
-                        Log in
-                    </Link>
+                    <button type="submit">Log in</button>
                 </form>
 
                 <Link to="/create-profile" className="auth-link">

@@ -1,6 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Account() {
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const stored = localStorage.getItem("user");
+        if (stored) {
+            setUser(JSON.parse(stored));
+        } else {
+            navigate("/login");
+        }
+    }, []);
+
+    if (!user) return null;
+
+    function handleLogout() {
+        localStorage.removeItem("user");
+        navigate("/login");
+    }
+
     return (
         <>
             <header>
@@ -9,16 +29,14 @@ export default function Account() {
             </header>
 
             <main className="account-page">
-                <h1>[Name db]</h1>
-                <p>Email: [Email db]</p>
+                <h1>{user.name}</h1>
+                <p>Email: {user.email}</p>
 
                 <Link to="/account/edit">
                     <button>Edit profile</button>
                 </Link>
 
-               <Link to="/login">
-                    <button>Log out</button>
-                </Link>
+                <button onClick={handleLogout}>Log out</button>
 
                 <h2>Contact</h2>
                 <p>Questions? Contact us anytime!</p>
