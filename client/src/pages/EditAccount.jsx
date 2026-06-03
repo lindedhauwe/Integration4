@@ -1,22 +1,16 @@
+import UserForm from "../components/UserForm";
 import { Link } from "react-router-dom";
 
-export default function Account() {
+export default function EditAccount() {
     return (
         <>
             <header>
-                <h1>Account</h1>
-                <Link to="/recommendations">Go to recommendations</Link>
+                <h1>Edit profile</h1>
+                <Link to="/account">Go back</Link>
             </header>
 
             <main className="account-page">
-                <h1>[Name db]</h1>
-                <p>Email: [Email db]</p>
-
-                <Link to="/account/edit">
-                    <button>Edit profile</button>
-                </Link>
-
-                <button>Log out</button>
+                <UserForm />
 
                 <h2>Contact</h2>
                 <p>Questions? Contact us anytime!</p>
