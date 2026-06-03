@@ -1,90 +1,45 @@
-import { useState } from 'react'
-import UGCBlock from './ugc-test.jsx'
+// src/App.jsx
+import { Suspense, lazy } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 
-function App() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('')
-  const [password, setPassword] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+const Home = lazy(() => import('./pages/Home'));
+const Recommendations = lazy(() => import('./pages/Recommendations'));
+const TheSpot = lazy(() => import('./pages/TheSpot'));
+const Map = lazy(() => import('./pages/Map'));
+const Account = lazy(() => import('./pages/Account'));
+const OtherBar = lazy(() => import('./pages/OtherBar'));
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setStatus('')
-
-    try {
-      const response = await fetch('http://localhost:3000/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Iets ging fout')
-      }
-
-      setName('')
-      setEmail('')
-      setPassword('')
-      setStatus(`Gebruiker opgeslagen: ${data.name}`)
-    } catch (error) {
-      setStatus(error.message)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
+function Header() {
   return (
-    <main>
-      <h1>integration 4 - viltjes @ devine</h1>
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Naam
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </label>
-
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-        </label>
-
-        <div>
-          <label htmlFor="pass">Password (8 characters minimum):</label>
-          <input
-            type="password"
-            id="pass"
-            name="password"
-            minLength={8}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Opslaan...' : 'Opslaan'}
-        </button>
-      </form>
-
-      {status ? <p>{status}</p> : null}
-
-      <UGCBlock />
-    </main>
-  )
+    <header>
+      <nav>
+        <Link to="/">Home</Link>{' | '}
+        <Link to="/recommendations">Recommendation</Link>{' | '}
+        <Link to="/thespot">The Spot</Link>{' | '}
+        <Link to="/map">Map</Link>{' | '}
+        <Link to="/account">Account</Link>{' | '}
+        <Link to="/otherbar">Other Bar</Link>
+      </nav>
+    </header>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <>
+      <Header />
+      <main>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/recommendations" element={<Recommendations />} />
+            <Route path="/thespot" element={<TheSpot />} />
+            <Route path="/map" element={<Map />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/otherbar" element={<OtherBar />} />
+          </Routes>
+        </Suspense>
+      </main>
+    </>
+  );
+}
