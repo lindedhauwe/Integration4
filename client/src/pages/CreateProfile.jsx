@@ -18,7 +18,6 @@ export default function CreateProfile() {
             return;
         }
 
-        // 1. User aanmaken in Supabase
         const { data, error } = await supabase
             .from("users")
             .insert([{ name: username, email, password }])
@@ -30,9 +29,9 @@ export default function CreateProfile() {
             return;
         }
 
-        console.log("User created:", data);
+        // user opslaan zodat Account.jsx weet wie is ingelogd
+        localStorage.setItem("user", JSON.stringify(data));
 
-        // 2. Doorsturen naar accountpagina
         navigate("/account");
     }
 
