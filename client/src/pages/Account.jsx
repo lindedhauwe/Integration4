@@ -7,12 +7,15 @@ export default function Account() {
 
     useEffect(() => {
         const stored = localStorage.getItem("user");
+
         if (stored) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setUser(JSON.parse(stored));
         } else {
             navigate("/login");
         }
-    }, []);
+
+    }, [navigate]);
 
     if (!user) return null;
 
