@@ -16,7 +16,9 @@ export default function Account() {
                     <button>Edit profile</button>
                 </Link>
 
-                <button>Log out</button>
+               <Link to="/login">
+                    <button>Log out</button>
+                </Link>
 
                 <h2>Contact</h2>
                 <p>Questions? Contact us anytime!</p>

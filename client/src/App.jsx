@@ -9,6 +9,9 @@ const Map = lazy(() => import('./pages/Map'));
 const Account = lazy(() => import('./pages/Account'));
 const OtherBar = lazy(() => import('./pages/OtherBar'));
 const EditAccount = lazy(() => import('./pages/EditAccount'));
+const CreateProfile = lazy(() => import('./pages/CreateProfile'));
+const Login = lazy(() => import('./pages/Login'));
+
 
 
 function Header() {
@@ -34,6 +37,8 @@ export default function App() {
             <Route path="/otherbar" element={<OtherBar />} />
             <Route path="/account" element={<Account />} />
             <Route path="/account/edit" element={<EditAccount />} />
+            <Route path="/create-profile" element={<CreateProfile />} />
+            <Route path="/login" element={<Login />} />
 
           </Routes>
         </Suspense>

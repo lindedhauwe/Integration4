@@ -1,37 +1,18 @@
-// src/components/UserForm.jsx
-import { useState } from 'react';
+import { useState } from "react";
 
-export default function UserForm() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [status, setStatus] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+export default function UserForm({ user, onSave }) {
+    const [name, setName] = useState(user?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [password, setPassword] = useState("");
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
-        setIsSubmitting(true);
-        setStatus('');
 
-        try {
-            const response = await fetch('http://localhost:3000/api/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message || 'Iets ging fout');
-
-            setName('');
-            setEmail('');
-            setPassword('');
-            setStatus(`Gebruiker opgeslagen: ${data.name}`);
-        } catch (err) {
-            setStatus(err.message);
-        } finally {
-            setIsSubmitting(false);
-        }
+        onSave({
+            name,
+            email,
+            password: password || undefined
+        });
     }
 
     return (
@@ -57,22 +38,16 @@ export default function UserForm() {
             </label>
 
             <label>
-                Password
+                Password (optional)
                 <input
                     type="password"
                     placeholder="********"
-                    minLength={8}
-                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </label>
 
-            <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Opslaan...' : 'Opslaan'}
-            </button>
-
-            {status && <p>{status}</p>}
+            <button type="submit">Save changes</button>
         </form>
     );
 }

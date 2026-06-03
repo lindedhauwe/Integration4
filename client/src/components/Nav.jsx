@@ -8,7 +8,7 @@ export default function Nav() {
                 <Link to="/recommendations">Recommendation</Link>{' | '}
                 <Link to="/thespot">The Spot</Link>{' | '}
                 <Link to="/map">Map</Link>{' | '}
-                <Link to="/account">Account</Link>{' | '}
+                <Link to="/login">Account</Link>{' | '}
                 <Link to="/otherbar">Other Bar</Link>
             </nav>
         </header>
