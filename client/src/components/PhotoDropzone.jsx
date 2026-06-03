@@ -49,7 +49,7 @@ export default function PhotoDropzone({ onUpload }) {
 
     return (
         <div className="photo-dropzone">
-            <h3>Upload your photos</h3>
+            <h3>Upload 1 or more pictures</h3>
 
             <label className="upload-button">
                 Choose files
