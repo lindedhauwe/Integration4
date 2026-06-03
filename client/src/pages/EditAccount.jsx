@@ -1,22 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import UserForm from "../components/UserForm";
-import { Link } from "react-router-dom";
+import supabase from "../supabase";
 
 export default function EditAccount() {
+    const navigate = useNavigate();
+
+    async function handleSave(updatedUser) {
+        const { error } = await supabase
+            .from("users")
+            .update(updatedUser)
+            .eq("uid", "HUIDIGE_USER_ID");
+
+        if (!error) navigate("/account");
+    }
+
     return (
-        <>
-            <header>
-                <h1>Edit profile</h1>
-                <Link to="/account">Go back</Link>
-            </header>
-
-            <main className="account-page">
-                <UserForm />
-
-                <h2>Contact</h2>
-                <p>Questions? Contact us anytime!</p>
-                <a href="mailto:info@antwerp.be">info@antwerp.be</a>
-                <a href="tel:+32 03 22 11 333">+32 03 22 11 333</a>
-            </main>
-        </>
+        <main>
+            <h1>Edit profile</h1>
+            <UserForm user={/* user data */} onSave={handleSave} />
+        </main>
     );
 }
