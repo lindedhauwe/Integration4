@@ -52,10 +52,21 @@ export default function PhotoDropzone({ onUpload }) {
             <h3>Upload 1 or more pictures</h3>
 
             <label className="upload-button">
-                Choose files
+                Choose one or more images 
                 <input
                     type="file"
                     accept="image/*"
+                    multiple
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                />
+            </label>  {' | '}
+
+            <label className="upload-button">
+                Choose one or more videos
+                <input
+                    type="file"
+                    accept="video/*"
                     multiple
                     onChange={handleFileChange}
                     style={{ display: "none" }}

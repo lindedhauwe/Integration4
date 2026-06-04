@@ -1,5 +1,7 @@
 import { useState } from "react";
 import PhotoDropzone from "../components/PhotoDropzone";
+// import { supabase } from "../supabase";
+
 
 export default function Recommendations() {
     const [uploadedPhotos, setUploadedPhotos] = useState([]);
