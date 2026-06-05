@@ -11,6 +11,7 @@ const OtherBar = lazy(() => import('./pages/OtherBar'));
 const EditAccount = lazy(() => import('./pages/EditAccount'));
 const CreateProfile = lazy(() => import('./pages/CreateProfile'));
 const Login = lazy(() => import('./pages/Login'));
+const BeerLoading = lazy(() => import('./pages/BeerLoading'));
 
 
 
@@ -39,7 +40,7 @@ export default function App() {
             <Route path="/account/edit" element={<EditAccount />} />
             <Route path="/create-profile" element={<CreateProfile />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/beerloading" element={<BeerLoading />} />
           </Routes>
         </Suspense>
       </main>

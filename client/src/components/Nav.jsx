@@ -9,7 +9,8 @@ export default function Nav() {
                 <Link to="/thespot">The Spot</Link>{' | '}
                 <Link to="/map">Map</Link>{' | '}
                 <Link to="/login">Account</Link>{' | '}
-                <Link to="/otherbar">Other Bar</Link>
+                <Link to="/otherbar">Other Bar</Link>{' | '}
+                <Link to="/beerloading">Beer loading</Link>
             </nav>
         </header>
     );
