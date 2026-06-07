@@ -1,58 +1,44 @@
 import { useState } from "react";
-import { supabase } from "../supabase";
 
 export default function PhotoDropzone({ onUpload }) {
-    const [images, setImages] = useState([]);
+    const [media, setMedia] = useState([]);
 
-    // Bestandsnaam opschonen
-    function sanitizeFileName(name) {
-        return name
-            .toLowerCase()
-            .replace(/\s+/g, "-")          // spaties → -
-            .replace(/[^a-z0-9.-]/g, "")   // verwijder speciale tekens
-            .replace(/-+/g, "-");          // dubbele streepjes → enkel
-    }
+    async function uploadToCloudinary(file) {
+        const url = "https://api.cloudinary.com/v1_1/dthynp3xm/upload";
 
-    async function uploadImage(file) {
-        const cleanName = sanitizeFileName(file.name);
-        const fileName = `${Date.now()}-${cleanName}`;
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "rec_photos"); // jouw preset
 
-        const { error } = await supabase.storage
-            .from("ugc-images")
-            .upload(fileName, file);
+        const res = await fetch(url, {
+            method: "POST",
+            body: formData,
+        });
 
-        if (error) {
-            console.error("Upload error:", error);
-            return null;
-        }
-
-        const { data: urlData } = supabase.storage
-            .from("ugc-images")
-            .getPublicUrl(fileName);
-
-        return urlData.publicUrl;
+        const data = await res.json();
+        return data.secure_url; // Cloudinary URL
     }
 
     async function handleFileChange(e) {
         const files = Array.from(e.target.files);
-        const uploadedUrls = [];
+        const urls = [];
 
         for (const file of files) {
-            const url = await uploadImage(file);
-            if (url) uploadedUrls.push(url);
+            const uploadedUrl = await uploadToCloudinary(file);
+            urls.push(uploadedUrl);
         }
 
-        setImages((prev) => [...prev, ...uploadedUrls]);
+        setMedia((prev) => [...prev, ...urls]);
 
-        if (onUpload) onUpload(uploadedUrls);
+        if (onUpload) onUpload(urls);
     }
 
     return (
         <div className="photo-dropzone">
-            <h3>Upload 1 or more pictures</h3>
+            <h3>Upload 1 or more pictures or videos</h3>
 
             <label className="upload-button">
-                Choose one or more images 
+                Choose images
                 <input
                     type="file"
                     accept="image/*"
@@ -60,10 +46,12 @@ export default function PhotoDropzone({ onUpload }) {
                     onChange={handleFileChange}
                     style={{ display: "none" }}
                 />
-            </label>  {' | '}
+            </label>
+
+            {" | "}
 
             <label className="upload-button">
-                Choose one or more videos
+                Choose videos
                 <input
                     type="file"
                     accept="video/*"
@@ -74,9 +62,13 @@ export default function PhotoDropzone({ onUpload }) {
             </label>
 
             <div className="preview-grid">
-                {images.map((url, index) => (
+                {media.map((url, index) => (
                     <div key={index} className="preview-item">
-                        <img src={url} alt="preview" />
+                        {url.includes("video") ? (
+                            <video src={url} controls width="150" />
+                        ) : (
+                            <img src={url} alt="preview" width="150" />
+                        )}
                     </div>
                 ))}
             </div>
