@@ -20,26 +20,36 @@ const mapThemes = {
 
 const mapSpots = [
     {
-        id: 'central',
-        name: 'Central spot',
-        description: 'Hoofdlocatie om mee te testen.',
-        position: [51.217, 4.421],
-        tone: 'coral',
+        id: 'hetsteen',
+        name: 'Het Steen',
+        description: 'Historisch kasteel aan de Schelde.',
+        // Wikipedia: 51.2227°N 4.3974°E
+        position: [51.2227, 4.3974],
+        iconUrl: '/hetSteen.jpg',
     },
     {
-        id: 'north',
-        name: 'Noordelijke pin',
-        description: 'Extra marker om verschillende punten te tonen.',
-        position: [51.236, 4.405],
-        tone: 'mint',
+        id: 'centraal',
+        name: 'Antwerpen-Centraal',
+        description: 'Het hoofdstation van Antwerpen.',
+        // Wikipedia: 51°13′02″N 4°25′16″E -> 51.217222, 4.421111
+        position: [51.217222, 4.421111],
+        iconUrl: '/centraal-station.jpeg',
     },
     {
-        id: 'river',
-        name: 'Rivierzona',
-        description: 'Nog een pin met een andere kleur en popup.',
-        position: [51.222, 4.387],
-        tone: 'amber',
+        id: 'mas',
+        name: 'MAS (Museum aan de Stroom)',
+        description: 'Museum en uitzichtpunt aan de kaaien.',
+        // Wikipedia: 51.2290°N 4.4048°E
+        position: [51.2290, 4.4048],
+        iconUrl: '/mas-museum.jpg',
     },
+];
+
+// three additional example markers (random-ish within Antwerp bounds)
+const extraSpots = [
+    { id: 'rand1', name: 'Random spot 1', position: [51.2250, 4.4100] },
+    { id: 'rand2', name: 'Random spot 2', position: [51.2100, 4.4020] },
+    { id: 'rand3', name: 'Random spot 3', position: [51.2180, 4.4350] },
 ];
 
 function createPinIcon(tone) {
@@ -110,17 +120,51 @@ export default function Map() {
         const coasterIcon = createCoasterIcon();
 
         mapSpots.forEach((spot) => {
+            let iconToUse = coasterIcon || createPinIcon('coral');
+            if (spot.iconUrl) {
+                iconToUse = L.icon({
+                    iconUrl: spot.iconUrl,
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 48],
+                    popupAnchor: [0, -40],
+                    className: 'map-landmark-icon',
+                });
+            }
+
             const marker = L.marker(spot.position, {
-                icon: coasterIcon || createPinIcon(spot.tone),
+                icon: iconToUse,
             });
 
-            marker.bindPopup(`
-                <strong>${spot.name}</strong><br />
-                ${spot.description}
-            `);
+            const popupHtml = spot.iconUrl
+                ? `<img src="${spot.iconUrl}" alt="${spot.name}" style="width:140px;display:block;margin-bottom:6px;border-radius:6px;"/><strong>${spot.name}</strong><br/>${spot.description}`
+                : `<strong>${spot.name}</strong><br/>${spot.description}`;
+
+            marker.bindPopup(popupHtml);
 
             marker.addTo(markersLayerRef.current);
         });
+
+            // add extra random markers and collect coordinates for polyline
+            const extraCoords = [];
+            extraSpots.forEach((spot) => {
+                const marker = L.marker(spot.position, {
+                    icon: coasterIcon || createPinIcon('mint'),
+                });
+
+                marker.bindPopup(`<strong>${spot.name}</strong>`);
+                marker.addTo(markersLayerRef.current);
+                extraCoords.push(spot.position);
+            });
+
+            // draw dotted polyline connecting the extra markers
+            if (extraCoords.length > 1) {
+                L.polyline(extraCoords, {
+                    color: '#fb923c',
+                    weight: 3,
+                    dashArray: '8 6',
+                    opacity: 0.95,
+                }).addTo(markersLayerRef.current);
+            }
 
         return () => {
             map.remove();
