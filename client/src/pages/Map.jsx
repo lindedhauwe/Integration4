@@ -52,6 +52,23 @@ function createPinIcon(tone) {
     });
 }
 
+function createCoasterIcon() {
+    // expects an image at /coasterOnMap.png (place in client/public/coasterOnMap.png)
+    const url = '/coasterOnMap.png';
+
+    try {
+        return L.icon({
+            iconUrl: url,
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -36],
+            className: 'map-coaster-icon',
+        });
+    } catch (e) {
+        return createPinIcon('coral');
+    }
+}
+
 export default function Map() {
     const [activeTheme, setActiveTheme] = useState('voyager');
     const mapElementRef = useRef(null);
@@ -66,9 +83,21 @@ export default function Map() {
             return undefined;
         }
 
+        // Antwerp bounds (approx). Map will be restricted to this box.
+        const antwerpSouthWest = L.latLng(51.150, 4.300);
+        const antwerpNorthEast = L.latLng(51.260, 4.520);
+        const antwerpBounds = L.latLngBounds(antwerpSouthWest, antwerpNorthEast);
+
         const map = L.map(mapElementRef.current, {
             zoomControl: true,
             scrollWheelZoom: true,
+            // restrict panning outside Antwerp
+            maxBounds: antwerpBounds,
+            // how strictly the user is restricted to the bounds (0-1)
+            maxBoundsViscosity: 0.85,
+            // sensible zoom limits for city view
+            minZoom: 12,
+            maxZoom: 18,
         }).setView([51.2194, 4.4025], 13);
 
         mapInstanceRef.current = map;
@@ -78,9 +107,11 @@ export default function Map() {
 
         markersLayerRef.current = L.layerGroup().addTo(map);
 
+        const coasterIcon = createCoasterIcon();
+
         mapSpots.forEach((spot) => {
             const marker = L.marker(spot.position, {
-                icon: createPinIcon(spot.tone),
+                icon: coasterIcon || createPinIcon(spot.tone),
             });
 
             marker.bindPopup(`
