@@ -1,6 +1,4 @@
-/* ----------------------------- */
-/*        CUSTOM FONTS           */
-/* ----------------------------- */
+/* CUSTOM FONTS */
 
 @font-face {
     font-family: "Antwerpen-Regular";
@@ -30,16 +28,9 @@
     font-style: normal;
 }
 
-/* Adobe Fonts worden automatisch geladen via index.html */
-/* Jij hoeft hier GEEN @font-face voor te schrijven */
-
-
-/* ----------------------------- */
-/*        ROOT VARIABLES         */
-/* ----------------------------- */
 
 :root {
-    /* MAIN COLORS */
+    /* COLORS */
     --pink: #FF6EE5;
     --blue: #009AFF;
     --bar-brown: #312C1C;
@@ -63,5 +54,5 @@
     --font-interstate: "interstate", sans-serif;
 }
 
-/* ----------------------------- */
-/*        GLOBAL STYLES          */
+
+
