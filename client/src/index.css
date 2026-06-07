@@ -30,7 +30,7 @@
 
 
 :root {
-    /* MAIN COLORS */
+    /* COLORS */
     --pink: #FF6EE5;
     --blue: #009AFF;
     --bar-brown: #312C1C;
@@ -53,5 +53,6 @@
     /* FONT VARIABLES (ADOBE) */
     --font-interstate: "interstate", sans-serif;
 }
+
 
 
