@@ -45,7 +45,7 @@ const mapSpots = [
     },
 ];
 
-// three additional example markers (random-ish within Antwerp bounds)
+// 3 bierkaartjes om te testen (random locaties)
 const extraSpots = [
     { id: 'rand1', name: 'Random spot 1', position: [51.2250, 4.4100] },
     { id: 'rand2', name: 'Random spot 2', position: [51.2100, 4.4020] },
