@@ -1,0 +1,173 @@
+/* BACKGROUND */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #2f6f5e, #3c7d66);
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+  position: relative;
+  color: white;
+}
+
+/* SWITCH */
+.mode-switch {
+  display: flex;
+  border: 2px solid #ff8be8;
+  margin-bottom: 20px;
+}
+
+.mode-switch button {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #ff8be8;
+  font-weight: bold;
+}
+
+.mode-switch .active {
+  background: #ff8be8;
+  color: white;
+}
+
+/* HERO */
+.hero {
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  color: #caff70;
+  margin: 6px 0;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.location {
+  background: #ff6ec4;
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* INTRO */
+.intro h2 {
+  color: #caff70;
+}
+
+.intro p {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* INPUT STYLE (important) */
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #caff70;
+  background: #fff1dc;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+/* COUNTER */
+.char-count {
+  font-size: 12px;
+  color: #caff70;
+  text-align: right;
+}
+
+/* DROPZONE LOOK */
+.section-title {
+  margin-top: 10px;
+}
+
+.dropzone {
+  display: flex;
+  gap: 10px;
+}
+
+.dropzone-box {
+  flex: 1;
+  border: 2px solid #5cff8d;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TAGS */
+.tags-wrapper {
+  margin-top: 12px;
+}
+
+.tag-label {
+  font-size: 12px;
+  display: block;
+  margin: 8px 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  border: none;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* COLORS LIKE DESIGN */
+.tag.blue {
+  background: #3b82f6;
+  color: white;
+}
+
+.tag.green {
+  background: #4ade80;
+  color: black;
+}
+
+.tag.active {
+  transform: scale(0.95);
+  filter: brightness(0.8);
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+  margin-top: 20px;
+  background: #ff7a2f;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* LITTLE POLISH */
+label {
+  font-size: 13px;
+}
