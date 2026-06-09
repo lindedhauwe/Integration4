@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./Account.css";
 
 export default function Account() {
     const [user, setUser] = useState(null);
@@ -25,14 +26,14 @@ export default function Account() {
     }
 
     return (
-        <>
+        <div className="account-container">
             <header>
-                <h1>Account</h1>
-                <Link to="/recommendations">Go back to recommendations</Link>
+                {/* <h1>Account</h1> */}
+                <Link className="back_to_recommedations" to="/recommendations">Go back to recommendations</Link>
             </header>
 
             <main className="account-page">
-                <h1>{user.name}</h1>
+                <h1 className="account-title">{user.name}</h1>
                 <p>Email: {user.email}</p>
 
                 <Link to="/account/edit">
@@ -46,6 +47,6 @@ export default function Account() {
                 <a href="mailto:info@antwerp.be">info@antwerp.be</a>
                 <a href="tel:+32 03 22 11 333">+32 03 22 11 333</a>
             </main>
-        </>
+        </div>
     );
 }

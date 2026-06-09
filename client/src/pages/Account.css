@@ -1,0 +1,16 @@
+.account-title {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 48px;
+    color: var(--light-green);
+}
+
+body {
+    background: var(--dark-green);
+}
+
+.back_to_recommedations{
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 16px;
+    text-decoration: none;  
+    color: var(--white);
+}
