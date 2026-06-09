@@ -1,56 +1,80 @@
-:root {
-  --lime: #B6FF00;
-  --neon-green: #00DF66;
-  --deep-green: #2C6B56;
-  --orange: #FF6700;
-  --paper: #FFEFD9;
-  --coffee-brown: #514930;
-  --electric-blue: #009AFF;
-  --bubble-pink: #FF6EE5;
-}
-
 .recommendations-page {
   min-height: 100vh;
-  background:
-    linear-gradient(168deg, transparent 0 10%, var(--deep-green) 10% 18%, transparent 18%),
-    linear-gradient(8deg, transparent 0 37%, rgba(81, 73, 48, 0.7) 37% 45%, transparent 45%),
+  position: relative;
+  overflow: hidden;
+  background-color: var(--dark-green);
+  background-image:
+    linear-gradient(rgba(255, 111, 229, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 111, 229, 0.05) 1px, transparent 1px),
+    linear-gradient(168deg, transparent 0 10%, rgba(44, 107, 86, 0.92) 10% 18%, transparent 18%),
+    linear-gradient(8deg, transparent 0 37%, rgba(81, 73, 48, 0.72) 37% 45%, transparent 45%),
     linear-gradient(180deg, #2f725d 0%, #2b6a57 100%);
+  background-size: 14px 14px, 14px 14px, auto, auto, auto;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
   display: flex;
   justify-content: center;
   padding: 1.25rem 0;
-  overflow-x: hidden;
 }
 
 .recommendations-content {
   width: min(100%, 430px);
-  padding: 1.15rem 1rem 2.25rem;
+  padding: 1.15rem 1rem 2.35rem;
   color: #fff;
-  font-family: var(--font-antwerpen-regular);
+  font-family: var(--font-interstate);
+  font-size: 16px;
   position: relative;
+}
+
+.bg-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.bg-shape--top-left {
+  left: -18px;
+  top: -24px;
+  width: min(62vw, 290px);
+  transform: rotate(8deg);
+  opacity: 0.98;
+}
+
+.bg-shape--brown-stroke {
+  left: -8px;
+  top: 206px;
+  width: min(120vw, 442px);
+  transform: rotate(-2deg);
+  opacity: 0.92;
+}
+
+.bg-shape--bottom-left {
+  left: 14px;
+  bottom: 96px;
+  width: min(52vw, 210px);
+  transform: rotate(-18deg);
+  opacity: 0.98;
 }
 
 .recommendations-content::before {
   content: "";
   position: absolute;
-  right: -60px;
-  bottom: 58px;
-  width: 260px;
-  height: 190px;
-  background: var(--paper);
-  transform: rotate(-20deg);
-  opacity: 0.96;
-  z-index: 0;
+  inset: 0;
+  border-left: 2px solid rgba(255, 103, 0, 0.55);
+  border-right: 2px solid rgba(255, 103, 0, 0.55);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .recommendations-content > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .mode-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border: 2px solid var(--bubble-pink);
+  border: 2px solid var(--pink);
   background: rgba(255, 239, 217, 0.06);
   margin-bottom: 2.1rem;
 }
@@ -58,16 +82,16 @@
 .mode-switch button {
   border: none;
   background: transparent;
-  color: var(--bubble-pink);
+  color: var(--pink);
   padding: 0.72rem 0.25rem;
-  font-family: var(--font-antwerpen-regular);
+  font-family: var(--font-interstate);
   font-size: 1rem;
   cursor: pointer;
 }
 
 .mode-switch button.active {
-  background: var(--bubble-pink);
-  color: var(--paper);
+  background: var(--pink);
+  color: var(--beige);
 }
 
 .hero {
@@ -77,25 +101,25 @@
 .small {
   margin: 0;
   opacity: 0.88;
-  font-size: 1.18rem;
-  font-family: var(--font-antwerpen-regular);
+  font-size: 16px;
+  font-family: var(--font-interstate);
 }
 
 .hero h1 {
   margin: 0.2rem 0 0.5rem;
-  color: var(--lime);
-  font-size: clamp(2.65rem, 8.3vw, 4rem);
+  color: var(--light-green);
+  font-size: 48px;
   line-height: 0.98;
   font-family: var(--font-antwerpen-tall);
 }
 
 .location {
   display: inline-block;
-  font-family: var(--font-antwerpen-smallcaps);
-  background: var(--bubble-pink);
-  color: var(--paper);
+  font-family: var(--font-interstate);
+  background: var(--pink);
+  color: var(--beige);
   padding: 0.34rem 0.7rem;
-  font-size: 1rem;
+  font-size: 15px;
 }
 
 .intro {
@@ -106,26 +130,27 @@
 
 .intro h2 {
   margin: 0;
-  color: var(--lime);
-  font-family: var(--font-antwerpen-regular);
-  font-size: 3rem;
+  color: var(--light-green);
+  font-family: var(--font-antwerpen-tall);
+  font-size: 24px;
   line-height: 0.92;
 }
 
 .intro p {
   margin: 0.62rem 0 0;
-  color: var(--paper);
-  font-size: 2rem;
-  line-height: 1.06;
-  max-width: 70%;
+  color: var(--beige);
+  font-family: var(--font-interstate);
+  font-size: 16px;
+  line-height: 1.45;
+  max-width: 61%;
 }
 
 .intro-collage {
   position: absolute;
-  right: -60px;
-  top: 6px;
-  width: 138px;
-  transform: rotate(12deg);
+  right: -56px;
+  top: 16px;
+  width: 147px;
+  transform: rotate(11deg);
   filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.26));
 }
 
@@ -139,21 +164,21 @@
 .section-title,
 .tags-wrapper p,
 .tag-label {
-  color: var(--paper);
-  font-family: var(--font-antwerpen-smallcaps);
-  font-size: 1.2rem;
+  color: var(--beige);
+  font-family: var(--font-interstate);
+  font-size: 16px;
   margin: 0.35rem 0 0.2rem;
 }
 
 .form input,
 .form textarea {
   width: 100%;
-  border: 2px solid var(--neon-green);
+  border: 2px solid var(--green);
   border-radius: 0;
-  background: var(--paper);
-  color: var(--coffee-brown);
-  font-size: 2rem;
-  font-family: var(--font-antwerpen-regular);
+  background: var(--beige);
+  color: var(--bar-brown);
+  font-size: 16px;
+  font-family: var(--font-interstate);
   padding: 0.58rem 0.68rem;
   outline: none;
 }
@@ -170,15 +195,15 @@
 
 .form input:focus,
 .form textarea:focus {
-  border-color: var(--lime);
+  border-color: var(--light-green);
   box-shadow: 0 0 0 2px rgba(182, 255, 0, 0.2);
 }
 
 .char-count {
   margin-top: -0.15rem;
-  font-family: var(--font-antwerpen-smallcaps);
-  font-size: 1.06rem;
-  color: var(--lime);
+  font-family: var(--font-interstate);
+  font-size: 16px;
+  color: var(--light-green);
 }
 
 .photo-dropzone {
@@ -193,15 +218,15 @@
 }
 
 .dropzone-card {
-  border: 2px solid var(--neon-green);
+  border: 2px solid var(--green);
   min-height: 166px;
   display: grid;
   place-content: center;
   text-align: center;
   gap: 0.45rem;
-  color: var(--paper);
-  font-family: var(--font-antwerpen-smallcaps);
-  font-size: 1.42rem;
+  color: var(--beige);
+  font-family: var(--font-interstate);
+  font-size: 16px;
   cursor: pointer;
   background: rgba(0, 223, 102, 0.03);
 }
@@ -214,7 +239,8 @@
 .photo-dropzone__hint {
   margin: 0;
   color: rgba(255, 239, 217, 0.72);
-  font-size: 1.06rem;
+  font-size: 16px;
+  font-family: var(--font-interstate);
 }
 
 .upload-button {
@@ -230,7 +256,7 @@
 .preview-item img,
 .preview-item video {
   width: 100%;
-  border: 2px solid var(--neon-green);
+  border: 2px solid var(--green);
   object-fit: cover;
   background: #000;
 }
@@ -240,7 +266,7 @@
 }
 
 .tag-label {
-  color: var(--neon-green);
+  color: var(--green);
   margin-top: 0.6rem;
 }
 
@@ -253,19 +279,19 @@
 .tag {
   border: none;
   padding: 0.34rem 0.76rem;
-  font-family: var(--font-antwerpen-smallcaps);
-  font-size: 1.15rem;
+  font-family: var(--font-interstate);
+  font-size: 16px;
   color: #fff;
   cursor: pointer;
   transition: transform 120ms ease, filter 120ms ease;
 }
 
 .tag.blue {
-  background: var(--electric-blue);
+  background: var(--blue);
 }
 
 .tag.green {
-  background: var(--neon-green);
+  background: var(--green);
   color: #06311d;
 }
 
@@ -279,9 +305,9 @@
   align-self: center;
   border: none;
   background: var(--orange);
-  color: var(--paper);
-  font-family: var(--font-antwerpen-smallcaps);
-  font-size: 1.9rem;
+  color: var(--beige);
+  font-family: var(--font-antwerpen-tall);
+  font-size: 24px;
   padding: 0.62rem 2.25rem;
   cursor: pointer;
 }
@@ -294,8 +320,8 @@
 .peace-hand {
   position: absolute;
   right: -18px;
-  bottom: -66px;
-  width: 120px;
+  bottom: -54px;
+  width: 122px;
   transform: rotate(-10deg);
   pointer-events: none;
 }
@@ -307,12 +333,12 @@
   }
 
   .intro h2 {
-    font-size: 2.45rem;
+    font-size: 24px;
   }
 
   .intro p {
     max-width: 74%;
-    font-size: 1.95rem;
+    font-size: 16px;
   }
 
   .intro-collage {
@@ -323,11 +349,16 @@
 
   .dropzone-card {
     min-height: 146px;
-    font-size: 1.24rem;
+    font-size: 16px;
   }
 
   .form input,
   .form textarea {
-    font-size: 1.55rem;
+    font-size: 16px;
+  }
+
+  .bg-shape--brown-stroke {
+    top: 190px;
+    width: 118vw;
   }
 }

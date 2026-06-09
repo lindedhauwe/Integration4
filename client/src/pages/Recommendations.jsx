@@ -4,6 +4,9 @@ import { supabase } from "../supabase";
 import "./Recommendations.css";
 import recommendationCollage from "../assets/images/recommatationCollage.png";
 import recommendationPeaceHand from "../assets/icons/recommendationPeaceHand.png";
+import recommendationBeigeRect from "../assets/images/recommendationBeigeRect.png";
+import recommendationBrownStroke from "../assets/images/RecommendationBrownStroke.png";
+import recommendationRectSmall from "../assets/images/RecommendationRectSmall.png";
 
 export default function Recommendations() {
   const [mode, setMode] = useState("current");
@@ -73,6 +76,25 @@ export default function Recommendations() {
 
   return (
     <div className="recommendations-page">
+      <img
+        src={recommendationBeigeRect}
+        alt=""
+        aria-hidden="true"
+        className="bg-shape bg-shape--top-left"
+      />
+      <img
+        src={recommendationBrownStroke}
+        alt=""
+        aria-hidden="true"
+        className="bg-shape bg-shape--brown-stroke"
+      />
+      <img
+        src={recommendationRectSmall}
+        alt=""
+        aria-hidden="true"
+        className="bg-shape bg-shape--bottom-left"
+      />
+
       <div className="recommendations-content">
         <div className="mode-switch" role="tablist">
           <button
