@@ -34,7 +34,7 @@ export default function Account() {
 
             <main className="account-page">
                 <h1 className="account-title">{user.name}</h1>
-                <p>Email: {user.email}</p>
+                <p className="account-email">{user.email}</p>
 
                 <Link to="/account/edit">
                     <button>Edit profile</button>
@@ -42,11 +42,16 @@ export default function Account() {
 
                 <button onClick={handleLogout}>Log out</button>
 
+                
+            </main>
+
+            <footer className="account-footer">
                 <h2>Contact</h2>
                 <p>Questions? Contact us anytime!</p>
+                <img src="/src/assets/hand-tel_footer.jpg" alt="Hand met telefoon" className="account-footer__decoration" />
                 <a href="mailto:info@antwerp.be">info@antwerp.be</a>
                 <a href="tel:+32 03 22 11 333">+32 03 22 11 333</a>
-            </main>
+            </footer>
         </div>
     );
 }

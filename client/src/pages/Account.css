@@ -14,3 +14,43 @@ body {
     text-decoration: none;  
     color: var(--white);
 }
+
+.account-email{
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 16px;
+    color: var(--white);
+}
+
+.account-footer{
+    background-image: url("/src/assets/account_footer_bg.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    min-height: 100%;
+}
+
+.account-footer h2 {
+    font-family: var(--font-interstate);
+    font-size: 24px;
+    color: var(--black);
+}
+
+.account-footer p {
+    font-family: var(--font-interstate);
+    font-size: 16px;
+    color: var(--black);
+}
+
+.account-footer a {
+    font-family: var(--font-interstate);
+    font-size: 16px;
+    color: var(--black);
+    text-decoration: none;
+    display: block;
+    margin-top: 8px;
+}
+
+.account-footer__decoration {
+    width: 100px;
+    margin-top: 16px;
+}
+
