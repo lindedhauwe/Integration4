@@ -1,4 +1,6 @@
 import { useState } from "react";
+import imgIcon from "../assets/icons/imgIcon.png";
+import cameraIcon from "../assets/icons/cameraIcon.png";
 
 export default function PhotoDropzone({ onUpload }) {
     const [media, setMedia] = useState([]);
@@ -35,10 +37,40 @@ export default function PhotoDropzone({ onUpload }) {
 
     return (
         <div className="photo-dropzone">
-            <h3>Upload 1 or more pictures or videos</h3>
+            <div className="photo-dropzone__actions">
+                <label className="dropzone-card" htmlFor="upload-images">
+                    <img src={imgIcon} alt="Library" className="dropzone-card__icon" />
+                    <span>Choose from library</span>
+                    <input
+                        id="upload-images"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                    />
+                </label>
+
+                <label className="dropzone-card" htmlFor="upload-videos">
+                    <img src={cameraIcon} alt="Camera" className="dropzone-card__icon" />
+                    <span>Take photo/video</span>
+                    <input
+                        id="upload-videos"
+                        type="file"
+                        accept="video/*,image/*"
+                        multiple
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                    />
+                </label>
+            </div>
+
+            <p className="photo-dropzone__hint">
+                Upload 1 or more pictures or videos
+            </p>
 
             <label className="upload-button">
-                Choose images
+                Choose images quickly
                 <input
                     type="file"
                     accept="image/*"
@@ -48,10 +80,8 @@ export default function PhotoDropzone({ onUpload }) {
                 />
             </label>
 
-            {" | "}
-
             <label className="upload-button">
-                Choose videos
+                Choose videos quickly
                 <input
                     type="file"
                     accept="video/*"
