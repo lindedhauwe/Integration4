@@ -80,43 +80,31 @@ export default function Recommendations() {
         src={recommendationBeigeRect}
         alt=""
         aria-hidden="true"
-        className="bg-shape bg-shape--top-left"
-      />
-      <img
-        src={recommendationBrownStroke}
-        alt=""
-        aria-hidden="true"
-        className="bg-shape bg-shape--brown-stroke"
+        className="bg-shape bg-shape--bottom-left"
       />
       <img
         src={recommendationRectSmall}
         alt=""
         aria-hidden="true"
-        className="bg-shape bg-shape--bottom-left"
+        className="bg-shape bg-shape--top-left"
       />
 
       <div className="recommendations-content">
-        <div className="mode-switch" role="tablist">
-          <button
-            type="button"
-            role="tab"
-            className={mode === "current" ? "active" : ""}
-            aria-selected={mode === "current"}
-            onClick={() => setMode("current")}
-          >
-            Current bar
-          </button>
-          <button
-            type="button"
-            role="tab"
-            className={mode === "another" ? "active" : ""}
-            aria-selected={mode === "another"}
-            onClick={() => setMode("another")}
-          >
-            Another bar
-          </button>
-        </div>
+        <div className={`mode-switch ${mode === "another" ? "another" : ""}`} role="tablist">
+  <button
+    className={mode === "current" ? "active" : ""}
+    onClick={() => setMode("current")}
+  >
+    Current bar
+  </button>
 
+  <button
+    className={mode === "another" ? "active" : ""}
+    onClick={() => setMode("another")}
+  >
+    Another bar
+  </button>
+</div>
         <div className="hero">
           <p className="small">You're currently at...</p>
           <h1>Café Beveren</h1>
