@@ -1,15 +1,11 @@
-//import { json } from "react-router";
-import { supabase } from "~/supabase.server";
+import { supabase } from "~/supabase";
 
-export async function loader() {
+export async function clientLoader() {
   const { data, error } = await supabase
     .from("recommendations")
     .select("*");
 
-  if (error) {
-    throw new Error(error.message);
-    //return json({ error: error.message }, { status: 500 });
-  }
+  if (error) throw new Error(error.message);
 
   return data;
 }
