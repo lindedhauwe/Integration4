@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
+import hetSteenImage from '../assets/images/hetSteen.jpg';
+import centraalStationImage from '../assets/images/centraal-station.jpeg';
+import masMuseumImage from '../assets/images/mas-museum.jpg';
+import coasterOnMapIcon from '../assets/icons/coasterOnMap.png';
 
 const mapThemes = {
     voyager: {
@@ -25,7 +29,7 @@ const mapSpots = [
         description: 'Historisch kasteel aan de Schelde.',
         // Wikipedia: 51.2227°N 4.3974°E
         position: [51.2227, 4.3974],
-        iconUrl: '/hetSteen.jpg',
+        iconUrl: hetSteenImage,
     },
     {
         id: 'centraal',
@@ -33,7 +37,7 @@ const mapSpots = [
         description: 'Het hoofdstation van Antwerpen.',
         // Wikipedia: 51°13′02″N 4°25′16″E -> 51.217222, 4.421111
         position: [51.217222, 4.421111],
-        iconUrl: '/centraal-station.jpeg',
+        iconUrl: centraalStationImage,
     },
     {
         id: 'mas',
@@ -41,7 +45,7 @@ const mapSpots = [
         description: 'Museum en uitzichtpunt aan de kaaien.',
         // Wikipedia: 51.2290°N 4.4048°E
         position: [51.2290, 4.4048],
-        iconUrl: '/mas-museum.jpg',
+        iconUrl: masMuseumImage,
     },
 ];
 
@@ -63,20 +67,13 @@ function createPinIcon(tone) {
 }
 
 function createCoasterIcon() {
-    // expects an image at /coasterOnMap.png (place in client/public/coasterOnMap.png)
-    const url = '/coasterOnMap.png';
-
-    try {
-        return L.icon({
-            iconUrl: url,
-            iconSize: [40, 40],
-            iconAnchor: [20, 40],
-            popupAnchor: [0, -36],
-            className: 'map-coaster-icon',
-        });
-    } catch (e) {
-        return createPinIcon('coral');
-    }
+    return L.icon({
+        iconUrl: coasterOnMapIcon,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -36],
+        className: 'map-coaster-icon',
+    });
 }
 
 export default function Map() {
