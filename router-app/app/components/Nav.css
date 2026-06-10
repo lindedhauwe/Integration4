@@ -1,10 +1,6 @@
-/* HEADER */
 .nav-header {
     width: 100%;
-    /* padding: 1rem; */
-    /* padding-right: 120px; */
     padding-top: 20px;
-    /* 👈 dit duwt de hamburger 30px naar links */
     display: flex;
     justify-content: flex-end;
     position: fixed;
@@ -14,52 +10,141 @@
 
 .hamburger-icon {
     width: 32px;
-    height: 32px;
+    height: 44px;
     cursor: pointer;
 }
 
-/* FULLSCREEN OVERLAY */
 .menu-overlay {
     position: fixed;
     inset: 0;
-    background: var(--black);
-    color: var(--white);
+    background: var(--dark-green);
     z-index: 2000;
-
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.25s ease-out;
 }
 
-/* CLOSE BUTTON */
+
 .close-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 32px;
+    top: -1px;
+    right: -1px;
+    width: 72px;
+    height: 72px;
     background: none;
     border: none;
-    color: var(--white);
     cursor: pointer;
+    padding: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* LINKS */
-.menu-links {
+.close-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.close-icon {
+    position: relative;
+    width: 35px;
+    height: 35px;
+}
+
+.nav-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    text-align: center;
+    min-height: 0;
+    margin: 72px 24px 10px 24px;
+    gap: 0.5rem;
 }
 
-.menu-links a {
-    font-family: var(--font-antwerpen-tall);
-    font-size: 2rem;
-    color: var(--white);
+
+.nav-row--top {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    gap: 0.5rem;
+}
+
+.nav-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.75rem 0.75rem;
     text-decoration: none;
-    transition: opacity 0.2s;
 }
 
+.nav-cell--home {
+    flex: 1;
+    border: 2px solid var(--light-green);
+}
 
+.nav-cell--pubcrawl {
+    flex: 1;
+    border: 2px solid var(--light-green);
+}
+
+.nav-cell--account {
+    flex: 1;
+    border: 2px solid var(--light-green);
+}
+
+.nav-cell--recommendation {
+    border: 2px solid var(--light-green);
+    min-height: 120px;
+}
+
+.nav-cell--active {
+    background: var(--pink);
+    border: none;
+}
+
+.nav-cell__title {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 28px;
+    color: var(--light-green);
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+.nav-cell--home .nav-cell__title {
+    font-size: 40px;
+}
+
+.nav-cell__subtitle {
+    font-family: var(--font-interstate);
+    font-size: 16px;
+    color: var(--beige);
+    line-height: 1.3;
+}
+
+.nav-footer-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1rem;
+    text-decoration: none;
+    color: var(--light-green);
+    font-family: var(--font-antwerpen-regular);
+    font-size: 0.85rem;
+}
+
+.play-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
