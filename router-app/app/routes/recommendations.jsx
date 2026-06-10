@@ -1,6 +1,6 @@
-// app/routes/recommendations.jsx
 import { useState } from "react";
 import { Form, useActionData } from "react-router";
+import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
 
 import recommendationCollage from "~/assets/images/recommendationCollageSimple.png";
@@ -20,7 +20,6 @@ export async function action({ request }) {
   const type = JSON.parse(formData.get("type"));
   const photo_url = formData.get("photo_url");
 
-  // SERVER-SIDE SUPABASE
   const { supabase } = await import("~/supabase.server");
 
   const { error } = await supabase.from("recommendations").insert({
@@ -34,11 +33,12 @@ export async function action({ request }) {
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: error.message }; // 👈 GEEN json()
   }
 
-  return { success: true };
+  return { success: true }; // 👈 GEEN redirect()
 }
+
 
 export default function Recommendations() {
   const actionData = useActionData();

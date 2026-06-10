@@ -1,38 +1,25 @@
-import { useEffect, useState } from "react";
-//import { supabase } from "../supabase";
+import { useLoaderData } from "react-router";
+import { useState } from "react";
+import { supabase } from "../supabase";
+
+export async function clientLoader() {
+    const { data, error } = await supabase
+        .from("recommendations")
+        .select("*");
+
+    if (error) throw error;
+    return data;
+}
 
 export default function Home() {
-    const [recommendations, setRecommendations] = useState([]);
-    const [current, setCurrent] = useState(null);
+    const recommendations = useLoaderData();
+    const [current, setCurrent] = useState(() => {
+        if (!recommendations || recommendations.length === 0) return null;
+        return recommendations[Math.floor(Math.random() * recommendations.length)];
+    });
 
-    // 1. Data ophalen uit Supabase
-    useEffect(() => {
-        async function fetchData() {
-            const { data, error } = await supabase
-                .from("recommendations")
-                .select("*");
-
-            if (error) {
-                console.error(error);
-                return;
-            }
-
-            setRecommendations(data);
-
-            // Kies meteen een random recommendation
-            if (data.length > 0) {
-                const random = Math.floor(Math.random() * data.length);
-                setCurrent(data[random]);
-            }
-        }
-
-        fetchData();
-    }, []);
-
-    // 2. Refresh knop → nieuwe random recommendation
     function refresh() {
-        if (recommendations.length === 0) return;
-
+        if (!recommendations || recommendations.length === 0) return;
         const random = Math.floor(Math.random() * recommendations.length);
         setCurrent(recommendations[random]);
     }
@@ -41,7 +28,7 @@ export default function Home() {
         return (
             <main>
                 <h1>Home</h1>
-                <p>Loading recommendations...</p>
+                <p>Geen recommendations gevonden.</p>
             </main>
         );
     }
@@ -51,7 +38,6 @@ export default function Home() {
             <h1>Home</h1>
 
             <div className="post">
-                {/* Foto */}
                 {current.photo_url && (
                     <img
                         src={current.photo_url}
@@ -60,7 +46,6 @@ export default function Home() {
                     />
                 )}
 
-                {/* Video */}
                 {current.video_url && (
                     <video
                         src={current.video_url}
@@ -73,7 +58,6 @@ export default function Home() {
                 <p><strong>City:</strong> {current.city}</p>
                 <p>{current.description}</p>
 
-                {/* Tags */}
                 <p><strong>Vibe:</strong> {current.vibe_tags}</p>
                 <p><strong>Type:</strong> {current.type_tags}</p>
 

@@ -2,28 +2,28 @@
 
 @font-face {
     font-family: "Antwerpen-Regular";
-    src: url("/src/assets/fonts/AntwerpenRegular.woff2") format("woff2");
+    src: url("../assets/fonts/AntwerpenRegular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Antwerpen-Tall";
-    src: url("/src/assets/fonts/AntwerpenTall.woff2") format("woff2");
+    src: url("../assets/fonts/AntwerpenTall.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Antwerpen-SmallCaps";
-    src: url("/src/assets/fonts/AntwerpenSmallCaps.woff2") format("woff2");
+    src: url("../assets/fonts/AntwerpenSmallCaps.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: "SunAntwerpen-5_Regular";
-    src: url("/src/assets/fonts/SunAntwerpen-5_Regular.woff2") format("woff2");
+    src: url("../assets/fonts/SunAntwerpen-5_Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
 }

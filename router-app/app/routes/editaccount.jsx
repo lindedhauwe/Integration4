@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router";
-//import { supabase } from "../supabase";
+import { supabase } from "../supabase";
 
 export default function EditAccount() {
     const [user, setUser] = useState(null);

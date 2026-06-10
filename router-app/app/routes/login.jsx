@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-//import { supabase } from "../supabase";
+import { supabase } from "../supabase";
 
 export default function Login() {
     const [identifier, setIdentifier] = useState("");

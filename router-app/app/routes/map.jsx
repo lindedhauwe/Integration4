@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import './map.css';
 import hetSteenImage from '../assets/images/hetSteen.jpg';
 import centraalStationImage from '../assets/images/centraal-station.jpeg';
@@ -56,26 +54,6 @@ const extraSpots = [
     { id: 'rand3', name: 'Random spot 3', position: [51.2180, 4.4350] },
 ];
 
-function createPinIcon(tone) {
-    return L.divIcon({
-        className: 'map-pin-wrapper',
-        html: `<span class="map-pin map-pin--${tone}"></span>`,
-        iconSize: [28, 36],
-        iconAnchor: [14, 34],
-        popupAnchor: [0, -30],
-    });
-}
-
-function createCoasterIcon() {
-    return L.icon({
-        iconUrl: coasterOnMapIcon,
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -36],
-        className: 'map-coaster-icon',
-    });
-}
-
 export default function Map() {
     const [activeTheme, setActiveTheme] = useState('voyager');
     const mapElementRef = useRef(null);
@@ -90,70 +68,72 @@ export default function Map() {
             return undefined;
         }
 
-        // Antwerp bounds (approx). Map will be restricted to this box.
-        const antwerpSouthWest = L.latLng(51.150, 4.300);
-        const antwerpNorthEast = L.latLng(51.260, 4.520);
-        const antwerpBounds = L.latLngBounds(antwerpSouthWest, antwerpNorthEast);
+        let cancelled = false;
 
-        const map = L.map(mapElementRef.current, {
-            zoomControl: true,
-            scrollWheelZoom: true,
-            // restrict panning outside Antwerp
-            maxBounds: antwerpBounds,
-            // how strictly the user is restricted to the bounds (0-1)
-            maxBoundsViscosity: 0.85,
-            // sensible zoom limits for city view
-            minZoom: 12,
-            maxZoom: 18,
-        }).setView([51.2194, 4.4025], 13);
+        async function initMap() {
+            const L = (await import('leaflet')).default;
+            await import('leaflet/dist/leaflet.css');
 
-        mapInstanceRef.current = map;
-        tileLayerRef.current = L.tileLayer(theme.url, {
-            attribution: theme.attribution,
-        }).addTo(map);
+            if (cancelled || !mapElementRef.current) return;
 
-        markersLayerRef.current = L.layerGroup().addTo(map);
+            const antwerpSouthWest = L.latLng(51.150, 4.300);
+            const antwerpNorthEast = L.latLng(51.260, 4.520);
+            const antwerpBounds = L.latLngBounds(antwerpSouthWest, antwerpNorthEast);
 
-        const coasterIcon = createCoasterIcon();
+            const map = L.map(mapElementRef.current, {
+                zoomControl: true,
+                scrollWheelZoom: true,
+                maxBounds: antwerpBounds,
+                maxBoundsViscosity: 0.85,
+                minZoom: 12,
+                maxZoom: 18,
+            }).setView([51.2194, 4.4025], 13);
 
-        mapSpots.forEach((spot) => {
-            let iconToUse = coasterIcon || createPinIcon('coral');
-            if (spot.iconUrl) {
-                iconToUse = L.icon({
-                    iconUrl: spot.iconUrl,
-                    iconSize: [48, 48],
-                    iconAnchor: [24, 48],
-                    popupAnchor: [0, -40],
-                    className: 'map-landmark-icon',
-                });
-            }
+            mapInstanceRef.current = map;
+            tileLayerRef.current = L.tileLayer(theme.url, {
+                attribution: theme.attribution,
+            }).addTo(map);
 
-            const marker = L.marker(spot.position, {
-                icon: iconToUse,
+            markersLayerRef.current = L.layerGroup().addTo(map);
+
+            const coasterIcon = L.icon({
+                iconUrl: coasterOnMapIcon,
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -36],
+                className: 'map-coaster-icon',
             });
 
-            const popupHtml = spot.iconUrl
-                ? `<img src="${spot.iconUrl}" alt="${spot.name}" style="width:140px;display:block;margin-bottom:6px;border-radius:6px;"/><strong>${spot.name}</strong><br/>${spot.description}`
-                : `<strong>${spot.name}</strong><br/>${spot.description}`;
+            mapSpots.forEach((spot) => {
+                let iconToUse = coasterIcon;
+                if (spot.iconUrl) {
+                    iconToUse = L.icon({
+                        iconUrl: spot.iconUrl,
+                        iconSize: [48, 48],
+                        iconAnchor: [24, 48],
+                        popupAnchor: [0, -40],
+                        className: 'map-landmark-icon',
+                    });
+                }
 
-            marker.bindPopup(popupHtml);
+                const marker = L.marker(spot.position, { icon: iconToUse });
 
-            marker.addTo(markersLayerRef.current);
-        });
+                const popupHtml = spot.iconUrl
+                    ? `<img src="${spot.iconUrl}" alt="${spot.name}" style="width:140px;display:block;margin-bottom:6px;border-radius:6px;"/><strong>${spot.name}</strong><br/>${spot.description}`
+                    : `<strong>${spot.name}</strong><br/>${spot.description}`;
 
-            // add extra random markers and collect coordinates for polyline
+                marker.bindPopup(popupHtml);
+                marker.addTo(markersLayerRef.current);
+            });
+
             const extraCoords = [];
             extraSpots.forEach((spot) => {
-                const marker = L.marker(spot.position, {
-                    icon: coasterIcon || createPinIcon('mint'),
-                });
-
+                const marker = L.marker(spot.position, { icon: coasterIcon });
                 marker.bindPopup(`<strong>${spot.name}</strong>`);
                 marker.addTo(markersLayerRef.current);
                 extraCoords.push(spot.position);
             });
 
-            // draw dotted polyline connecting the extra markers
             if (extraCoords.length > 1) {
                 L.polyline(extraCoords, {
                     color: '#fb923c',
@@ -162,12 +142,18 @@ export default function Map() {
                     opacity: 0.95,
                 }).addTo(markersLayerRef.current);
             }
+        }
+
+        initMap();
 
         return () => {
-            map.remove();
-            mapInstanceRef.current = null;
-            tileLayerRef.current = null;
-            markersLayerRef.current = null;
+            cancelled = true;
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.remove();
+                mapInstanceRef.current = null;
+                tileLayerRef.current = null;
+                markersLayerRef.current = null;
+            }
         };
     }, []);
 
