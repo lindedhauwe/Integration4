@@ -50,7 +50,7 @@ export default function Account() {
 
                 <a href="/leave" className="leave-link" onClick={handleLogout}>
                     <img src={leaveIcon} alt="leave icon" className="icon" />
-                    Leave account
+                    Log out
                 </a>
 
                 
