@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import { Form, useActionData } from "react-router";
+import { useState, useEffect, useRef } from "react";
+import { useActionData, useSubmit, useNavigate } from "react-router";
 import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
 
+import checkIcon from "~/assets/images/check.png";
+import closeIcon from "~/assets/icons/close.svg";
 import recommendationCollage from "~/assets/images/recommendationCollageSimple.png";
 import anotherBarCollage from "~/assets/images/anotherBarCollage.png";
 import recommendationPeaceHand from "~/assets/icons/recommendationPeaceHand.png";
@@ -11,8 +13,8 @@ import recommendationRectSmall from "~/assets/images/RecommendationRectSmall.png
 import uploadIcon from "~/assets/icons/iconupload.svg";
 import errorIcon from "~/assets/icons/error.svg";
 
-export async function clientAction({ request }) {
-  const { supabase } = await import("../supabase");
+export async function action({ request }) {
+  const { supabase } = await import("../supabase.server");
   const formData = await request.formData();
 
   const name = formData.get("name");
@@ -42,6 +44,8 @@ export async function clientAction({ request }) {
 
 export default function Recommendations() {
   const actionData = useActionData();
+  const submit = useSubmit();
+  const navigate = useNavigate();
 
   const [mode, setMode] = useState("current");
   const [uploadedMedia, setUploadedMedia] = useState([]);
@@ -55,6 +59,10 @@ export default function Recommendations() {
   const [type, setType] = useState([]);
   const [age, setAge] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const formRef = useRef(null);
 
   function resetForm() {
     setName("");
@@ -69,7 +77,10 @@ export default function Recommendations() {
   }
 
   useEffect(() => {
-    if (actionData?.success) resetForm();
+    if (actionData?.success) {
+      resetForm();
+      setShowSuccessModal(true);
+    }
   }, [actionData]);
 
   const errors = submitted ? {
@@ -118,6 +129,7 @@ export default function Recommendations() {
   }
 
   return (
+    <>
     <div className="recommendations-page">
       <img src={recommendationBeigeRect} className="bg-shape bg-shape--bottom-left" />
       <img src={recommendationRectSmall} className="bg-shape bg-shape--top-left" />
@@ -157,8 +169,29 @@ export default function Recommendations() {
           </div>
         )}
 
-        {/* ⭐ REACT ROUTER FORM */}
-        <Form method="post" className="form">
+        <form
+          className="form"
+          ref={formRef}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSubmitted(true);
+            const hasErrors =
+              (mode === "another" && !location.trim()) ||
+              !name.trim() ||
+              !age.trim() ||
+              !city.trim() ||
+              description.trim().length < 15;
+            if (hasErrors) return;
+
+            const isLoggedIn = !!localStorage.getItem("user");
+            if (!isLoggedIn) {
+              setShowAuthModal(true);
+              return;
+            }
+
+            submit(new FormData(formRef.current), { method: "post" });
+          }}
+        >
           {actionData?.error && <p className="error">Error: {actionData.error}</p>}
           {actionData?.success && <p className="success">Saved!</p>}
 
@@ -268,26 +301,63 @@ export default function Recommendations() {
           <button
             className="submit-btn"
             type="submit"
-            onClick={(e) => {
-              setSubmitted(true);
-              const hasErrors =
-                (mode === "another" && !location.trim()) ||
-                !name.trim() ||
-                !age.trim() ||
-                !city.trim() ||
-                description.trim().length < 15;
-              if (hasErrors) e.preventDefault();
-            }}
           >
             Upload
             <img src={uploadIcon} alt="" className="submit-btn__icon" />
           </button>
 
-        </Form>
+        </form>
       </div>
 
       <img src={recommendationPeaceHand} className="peace-hand" />
     </div>
+
+    {showAuthModal && (
+      <div className="auth-modal-overlay" onClick={() => setShowAuthModal(false)}>
+        <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={() => setShowAuthModal(false)}>
+            <img src={closeIcon} alt="close" />
+          </button>
+          <h2 className="auth-modal__title">Raise a glass to your memories!</h2>
+          <p className="auth-modal__text">
+            Your story can be shared with everyone, but only logged-in users can save and revisit their memories.
+          </p>
+          <div className="auth-modal__actions">
+            <button
+              className="auth-modal__btn auth-modal__btn--outline"
+              onClick={() => {
+                setShowAuthModal(false);
+                submit(new FormData(formRef.current), { method: "post" });
+                setShowSuccessModal(true);
+              }}
+            >
+              Don't Save
+            </button>
+            <button
+              className="auth-modal__btn auth-modal__btn--filled"
+              onClick={() => navigate("/login")}
+            >
+              Log in
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {showSuccessModal && (
+      <div className="auth-modal-overlay" onClick={() => setShowSuccessModal(false)}>
+        <div className="auth-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={() => setShowSuccessModal(false)}>
+            <img src={closeIcon} alt="close" />
+          </button>
+          <img src={checkIcon} alt="" className="success-modal__check" />
+          <p className="success-modal__text">
+            Your recommendation is ready to be discovered by others
+          </p>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 
