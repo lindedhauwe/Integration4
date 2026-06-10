@@ -35,7 +35,7 @@ export default function Nav() {
                 className={({ isActive }) => `nav-cell nav-cell--home${isActive ? " nav-cell--active" : ""}`}
                 onClick={() => setOpen(false)}
               >
-                <span className="nav-cell__title">Home</span>
+                <span className="nav-cell__title nav-cell__title--home">Home</span>
                 <span className="nav-cell__subtitle">A personal <br />Antwerp bar recommendation</span>
               </NavLink>
 
