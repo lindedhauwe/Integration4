@@ -1,200 +1,134 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './map.css';
-import hetSteenImage from '../assets/images/hetSteen.jpg';
-import centraalStationImage from '../assets/images/centraal-station.jpeg';
-import masMuseumImage from '../assets/images/mas-museum.jpg';
-import coasterOnMapIcon from '../assets/icons/coasterOnMap.png';
 
-const mapThemes = {
-    voyager: {
-        label: 'Voyager',
-        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    },
-    darkMatter: {
-        label: 'Dark Matter',
-        url: 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png',
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    },
+import swirlMapPage from '../assets/images/swirlMapPage.png';
+import rectTopMap from '../assets/images/rectTopMap.png';
+import rectBottomMap from '../assets/images/rectBottomMap.png';
+import shareIcon from '../assets/icons/iconupload.svg';
+import fullHeart from '../assets/icons/fullheart.svg';
+
+import coasterPink from '../assets/icons/coasterPink.png';
+import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
+import coasterBrown from '../assets/icons/coasterBrown.png';
+import coasterBrownHeart from '../assets/icons/coasterBrownHeart.png';
+import coasterGrey from '../assets/icons/coasterGrey.png';
+import coasterGreyHeart from '../assets/icons/coasterGrayHeart.png';
+
+const testSpots = [
+    { id: 1, name: 'Café Beveren',   position: [51.2194, 4.3980], type: 'current', liked: false },
+    { id: 2, name: 'De Muze',        position: [51.2210, 4.4050], type: 'visited', liked: false },
+    { id: 3, name: 'Kulminator',     position: [51.2150, 4.4100], type: 'visited', liked: true  },
+    { id: 4, name: 'Café Den Engel', position: [51.2230, 4.3990], type: 'visited', liked: true  },
+    { id: 5, name: 'Bier Central',   position: [51.2170, 4.4200], type: 'visited', liked: false },
+    { id: 6, name: 'Pelgrom',        position: [51.2260, 4.4010], type: 'rec',     liked: false },
+];
+
+const ICON_MAP = {
+    current:      coasterPink,
+    currentLiked: coasterPinkHeart,
+    visited:      coasterBrown,
+    visitedLiked: coasterBrownHeart,
+    rec:          coasterGrey,
+    recLiked:     coasterGreyHeart,
 };
 
-const mapSpots = [
-    {
-        id: 'hetsteen',
-        name: 'Het Steen',
-        description: 'Historisch kasteel aan de Schelde.',
-        // Wikipedia: 51.2227°N 4.3974°E
-        position: [51.2227, 4.3974],
-        iconUrl: hetSteenImage,
-    },
-    {
-        id: 'centraal',
-        name: 'Antwerpen-Centraal',
-        description: 'Het hoofdstation van Antwerpen.',
-        // Wikipedia: 51°13′02″N 4°25′16″E -> 51.217222, 4.421111
-        position: [51.217222, 4.421111],
-        iconUrl: centraalStationImage,
-    },
-    {
-        id: 'mas',
-        name: 'MAS (Museum aan de Stroom)',
-        description: 'Museum en uitzichtpunt aan de kaaien.',
-        // Wikipedia: 51.2290°N 4.4048°E
-        position: [51.2290, 4.4048],
-        iconUrl: masMuseumImage,
-    },
-];
-
-// 3 bierkaartjes om te testen (random locaties)
-const extraSpots = [
-    { id: 'rand1', name: 'Random spot 1', position: [51.2250, 4.4100] },
-    { id: 'rand2', name: 'Random spot 2', position: [51.2100, 4.4020] },
-    { id: 'rand3', name: 'Random spot 3', position: [51.2180, 4.4350] },
-];
-
 export default function Map() {
-    const [activeTheme, setActiveTheme] = useState('voyager');
-    const mapElementRef = useRef(null);
-    const mapInstanceRef = useRef(null);
-    const tileLayerRef = useRef(null);
-    const markersLayerRef = useRef(null);
-
-    const theme = mapThemes[activeTheme];
+    const mapRef = useRef(null);
+    const instanceRef = useRef(null);
 
     useEffect(() => {
-        if (!mapElementRef.current || mapInstanceRef.current) {
-            return undefined;
-        }
+        if (!mapRef.current || instanceRef.current) return;
 
         let cancelled = false;
 
-        async function initMap() {
+        async function init() {
             const L = (await import('leaflet')).default;
             await import('leaflet/dist/leaflet.css');
+            if (cancelled || !mapRef.current) return;
 
-            if (cancelled || !mapElementRef.current) return;
-
-            const antwerpSouthWest = L.latLng(51.150, 4.300);
-            const antwerpNorthEast = L.latLng(51.260, 4.520);
-            const antwerpBounds = L.latLngBounds(antwerpSouthWest, antwerpNorthEast);
-
-            const map = L.map(mapElementRef.current, {
-                zoomControl: true,
+            const map = L.map(mapRef.current, {
+                zoomControl: false,
                 scrollWheelZoom: true,
-                maxBounds: antwerpBounds,
-                maxBoundsViscosity: 0.85,
                 minZoom: 12,
                 maxZoom: 18,
-            }).setView([51.2194, 4.4025], 13);
+            }).setView([51.2194, 4.4025], 14);
 
-            mapInstanceRef.current = map;
-            tileLayerRef.current = L.tileLayer(theme.url, {
-                attribution: theme.attribution,
-            }).addTo(map);
+            instanceRef.current = map;
 
-            markersLayerRef.current = L.layerGroup().addTo(map);
-
-            const coasterIcon = L.icon({
-                iconUrl: coasterOnMapIcon,
-                iconSize: [40, 40],
-                iconAnchor: [20, 40],
-                popupAnchor: [0, -36],
-                className: 'map-coaster-icon',
-            });
-
-            mapSpots.forEach((spot) => {
-                let iconToUse = coasterIcon;
-                if (spot.iconUrl) {
-                    iconToUse = L.icon({
-                        iconUrl: spot.iconUrl,
-                        iconSize: [48, 48],
-                        iconAnchor: [24, 48],
-                        popupAnchor: [0, -40],
-                        className: 'map-landmark-icon',
-                    });
+            L.tileLayer(
+                'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                {
+                    attribution: '&copy; OpenStreetMap &copy; CARTO',
+                    subdomains: 'abcd',
+                    maxZoom: 19,
                 }
+            ).addTo(map);
 
-                const marker = L.marker(spot.position, { icon: iconToUse });
-
-                const popupHtml = spot.iconUrl
-                    ? `<img src="${spot.iconUrl}" alt="${spot.name}" style="width:140px;display:block;margin-bottom:6px;border-radius:6px;"/><strong>${spot.name}</strong><br/>${spot.description}`
-                    : `<strong>${spot.name}</strong><br/>${spot.description}`;
-
-                marker.bindPopup(popupHtml);
-                marker.addTo(markersLayerRef.current);
+            testSpots.forEach((spot) => {
+                const key = spot.type + (spot.liked ? 'Liked' : '');
+                const icon = L.icon({
+                    iconUrl: ICON_MAP[key],
+                    iconSize: [56, 56],
+                    iconAnchor: [28, 28],
+                    popupAnchor: [0, -32],
+                });
+                L.marker(spot.position, { icon })
+                    .bindPopup(`<strong>${spot.name}</strong>`)
+                    .addTo(map);
             });
 
-            const extraCoords = [];
-            extraSpots.forEach((spot) => {
-                const marker = L.marker(spot.position, { icon: coasterIcon });
-                marker.bindPopup(`<strong>${spot.name}</strong>`);
-                marker.addTo(markersLayerRef.current);
-                extraCoords.push(spot.position);
-            });
-
-            if (extraCoords.length > 1) {
-                L.polyline(extraCoords, {
-                    color: '#fb923c',
-                    weight: 3,
-                    dashArray: '8 6',
-                    opacity: 0.95,
-                }).addTo(markersLayerRef.current);
-            }
+            // fix for map not rendering correctly on first load
+            setTimeout(() => map.invalidateSize(), 100);
         }
 
-        initMap();
+        init();
 
         return () => {
             cancelled = true;
-            if (mapInstanceRef.current) {
-                mapInstanceRef.current.remove();
-                mapInstanceRef.current = null;
-                tileLayerRef.current = null;
-                markersLayerRef.current = null;
+            if (instanceRef.current) {
+                instanceRef.current.remove();
+                instanceRef.current = null;
             }
         };
     }, []);
 
-    useEffect(() => {
-        if (!tileLayerRef.current || !mapInstanceRef.current) {
-            return;
-        }
-
-        tileLayerRef.current.setUrl(theme.url);
-        tileLayerRef.current.options.attribution = theme.attribution;
-        mapInstanceRef.current.attributionControl.setPrefix(false);
-    }, [theme]);
-
     return (
-        <section className="map-page">
-            <div className="map-page__intro">
-                <p className="map-page__eyebrow">Map</p>
-                <h1>Interactieve kaart</h1>
-                <p>
-                    Deze kaart gebruikt Leaflet met eigen styling en pinpoints. Je kan
-                    de locaties, kleuren en achtergrondstijl makkelijk aanpassen in
-                    deze component.
-                </p>
+        <div className="map-page">
+            <div ref={mapRef} className="map-canvas" />
 
-                <div className="map-page__controls" role="tablist" aria-label="Map style selector">
-                    {Object.entries(mapThemes).map(([key, value]) => (
-                        <button
-                            key={key}
-                            type="button"
-                            className={key === activeTheme ? 'is-active' : ''}
-                            onClick={() => setActiveTheme(key)}
-                        >
-                            {value.label}
-                        </button>
-                    ))}
+            <header className="map-header">
+                <img src={rectTopMap} alt="" className="map-header__bg" />
+                <img src={swirlMapPage} alt="" className="map-header__swirl" />
+                <h1 className="map-header__title">YOUR PUB CRAWL</h1>
+            </header>
+
+            <div className="map-bottom">
+                <img src={rectBottomMap} alt="" className="map-bottom__deco" />
+                <div className="map-bottom__actions">
+                    <button className="map-bottom__finish">Finish Pub Crawl</button>
+                    <button className="map-bottom__share">
+                        <img src={shareIcon} alt="share" />
+                    </button>
+                </div>
+                <div className="map-bottom__legend">
+                    <div className="map-legend-item">
+                        <img src={coasterBrown} alt="" />
+                        <span>visited</span>
+                    </div>
+                    <div className="map-legend-item">
+                        <img src={coasterPink} alt="" />
+                        <span>currently</span>
+                    </div>
+                    <div className="map-legend-item">
+                        <img src={coasterGrey} alt="" />
+                        <span>your rec</span>
+                    </div>
+                    <div className="map-legend-item">
+                        <img src={fullHeart} alt="" className="map-legend-item__heart" />
+                        <span>liked</span>
+                    </div>
                 </div>
             </div>
-
-            <div className="map-frame">
-                <div ref={mapElementRef} className="map-frame__canvas" />
-            </div>
-        </section>
+        </div>
     );
 }

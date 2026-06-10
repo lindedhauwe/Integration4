@@ -13,8 +13,8 @@ import recommendationRectSmall from "~/assets/images/RecommendationRectSmall.png
 import uploadIcon from "~/assets/icons/iconupload.svg";
 import errorIcon from "~/assets/icons/error.svg";
 
-export async function action({ request }) {
-  const { supabase } = await import("../supabase.server");
+export async function clientAction({ request }) {
+  const { supabase } = await import("../supabase");
   const formData = await request.formData();
 
   const name = formData.get("name");
