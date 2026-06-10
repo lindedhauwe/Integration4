@@ -1,0 +1,321 @@
+/* ===========================================
+   GLOBAL FIXES
+=========================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: clip; /* ✅ prevents horizontal scroll without bugs */
+}
+
+/* ===========================================
+   PAGE
+=========================================== */
+.recommendations-page {
+  position: relative;
+  min-height: 100vh;
+  background: #2f725d;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 6rem;
+}
+
+/* GRID BACKGROUND */
+.recommendations-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+
+/* ===========================================
+   CONTENT
+=========================================== */
+.recommendations-content {
+  width: 100%;
+  max-width: 430px;
+  padding-inline: 16px; /* ✅ slightly tighter, avoids overflow */
+  position: relative;
+  z-index: 5;
+
+  font-family: var(--font-interstate);
+  font-size: 16px;
+}
+
+/* ===========================================
+   BACKGROUND SHAPES
+=========================================== */
+.bg-shape {
+  position: absolute;
+  pointer-events: none; /* ✅ prevents scroll blocking */
+  z-index: 1;
+}
+
+/* safer positioning to avoid overflow */
+.bg-shape--top-left {
+  top: -10px;
+  left: 0;
+  width: clamp(120px, 30vw, 190px);
+}
+
+.bg-shape--bottom-left {
+  bottom: 130px;
+  left: 0;
+  width: clamp(200px, 60vw, 320px);
+  transform: rotate(-18deg);
+}
+
+/* ===========================================
+   MODE SWITCH
+=========================================== */
+.mode-switch {
+  display: flex;
+  width: 100%;
+  max-width: 380px;
+  height: 40px;
+
+  margin: 80px auto 40px;
+
+  background: var(--beige);
+  border: 2px solid var(--pink);
+  padding: 4px;
+}
+
+.mode-switch button {
+  flex: 1;
+  border: none;
+  background: transparent;
+
+  color: var(--pink);
+  font-family: var(--font-interstate);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.mode-switch button.active {
+  background: var(--pink);
+  color: var(--beige);
+  font-weight: 700;
+}
+
+/* ===========================================
+   HERO
+=========================================== */
+.hero {
+  position: relative;
+  padding-top: 28px;
+  margin-bottom: 80px;
+  z-index: 3;
+}
+
+.small {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #efe4d1;
+}
+
+.hero h1 {
+  font-family: var(--font-antwerpen-tall);
+  font-size: 48px;
+  line-height: .85;
+  color: #c9ff00;
+  padding-top: 1rem;
+  margin: 0;
+  max-width: 340px;
+}
+
+/* LOCATION */
+.location {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 40px;
+  background: #ff6ee5;
+  margin-top: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+/* DARK SHAPE (FIXED) */
+.hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 120vw;               /* responsive instead of fixed */
+  max-width: 700px;
+  height: 210px;
+  background: #2d2819;
+  transform: translateX(-50%) rotate(-2deg);
+  z-index: -1;
+  pointer-events: none;       /* avoids scroll bugs */
+}
+
+/* ===========================================
+   INTRO
+=========================================== */
+.intro {
+  position: relative;
+  margin-bottom: 120px;
+  min-height: 220px;
+}
+
+.intro h2 {
+  font-family: var(--font-antwerpen-tall);
+  font-size: 24px;
+  color: #c9ff00;
+  margin-bottom: 18px;
+}
+
+.intro p {
+  max-width: 220px;
+  line-height: 1.45;
+  color: #efe4d1;
+}
+
+
+.intro-collage {
+  position: absolute;
+  top: -90px; /* slightly higher */
+  right: 0;
+  width: clamp(180px, 55vw, 280px); /* ✅ bigger */
+  transform: translateX(20%) rotate(10deg); /* ✅ moved LEFT (was 35%) */
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,.35));
+}
+
+
+/* ===========================================
+   FORM
+=========================================== */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form label {
+  margin-top: 34px;
+  margin-bottom: 10px;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #efe4d1;
+}
+
+.form label:first-child {
+  margin-top: 0;
+}
+
+/* INPUTS */
+.form input,
+.form textarea {
+  width: 100%;
+
+  background: #e8dcc6;
+  border: 3px solid #00e46f;
+
+  font-size: 16px;
+  color: #2d2819;
+
+  font-family: var(--font-interstate);
+}
+
+.form input {
+  height: 58px;
+  padding: 0 18px;
+}
+
+.form textarea {
+  padding: 18px;
+  min-height: 170px;
+  resize: none;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #c9ff00;
+  box-shadow: 0 0 0 4px rgba(201,255,0,.15);
+}
+
+/* ===========================================
+   TAGS
+=========================================== */
+.tags-wrapper {
+  margin-top: 80px;
+  position: relative;
+}
+
+.tags-wrapper > p {
+  font-family: var(--font-antwerpen-tall);
+  font-size: 24px;
+  color: #c9ff00;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+
+.tag {
+  padding: 11px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.tag.blue {
+  background: #1693ff;
+  color: white;
+  box-shadow: 6px 6px 0px #0b70c6;
+}
+
+.tag.green {
+  background: #00e46f;
+  color: #173628;
+  box-shadow: 6px 6px 0px #00bb5b;
+}
+
+.tag.active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* ===========================================
+   BUTTON
+=========================================== */
+.submit-btn {
+  margin: 70px auto 0;
+  width: 220px;
+  height: 64px;
+
+  background: #ff6600;
+  color: white;
+
+  font-family: var(--font-antwerpen-tall);
+  font-size: 24px;
+  border: none;
+}
+
+/* ===========================================
+   PEACE HAND
+=========================================== */
+.peace-hand {
+  position: absolute;
+
+  right: 0;
+  bottom: -120px;
+
+  width: clamp(140px, 40vw, 180px);
+  transform: translateX(20%) rotate(-8deg);
+
+  pointer-events: none;
+}
+``

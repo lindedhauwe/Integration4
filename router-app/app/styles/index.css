@@ -1,0 +1,58 @@
+/* CUSTOM FONTS */
+
+@font-face {
+    font-family: "Antwerpen-Regular";
+    src: url("/src/assets/fonts/AntwerpenRegular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Antwerpen-Tall";
+    src: url("/src/assets/fonts/AntwerpenTall.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Antwerpen-SmallCaps";
+    src: url("/src/assets/fonts/AntwerpenSmallCaps.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SunAntwerpen-5_Regular";
+    src: url("/src/assets/fonts/SunAntwerpen-5_Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+:root {
+    /* COLORS */
+    --pink: #FF6EE5;
+    --blue: #009AFF;
+    --bar-brown: #312C1C;
+    --beige: #FFEFD9;
+    --light-green: #B6FF00;
+    --green: #00DF66;
+    --orange: #FF6700;
+    --dark-green: #2C6B56;
+
+    /* FUNDAMENTALS */
+    --white: #FFFFFB;
+    --black: #303030;
+
+    /* FONT VARIABLES (LOCAL) */
+    --font-antwerpen-regular: "Antwerpen-Regular", sans-serif;
+    --font-antwerpen-tall: "Antwerpen-Tall", sans-serif;
+    --font-antwerpen-smallcaps: "Antwerpen-SmallCaps", sans-serif;
+    --font-sunantwerpen-regular: "SunAntwerpen-5_Regular", sans-serif;
+
+    /* FONT VARIABLES adobe */
+    --font-interstate: "interstate", sans-serif;
+}
+
+
+
