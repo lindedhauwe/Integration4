@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import imgIcon from "../assets/icons/imgIcon.png";
 import cameraIcon from "../assets/icons/cameraIcon.png";
+import "./PhotoDropzone.css";
 
 export default function PhotoDropzone({ onUpload }) {
     const [media, setMedia] = useState([]);
+    const [cameraOpen, setCameraOpen] = useState(false);
+    const videoRef = useRef(null);
+    const streamRef = useRef(null);
 
-    async function uploadToCloudinary(file) {
-        const url = "https://api.cloudinary.com/v1_1/dthynp3xm/upload";
-
+    async function uploadToCloudinary(blob) {
         const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "rec_photos"); // jouw preset
+        formData.append("file", blob);
+        formData.append("upload_preset", "rec_photos");
 
-        const res = await fetch(url, {
+        const res = await fetch("https://api.cloudinary.com/v1_1/dthynp3xm/upload", {
             method: "POST",
             body: formData,
         });
 
         const data = await res.json();
-        return data.secure_url; // Cloudinary URL
+        return data.secure_url;
     }
 
     async function handleFileChange(e) {
@@ -26,82 +28,113 @@ export default function PhotoDropzone({ onUpload }) {
         const urls = [];
 
         for (const file of files) {
-            const uploadedUrl = await uploadToCloudinary(file);
-            urls.push(uploadedUrl);
+            const url = await uploadToCloudinary(file);
+            urls.push(url);
         }
 
         setMedia((prev) => [...prev, ...urls]);
-
         if (onUpload) onUpload(urls);
+    }
+
+    async function openCamera() {
+        setCameraOpen(true);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            streamRef.current = stream;
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+            }
+        } catch {
+            alert("Geen toegang tot camera.");
+            setCameraOpen(false);
+        }
+    }
+
+    function closeCamera() {
+        if (streamRef.current) {
+            streamRef.current.getTracks().forEach((t) => t.stop());
+            streamRef.current = null;
+        }
+        setCameraOpen(false);
+    }
+
+    function removeMedia(index) {
+        const updated = media.filter((_, i) => i !== index);
+        setMedia(updated);
+        if (onUpload) onUpload(updated);
+    }
+
+    async function takePhoto() {
+        const video = videoRef.current;
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext("2d").drawImage(video, 0, 0);
+
+        canvas.toBlob(async (blob) => {
+            const url = await uploadToCloudinary(blob);
+            setMedia((prev) => [...prev, url]);
+            if (onUpload) onUpload([url]);
+            closeCamera();
+        }, "image/jpeg");
     }
 
     return (
         <div className="photo-dropzone">
             <div className="photo-dropzone__actions">
-                <label className="dropzone-card" htmlFor="upload-images">
-                    <img src={imgIcon} alt="Library" className="dropzone-card__icon" />
+                <label className="dropzone-card" htmlFor="upload-library">
+                    <img src={imgIcon} alt="" className="dropzone-card__icon" />
                     <span>Choose from library</span>
                     <input
-                        id="upload-images"
+                        id="upload-library"
                         type="file"
-                        accept="image/*"
+                        accept="image/*,video/*"
                         multiple
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                     />
                 </label>
 
-                <label className="dropzone-card" htmlFor="upload-videos">
-                    <img src={cameraIcon} alt="Camera" className="dropzone-card__icon" />
-                    <span>Take photo/video</span>
-                    <input
-                        id="upload-videos"
-                        type="file"
-                        accept="video/*,image/*"
-                        multiple
-                        onChange={handleFileChange}
-                        style={{ display: "none" }}
-                    />
-                </label>
+                <div className="dropzone-card" onClick={openCamera}>
+                    <img src={cameraIcon} alt="" className="dropzone-card__icon" />
+                    <span>Take photo/ video</span>
+                </div>
             </div>
 
-            <p className="photo-dropzone__hint">
-                Upload 1 or more pictures or videos
-            </p>
+            {media.length > 0 && (
+                <div className="photo-dropzone__preview">
+                    {media.map((url, index) => (
+                        <div key={index} className="preview-item">
+                            {url.includes("video") ? (
+                                <video src={url} controls />
+                            ) : (
+                                <img src={url} alt="preview" />
+                            )}
+                            <button
+                                type="button"
+                                className="preview-item__remove"
+                                onClick={() => removeMedia(index)}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-            <label className="upload-button">
-                Choose images quickly
-                <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                />
-            </label>
-
-            <label className="upload-button">
-                Choose videos quickly
-                <input
-                    type="file"
-                    accept="video/*"
-                    multiple
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                />
-            </label>
-
-            <div className="preview-grid">
-                {media.map((url, index) => (
-                    <div key={index} className="preview-item">
-                        {url.includes("video") ? (
-                            <video src={url} controls width="150" />
-                        ) : (
-                            <img src={url} alt="preview" width="150" />
-                        )}
+            {cameraOpen && (
+                <div className="camera-overlay">
+                    <video ref={videoRef} autoPlay playsInline className="camera-stream" />
+                    <div className="camera-controls">
+                        <button type="button" className="camera-btn camera-btn--capture" onClick={takePhoto}>
+                            Neem foto
+                        </button>
+                        <button type="button" className="camera-btn camera-btn--close" onClick={closeCamera}>
+                            Annuleer
+                        </button>
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
         </div>
     );
 }

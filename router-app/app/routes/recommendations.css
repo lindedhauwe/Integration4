@@ -1,45 +1,27 @@
-/* ===========================================
-   GLOBAL FIXES
-=========================================== */
+/* GLOBAL FIXES*/
 html, body {
   margin: 0;
   padding: 0;
   overflow-x: clip; /* ✅ prevents horizontal scroll without bugs */
 }
 
-/* ===========================================
-   PAGE
-=========================================== */
+/* PAGE */
 .recommendations-page {
   position: relative;
   min-height: 100vh;
   background: #2f725d;
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0 6rem;
+  padding: 1.5rem 0 3rem;
+  overflow-x: clip;
 }
 
-/* GRID BACKGROUND */
-.recommendations-page::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image:
-    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-
-  background-size: 18px 18px;
-  pointer-events: none;
-}
-
-/* ===========================================
-   CONTENT
-=========================================== */
+/* CONTENT */
 .recommendations-content {
   width: 100%;
   max-width: 430px;
-  padding-inline: 16px; /* ✅ slightly tighter, avoids overflow */
+  padding-inline: 16px;
+  box-sizing: border-box;
   position: relative;
   z-index: 5;
 
@@ -47,9 +29,7 @@ html, body {
   font-size: 16px;
 }
 
-/* ===========================================
-   BACKGROUND SHAPES
-=========================================== */
+/* BACKGROUND SHAPES */
 .bg-shape {
   position: absolute;
   pointer-events: none; /* ✅ prevents scroll blocking */
@@ -64,20 +44,18 @@ html, body {
 }
 
 .bg-shape--bottom-left {
-  bottom: 130px;
+  bottom: 0px;
   left: 0;
-  width: clamp(200px, 60vw, 320px);
-  transform: rotate(-18deg);
+  width: clamp(200px, 150vw, 320px);
 }
 
-/* ===========================================
-   MODE SWITCH
-=========================================== */
+/* MODE SWITCH*/
 .mode-switch {
   display: flex;
   width: 100%;
   max-width: 380px;
   height: 40px;
+  box-sizing: border-box;
 
   margin: 80px auto 40px;
 
@@ -103,9 +81,7 @@ html, body {
   font-weight: 700;
 }
 
-/* ===========================================
-   HERO
-=========================================== */
+/* HERO */
 .hero {
   position: relative;
   padding-top: 28px;
@@ -120,11 +96,10 @@ html, body {
 }
 
 .hero h1 {
-  font-family: var(--font-antwerpen-tall);
+  font-family: var(--font-antwerpen-regular);
   font-size: 48px;
   line-height: .85;
   color: #c9ff00;
-  padding-top: 1rem;
   margin: 0;
   max-width: 340px;
 }
@@ -133,9 +108,11 @@ html, body {
 .location {
   display: inline-flex;
   align-items: center;
-  padding: 8px 40px;
+  padding: 8px 30px;
+  padding-left: 50px;
+  margin-left: -2rem;
   background: #ff6ee5;
-  margin-top: 50px;
+  margin-top: 35px;
   font-size: 16px;
   font-weight: 700;
   color: white;
@@ -149,19 +126,47 @@ html, body {
   top: 0;
   width: 120vw;               /* responsive instead of fixed */
   max-width: 700px;
-  height: 210px;
+  height: 180px;
   background: #2d2819;
   transform: translateX(-50%) rotate(-2deg);
   z-index: -1;
   pointer-events: none;       /* avoids scroll bugs */
 }
 
-/* ===========================================
-   INTRO
-=========================================== */
+/* ANOTHER BAR HERO */
+.another-hero {
+  position: relative;
+  padding-top: 20px;
+  margin-bottom: 60px;
+  min-height: 380px;
+}
+
+.another-hero h1 {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 24px;
+  line-height: 1;
+  color: #c9ff00;
+  margin: 0 0 0;
+}
+
+.another-hero p {
+  font-size: 16px;
+  color: #efe4d1;
+  max-width: 60%;
+  line-height: 1.45;
+}
+
+.another-collage {
+  position: absolute;
+  bottom: -20px;
+  right: -40px;
+  width: calc(120% + 16px);
+  pointer-events: none;
+}
+
+/* INTRO */
 .intro {
   position: relative;
-  margin-bottom: 120px;
   min-height: 220px;
 }
 
@@ -181,28 +186,25 @@ html, body {
 
 .intro-collage {
   position: absolute;
-  top: -90px; /* slightly higher */
-  right: 0;
-  width: clamp(180px, 55vw, 280px); /* ✅ bigger */
-  transform: translateX(20%) rotate(10deg); /* ✅ moved LEFT (was 35%) */
-  z-index: 5;
+  top: -105px; /* slightly higher */
+  right: -3rem;
+  width: clamp(180px, 60vw, 280px);
+  z-index: 0;
   pointer-events: none;
-  filter: drop-shadow(0 18px 26px rgba(0,0,0,.35));
 }
 
 
-/* ===========================================
-   FORM
-=========================================== */
+/* FORM */
 .form {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form label {
   margin-top: 34px;
   margin-bottom: 10px;
-
   font-size: 16px;
   font-weight: 600;
   color: #efe4d1;
@@ -212,10 +214,44 @@ html, body {
   margin-top: 0;
 }
 
+.form .dropzone-card {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.section-title {
+  margin-top: 34px;
+  margin-bottom: 10px;
+
+  font-size: 16px;
+  font-weight: 600;
+  color: #efe4d1;
+}
+
+.char-count {
+  align-self: flex-end;
+  font-size: 13px;
+  color: #c9ff00;
+  margin-top: 6px;
+}
+
+.error {
+  color: #ff6ee5;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.success {
+  color: #c9ff00;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
 /* INPUTS */
 .form input,
 .form textarea {
   width: 100%;
+  box-sizing: border-box;
 
   background: #e8dcc6;
   border: 3px solid #00e46f;
@@ -239,15 +275,38 @@ html, body {
 
 .form input:focus,
 .form textarea:focus {
+  outline: none;
   border-color: #c9ff00;
   box-shadow: 0 0 0 4px rgba(201,255,0,.15);
 }
 
-/* ===========================================
-   TAGS
-=========================================== */
+.input-error {
+  border-color: #ff6600 !important;
+}
+
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 13px;
+  font-style: italic;
+  color: #ff6600;
+  font-family: var(--font-interstate);
+}
+
+.field-error__icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.char-count--error {
+  color: #ff6600;
+}
+
+/* TAGS */
 .tags-wrapper {
-  margin-top: 80px;
   position: relative;
 }
 
@@ -257,65 +316,95 @@ html, body {
   color: #c9ff00;
 }
 
+.tag-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.tags-wrapper > div:first-of-type .tag-label {
+  color: #1693ff;
+}
+
+.tags-wrapper > div:last-of-type .tag-label {
+  color: #00e46f;
+}
+
 .tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 14px;
-  margin-bottom: 34px;
+  margin-bottom: 20px;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.tags::-webkit-scrollbar {
+  display: none;
 }
 
 .tag {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 11px 20px;
   font-size: 16px;
+  font-family: var(--font-interstate);
   cursor: pointer;
   border: none;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, calc(100% - 16px) 10px, 100% 10px, 100% 100%, 0 100%);
 }
 
 .tag.blue {
   background: #1693ff;
   color: white;
-  box-shadow: 6px 6px 0px #0b70c6;
 }
 
 .tag.green {
   background: #00e46f;
   color: #173628;
-  box-shadow: 6px 6px 0px #00bb5b;
 }
 
-.tag.active {
-  transform: translateY(3px);
-  box-shadow: none;
+.tag__remove {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.8;
 }
 
-/* ===========================================
-   BUTTON
-=========================================== */
+/* BUTTON */
 .submit-btn {
-  margin: 70px auto 0;
-  width: 220px;
-  height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 30px auto 0;
+  width: 127px;
+  height: 48px;
 
   background: #ff6600;
   color: white;
-
-  font-family: var(--font-antwerpen-tall);
-  font-size: 24px;
   border: none;
+  cursor: pointer;
+
+  font-family: var(--font-sunantwerpen-regular);
+  font-size: 20px;
 }
 
-/* ===========================================
-   PEACE HAND
-=========================================== */
+.submit-btn__icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* PEACE HAND */
 .peace-hand {
   position: absolute;
-
-  right: 0;
-  bottom: -120px;
-
-  width: clamp(140px, 40vw, 180px);
-  transform: translateX(20%) rotate(-8deg);
-
+  right: 0px;
+  bottom: 0px;
+  width: clamp(140px, 70vw, 180px);
   pointer-events: none;
+  z-index: 100;
 }
-``
