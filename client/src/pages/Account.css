@@ -15,10 +15,46 @@ body {
     color: var(--white);
 }
 
-.account-email{
+a {
+    text-decoration: none;
+}
+
+.edit-link{
+    background-color: var(--orange);
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 16px;
+    color: var(--beige);
+    display: flex;
+}
+
+.leave-link{
+    border: 1px solid var(--orange);
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 16px;
+    color: var(--orange);
+    display: flex;
+    margin-top: 16px;
+}
+
+.contact-mail{
     font-family: var(--font-sunantwerpen-regular);
     font-size: 16px;
     color: var(--white);
+    background-color: var(--orange);
+}
+
+.mail-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-interstate);
+    color: var(--black);
+    text-decoration: none;
+}
+
+.mail-link .icon {
+    width: 18px;
+    height: 18px;
 }
 
 .account-footer{
