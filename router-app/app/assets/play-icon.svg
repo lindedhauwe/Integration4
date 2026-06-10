@@ -1,0 +1,43 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="13" y="21" width="2" height="2" fill="#B6FF00"/>
+<rect x="3" y="13" width="2" height="2" transform="rotate(90 3 13)" fill="#B6FF00"/>
+<rect x="11" y="3" width="2" height="2" transform="rotate(180 11 3)" fill="#B6FF00"/>
+<rect x="21" y="11" width="2" height="2" transform="rotate(-90 21 11)" fill="#B6FF00"/>
+<rect x="11" y="21" width="2" height="2" fill="#B6FF00"/>
+<rect x="3" y="11" width="2" height="2" transform="rotate(90 3 11)" fill="#B6FF00"/>
+<rect x="13" y="3" width="2" height="2" transform="rotate(180 13 3)" fill="#B6FF00"/>
+<rect x="21" y="13" width="2" height="2" transform="rotate(-90 21 13)" fill="#B6FF00"/>
+<rect x="9" y="21" width="2" height="2" fill="#B6FF00"/>
+<rect x="3" y="9" width="2" height="2" transform="rotate(90 3 9)" fill="#B6FF00"/>
+<rect x="15" y="3" width="2" height="2" transform="rotate(180 15 3)" fill="#B6FF00"/>
+<rect x="21" y="15" width="2" height="2" transform="rotate(-90 21 15)" fill="#B6FF00"/>
+<rect x="7" y="19" width="2" height="2" fill="#B6FF00"/>
+<rect x="5" y="7" width="2" height="2" transform="rotate(90 5 7)" fill="#B6FF00"/>
+<rect x="17" y="5" width="2" height="2" transform="rotate(180 17 5)" fill="#B6FF00"/>
+<rect x="19" y="17" width="2" height="2" transform="rotate(-90 19 17)" fill="#B6FF00"/>
+<rect x="7" y="19" width="2" height="2" fill="#B6FF00"/>
+<rect x="5" y="7" width="2" height="2" transform="rotate(90 5 7)" fill="#B6FF00"/>
+<rect x="17" y="5" width="2" height="2" transform="rotate(180 17 5)" fill="#B6FF00"/>
+<rect x="19" y="17" width="2" height="2" transform="rotate(-90 19 17)" fill="#B6FF00"/>
+<rect x="5" y="19" width="2" height="2" fill="#B6FF00"/>
+<rect x="5" y="5" width="2" height="2" transform="rotate(90 5 5)" fill="#B6FF00"/>
+<rect x="19" y="5" width="2" height="2" transform="rotate(180 19 5)" fill="#B6FF00"/>
+<rect x="19" y="19" width="2" height="2" transform="rotate(-90 19 19)" fill="#B6FF00"/>
+<rect x="3" y="17" width="2" height="2" fill="#B6FF00"/>
+<rect x="7" y="3" width="2" height="2" transform="rotate(90 7 3)" fill="#B6FF00"/>
+<rect x="21" y="7" width="2" height="2" transform="rotate(180 21 7)" fill="#B6FF00"/>
+<rect x="17" y="21" width="2" height="2" transform="rotate(-90 17 21)" fill="#B6FF00"/>
+<rect x="3" y="15" width="2" height="2" fill="#B6FF00"/>
+<rect x="9" y="3" width="2" height="2" transform="rotate(90 9 3)" fill="#B6FF00"/>
+<rect x="14" y="11" width="2" height="2" transform="rotate(90 14 11)" fill="#B6FF00"/>
+<rect x="14" y="9" width="2" height="2" transform="rotate(90 14 9)" fill="#B6FF00"/>
+<rect x="12" y="7" width="2" height="2" transform="rotate(90 12 7)" fill="#B6FF00"/>
+<rect x="12" y="9" width="2" height="2" transform="rotate(90 12 9)" fill="#B6FF00"/>
+<rect x="12" y="11" width="2" height="2" transform="rotate(90 12 11)" fill="#B6FF00"/>
+<rect x="12" y="13" width="2" height="2" transform="rotate(90 12 13)" fill="#B6FF00"/>
+<rect x="12" y="15" width="2" height="2" transform="rotate(90 12 15)" fill="#B6FF00"/>
+<rect x="16" y="11" width="2" height="2" transform="rotate(90 16 11)" fill="#B6FF00"/>
+<rect x="17" y="19" width="2" height="2" transform="rotate(90 17 19)" fill="#B6FF00"/>
+<rect x="21" y="9" width="2" height="2" transform="rotate(180 21 9)" fill="#B6FF00"/>
+<rect x="12" y="15" width="2" height="2" transform="rotate(-90 12 15)" fill="#B6FF00"/>
+</svg>
