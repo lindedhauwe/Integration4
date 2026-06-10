@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import "./account.css";
+import footerHandImg from "../assets/hand-tel_footer.jpg";
 
 import editIcon from "../assets/edit.svg";
 import phoneIcon from "../assets/phone.svg";
@@ -58,7 +59,7 @@ export default function Account() {
             <footer className="account-footer">
                 <h2>Contact</h2>
                 <p>Questions? Contact us anytime!</p>
-                <img src="/src/assets/hand-tel_footer.jpg" alt="Hand met telefoon" className="account-footer__decoration" />
+                <img src={footerHandImg} alt="Hand met telefoon" className="account-footer__decoration" />
                 <div className="contact-mail">
                     <a href="mailto:info@antwerp.be" className="mail-link">
                         <img src={mailIcon} alt="mail icon" className="icon" />
