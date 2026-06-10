@@ -10,8 +10,8 @@
 
 .hamburger-icon {
     width: 32px;
-    height: 32px;
-    cursor: pointer;
+    height: 44px;
+    /* cursor: pointer; */
 }
 
 .menu-overlay {
@@ -83,7 +83,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 1.25rem 1rem;
+    padding: 0.75rem 0.75rem;
     text-decoration: none;
 }
 
@@ -104,7 +104,7 @@
 
 .nav-cell--recommendation {
     border: 2px solid var(--light-green);
-    min-height: 100px;
+    min-height: 120px;
 }
 
 .nav-cell--active {
@@ -115,14 +115,14 @@
     font-family: var(--font-antwerpen-tall);
     font-size: clamp(1.8rem, 7vw, 2.6rem);
     color: var(--light-green);
-    line-height: 1.05;
+    line-height: 1.3;
     text-transform: uppercase;
 }
 
 .nav-cell__subtitle {
     font-family: var(--font-interstate);
-    font-size: 0.8rem;
-    color: var(--white);
+    font-size: 16px;
+    color: var(--beige);
     line-height: 1.3;
 }
 

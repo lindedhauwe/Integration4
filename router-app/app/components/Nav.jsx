@@ -36,7 +36,7 @@ export default function Nav() {
                 onClick={() => setOpen(false)}
               >
                 <span className="nav-cell__title">Home</span>
-                <span className="nav-cell__subtitle">A personal Antwerp bar recommendation</span>
+                <span className="nav-cell__subtitle">A personal <br />Antwerp bar recommendation</span>
               </NavLink>
 
               <div className="nav-col">
@@ -46,7 +46,7 @@ export default function Nav() {
                   onClick={() => setOpen(false)}
                 >
                   <span className="nav-cell__title">Pub Crawl</span>
-                  <span className="nav-cell__subtitle">Your personal bar journey</span>
+                  <span className="nav-cell__subtitle">Your personal <br /> bar journey</span>
                 </NavLink>
                 <NavLink
                   to="/login"
@@ -54,6 +54,7 @@ export default function Nav() {
                   onClick={() => setOpen(false)}
                 >
                   <span className="nav-cell__title">My Account</span>
+                  <span className="nav-cell__subtitle">Manage your account</span>
                 </NavLink>
               </div>
             </div>
