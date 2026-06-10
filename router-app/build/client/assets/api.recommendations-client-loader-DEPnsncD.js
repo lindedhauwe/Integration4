@@ -1,0 +1,1 @@
+import{t as e}from"./supabase-Cc_NeniI.js";async function t(){let{data:t,error:n}=await e.from(`recommendations`).select(`*`);if(n)throw Error(n.message);return t}export{t as clientLoader};
