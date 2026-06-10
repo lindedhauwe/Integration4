@@ -2,7 +2,7 @@ import { useState } from "react";
 import PhotoDropzone from "../components/PhotoDropzone";
 import { supabase } from "../supabase";
 import "./Recommendations.css";
-import recommendationCollage from "../assets/images/recommatationCollage.png";
+import recommendationCollage from "../assets/images/recommendationCollageSimple.png";
 import recommendationPeaceHand from "../assets/icons/recommendationPeaceHand.png";
 import recommendationBeigeRect from "../assets/images/recommendationBeigeRect.png";
 import recommendationBrownStroke from "../assets/images/RecommendationBrownStroke.png";
