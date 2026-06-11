@@ -13,17 +13,17 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 250px;
+    width: 220px;
     pointer-events: none;
     z-index: 1;
 }
 
 .login-keys {
     position: absolute;
-    top: 10px;
+    top: 30px;
     left: 50%;
     transform: translateX(-30%);
-    width: 200px;
+    width: 220px;
     z-index: 2;
     pointer-events: none;
 }
@@ -123,8 +123,34 @@
     text-decoration: none;
 }
 
+.input-error {
+    border: 2px solid var(--orange) !important;
+}
+
+.field-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--orange);
+    font-family: var(--font-interstate);
+}
+
+.field-error--server {
+    margin-bottom: 8px;
+}
+
+.field-error__icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
 .signup-arrow {
     width: 18px;
     height: 18px;
+    transform: rotate(180deg);
     filter: brightness(0) saturate(100%) invert(91%) sepia(38%) saturate(700%) hue-rotate(31deg) brightness(108%);
 }
