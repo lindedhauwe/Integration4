@@ -6,8 +6,8 @@
 .deco-keys {
     position: absolute;
     top: -5px;
-    left: 10px;
-    width: 105px;
+    left: 0px;
+    width: 200px;
     z-index: 2;
     pointer-events: none;
 }
@@ -18,10 +18,9 @@
 }
 
 .deco-vierkant--top {
-    top: 5px;
-    left: -20px;
-    width: 140px;
-    transform: rotate(12deg);
+    top: 0px;
+    left: 0px;
+    width: 220px;
     z-index: 1;
 }
 
@@ -50,7 +49,7 @@
     line-height: 1;
     text-transform: lowercase;
     word-break: break-word;
-    margin: 24px 0 10px;
+    margin: 80px 0 10px;
 }
 
 .account-email {
