@@ -414,6 +414,16 @@
     width: 135%;
 }
 
+.modal__img--polaroids {
+    width: 165%;
+    margin-left: -4.5rem;
+    margin-bottom: -3rem;
+}
+
+.modal__img--map {
+    width: 90%;
+}
+
 .modal__phones {
     position: absolute;
     width: 230%;
@@ -483,7 +493,7 @@
     color: var(--dark-green);
 
     display: grid;
-    row-gap: 0.5rem;
+    row-gap: 1rem;
 }
 
 .modal__title {

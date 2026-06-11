@@ -75,18 +75,8 @@ const MODAL_CONTENT = {
                 </>
             ),
         body: "You will get personal recommendations from Antwerp locals and visitors.",
-        image: beerCoasterImg,
     },
     maria: {
-        title: (
-            <>
-                Tell us about <span>your own experience!</span>
-            </>
-        ),
-        body: "Your story can be shared with others who are interested!",
-        image: mapImg,
-    },
-    silvius: {
         title:
             (
                 <>
@@ -94,7 +84,14 @@ const MODAL_CONTENT = {
                 </>
             ),
         body: "Watch your pub crawl grow with every bar you discover and share your route with fellow explorers.",
-        image: polaroidsImg,
+    },
+    silvius: {
+        title: (
+            <>
+                Tell us about <span>your own experience!</span>
+            </>
+        ),
+        body: "Your story can be shared with others who are interested!",
     },
 };
 
@@ -380,6 +377,12 @@ export default function Storytelling() {
                             {activeModal === "maria" && (
                                 <>
                                     <img src={routeImg} className="modal__img modal__img--map" alt="" />
+                                </>
+                            )}
+
+                            {activeModal === "silvius" && (
+                                <>
+                                    <img src={polaroidsImg} className="modal__img modal__img--polaroids" alt="" />
                                 </>
                             )}
                         </div>
