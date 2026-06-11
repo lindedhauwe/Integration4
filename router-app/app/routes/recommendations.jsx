@@ -316,7 +316,7 @@ export default function Recommendations() {
           {/* ⭐ HIDDEN INPUTS VOOR SERVER */}
           <input type="hidden" name="vibe" value={JSON.stringify(vibe)} />
           <input type="hidden" name="type" value={JSON.stringify(type)} />
-          <input type="hidden" name="photo_url" value={uploadedMedia[0] || ""} />
+          <input type="hidden" name="photo_url" value={JSON.stringify(uploadedMedia)} />
 
           <button
             className="submit-btn"

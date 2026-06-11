@@ -138,29 +138,28 @@
   background: #3a5e4e;
 }
 
-/* carousel arrows */
+/* carousel arrows — onderaan de foto, donkergroene vakjes */
 .home-card__arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.45);
+  bottom: 0;
+  background: var(--dark-green);
   border: none;
   cursor: pointer;
-  padding: 8px 10px;
-  border-radius: 6px;
+  width: 40px;
+  height: 40px;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
-.home-card__arrow--left  { left: 8px; }
-.home-card__arrow--right { right: 8px; }
+.home-card__arrow--left  { left: 0; }
+.home-card__arrow--right { right: 0; }
 
 .home-card__arrow-icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
+  width: 20px;
+  height: 20px;
 }
 
 .home-card__arrow-icon--flip {
@@ -170,7 +169,7 @@
 /* dots */
 .home-card__dots {
   position: absolute;
-  bottom: 8px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -178,15 +177,14 @@
 }
 
 .home-card__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.45);
+  width: 10px;
+  height: 10px;
+  background: var(--beige);
   cursor: pointer;
 }
 
 .home-card__dot--active {
-  background: var(--beige);
+  background: var(--light-green);
 }
 
 /* body */
