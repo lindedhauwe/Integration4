@@ -138,11 +138,11 @@
   background: #3a5e4e;
 }
 
-/* carousel arrows — onderaan de foto, groene vakjes */
+/* carousel arrows — onderaan de foto, donkergroene vakjes */
 .home-card__arrow {
   position: absolute;
   bottom: 0;
-  background: var(--light-green);
+  background: var(--dark-green);
   border: none;
   cursor: pointer;
   width: 40px;
@@ -160,7 +160,6 @@
 .home-card__arrow-icon {
   width: 20px;
   height: 20px;
-  filter: brightness(0) saturate(100%) invert(14%) sepia(31%) saturate(573%) hue-rotate(95deg) brightness(85%) contrast(90%);
 }
 
 .home-card__arrow-icon--flip {
