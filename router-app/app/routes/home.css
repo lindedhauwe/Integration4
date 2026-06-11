@@ -145,17 +145,27 @@
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.45);
   border: none;
-  color: #fff;
-  font-size: 28px;
   cursor: pointer;
-  padding: 6px 14px;
-  line-height: 1;
-  border-radius: 4px;
+  padding: 8px 10px;
+  border-radius: 6px;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-card__arrow--left  { left: 8px; }
 .home-card__arrow--right { right: 8px; }
+
+.home-card__arrow-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
+.home-card__arrow-icon--flip {
+  transform: scaleX(-1);
+}
 
 /* dots */
 .home-card__dots {
