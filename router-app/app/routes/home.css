@@ -4,7 +4,7 @@
   min-height: 100vh;
   font-family: var(--font-interstate);
   padding-bottom: 48px;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 .home-empty {
