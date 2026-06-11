@@ -1,0 +1,320 @@
+/* HOME PAGE */
+.home-page {
+  background: var(--beige);
+  min-height: 100vh;
+  font-family: var(--font-interstate);
+  padding-bottom: 48px;
+  overflow-x: clip;
+}
+
+.home-empty {
+  padding: 2rem;
+  color: var(--bar-brown);
+}
+
+/* HERO */
+.home-hero {
+  padding: 80px 24px 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero__name {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-green);
+}
+
+.home-hero__title {
+  margin: 0;
+  font-family: var(--font-antwerpen-regular);
+  font-size: 35px;
+  line-height: 1;
+  color: var(--orange);
+}
+
+/* CARD */
+.home-card {
+  margin: -55px 20px 0;
+  background: var(--dark-green);
+  position: relative;
+  overflow: visible;
+  transform: rotate(-4deg);
+}
+
+/* GREEN café name banner — boven de card, rechts uitgelijnd */
+.home-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--light-green);
+  padding: 10px 20px 10px 16px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: 20px;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 3;
+}
+
+.home-card__cafe-name {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 22px;
+  color: var(--dark-green);
+}
+
+.home-card__heart-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-card__heart-btn img {
+  width: 28px;
+  height: 28px;
+}
+
+.home-card__heart-btn img.heart--liked {
+  filter: brightness(0) saturate(100%) invert(61%) sepia(78%) saturate(900%) hue-rotate(270deg) brightness(108%);
+}
+
+/* PINK address bar — onder café naam, rechts */
+.home-card__address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pink);
+  padding: 6px 20px 6px 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-top: -1.5rem;
+  margin-bottom: 1rem;
+  margin-right: 0;
+  position: relative;
+  z-index: 4;
+}
+
+.home-card__pin {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.home-card__address span {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--beige);
+  white-space: nowrap;
+  text-decoration: underline;
+}
+
+/* photo */
+.home-card__photo-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.home-card__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-card__photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #3a5e4e;
+}
+
+/* carousel arrows */
+.home-card__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--beige);
+  font-size: 32px;
+  cursor: pointer;
+  padding: 8px 12px;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.home-card__arrow--left  { left: 0; }
+.home-card__arrow--right { right: 0; }
+
+/* dots */
+.home-card__dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.home-card__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  cursor: pointer;
+}
+
+.home-card__dot--active {
+  background: var(--beige);
+}
+
+/* body */
+.home-card__body {
+  padding: 16px 18px 40px;
+}
+
+.home-card__recommender {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--beige);
+}
+
+.home-card__description {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--beige);
+}
+
+/* ACTIONS */
+.home-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  position: relative;
+  z-index: 1000;
+  margin-top: -0.5rem;
+  padding: 0px 20px 0;
+}
+
+.home-actions__shuffle {
+  width: 48px;
+  height: 48px;
+  background: var(--light-green);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-actions__shuffle img {
+  width: 25px;
+  height: 25px;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(31%) saturate(573%) hue-rotate(95deg) brightness(85%) contrast(90%);
+}
+
+.home-actions__visit {
+  width: 200px;
+  height: 48px;
+  background: var(--orange);
+  border: none;
+  cursor: pointer;
+  color: var(--beige);
+  font-family: var(--font-sunantwerpen-regular);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  gap: 6px;
+}
+
+.home-actions__visit-arrow {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
+}
+
+/* LOGIN MODAL */
+.home-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.66);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 10px;
+}
+
+.home-login-modal {
+  background: var(--dark-green);
+  border: 10px solid var(--beige);
+  border-radius: 50%;
+  width: 370px;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 36px;
+  box-sizing: border-box;
+}
+
+.home-login-modal__title {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--light-green);
+  margin: 0 0 12px;
+}
+
+.home-login-modal__text {
+  font-size: 16px;
+  color: var(--beige);
+  margin: 0 0 24px;
+  line-height: 1.4;
+  font-family: var(--font-interstate);
+}
+
+.home-login-modal__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.home-login-modal__btn {
+  height: 44px;
+  padding: 0 20px;
+  font-family: var(--font-antwerpen-regular);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.home-login-modal__btn--outline {
+  background: transparent;
+  border: 3px solid var(--orange);
+  color: var(--orange);
+}
+
+.home-login-modal__btn--filled {
+  background: var(--orange);
+  border: none;
+  color: var(--white);
+}
+

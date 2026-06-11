@@ -14,14 +14,55 @@ import coasterBrownHeart from '../assets/icons/coasterBrownHeart.png';
 import coasterGrey from '../assets/icons/coasterGrey.png';
 import coasterGreyHeart from '../assets/icons/coasterGrayHeart.png';
 
-const testSpots = [
-    { id: 1, name: 'Café Beveren',   position: [51.2194, 4.3980], type: 'current', liked: false },
-    { id: 2, name: 'De Muze',        position: [51.2210, 4.4050], type: 'visited', liked: false },
-    { id: 3, name: 'Kulminator',     position: [51.2150, 4.4100], type: 'visited', liked: true  },
-    { id: 4, name: 'Café Den Engel', position: [51.2230, 4.3990], type: 'visited', liked: true  },
-    { id: 5, name: 'Bier Central',   position: [51.2170, 4.4200], type: 'visited', liked: false },
-    { id: 6, name: 'Pelgrom',        position: [51.2260, 4.4010], type: 'rec',     liked: false },
-];
+function getMapSpots() {
+    try {
+        const liked = JSON.parse(localStorage.getItem("liked_cafes") || "[]");
+        const likedIds = new Set(liked.map((c) => c.cafe_id));
+
+        const spots = [];
+
+        // Huidig café (meest recente NFC tap)
+        const current = JSON.parse(localStorage.getItem("current_cafe") || "null");
+        if (current?.lat && current?.lng) {
+            spots.push({
+                id: `current-${current.id}`,
+                name: current.name,
+                position: [current.lat, current.lng],
+                type: likedIds.has(current.id) ? 'currentLiked' : 'current',
+            });
+        }
+
+        // Eerder bezochte cafés
+        const visited = JSON.parse(localStorage.getItem("visited_cafes") || "[]");
+        visited.forEach((c) => {
+            if (!c.lat || !c.lng) return;
+            spots.push({
+                id: `visited-${c.id}`,
+                name: c.name,
+                position: [c.lat, c.lng],
+                type: likedIds.has(c.id) ? 'visitedLiked' : 'visited',
+            });
+        });
+
+        // Gelikte cafés die nog niet current/visited zijn
+        liked.forEach((c) => {
+            if (!c.lat || !c.lng) return;
+            const alreadyAdded = spots.find((s) => s.id.endsWith(`-${c.cafe_id}`));
+            if (!alreadyAdded) {
+                spots.push({
+                    id: `liked-${c.cafe_id}`,
+                    name: c.name,
+                    position: [c.lat, c.lng],
+                    type: 'recLiked',
+                });
+            }
+        });
+
+        return spots;
+    } catch {
+        return [];
+    }
+}
 
 const ICON_MAP = {
     current:      coasterPink,
@@ -31,6 +72,7 @@ const ICON_MAP = {
     rec:          coasterGrey,
     recLiked:     coasterGreyHeart,
 };
+
 
 export default function Map() {
     const mapRef = useRef(null);
@@ -46,11 +88,18 @@ export default function Map() {
             await import('leaflet/dist/leaflet.css');
             if (cancelled || !mapRef.current) return;
 
+            const antwerpenBounds = L.latLngBounds(
+                [51.15, 4.28],
+                [51.31, 4.52]
+            );
+
             const map = L.map(mapRef.current, {
                 zoomControl: false,
                 scrollWheelZoom: true,
-                minZoom: 12,
+                minZoom: 13,
                 maxZoom: 18,
+                maxBounds: antwerpenBounds,
+                maxBoundsViscosity: 1.0,
             }).setView([51.2194, 4.4025], 14);
 
             instanceRef.current = map;
@@ -64,8 +113,10 @@ export default function Map() {
                 }
             ).addTo(map);
 
-            testSpots.forEach((spot) => {
-                const key = spot.type + (spot.liked ? 'Liked' : '');
+            const allSpots = getMapSpots();
+
+            allSpots.forEach((spot) => {
+                const key = spot.type;
                 const icon = L.icon({
                     iconUrl: ICON_MAP[key],
                     iconSize: [56, 56],
