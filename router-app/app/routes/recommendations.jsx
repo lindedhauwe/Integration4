@@ -69,6 +69,7 @@ export default function Recommendations() {
   const [submitted, setSubmitted] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [dropzoneKey, setDropzoneKey] = useState(0);
 
   const formRef = useRef(null);
 
@@ -83,6 +84,7 @@ export default function Recommendations() {
     setType([]);
     setUploadedMedia([]);
     setSubmitted(false);
+    setDropzoneKey((k) => k + 1);
   }
 
   useEffect(() => {
@@ -228,7 +230,7 @@ export default function Recommendations() {
           )}
 
           <p className="section-title">Share the vibe</p>
-          <PhotoDropzone onUpload={setUploadedMedia} />
+          <PhotoDropzone key={dropzoneKey} onUpload={setUploadedMedia} />
 
           <label>Your first name*</label>
           <input
