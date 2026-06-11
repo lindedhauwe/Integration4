@@ -27,8 +27,8 @@
 .deco-vierkant--bottom {
     bottom: -15px;
     right: -20px;
-    width: 160px;
-    transform: rotate(-10deg);
+    width: 100%;
+    /* transform: rotate(-10deg); */
     z-index: 0;
 }
 
@@ -104,6 +104,7 @@
     background: var(--beige);
     padding-bottom: 8px;
     padding-top: 8px;
+    margin: 2rem 0 0 0;
 
 }
 
@@ -252,8 +253,8 @@
 .account-footer {
     position: relative;
     background: var(--dark-green);
-    padding: 40px 24px 40px;
-    min-height: 220px;
+    padding: 40px 24px 60px;
+    min-height: 400px;
     overflow: hidden;
     display: flex;
     align-items: flex-end;
@@ -263,20 +264,21 @@
     position: relative;
     z-index: 1;
     flex: 1;
+    margin-left: 32px;
 }
 
 .account-footer h2 {
     font-family: var(--font-interstate);
     font-size: 22px;
     font-weight: 700;
-    color: var(--beige);
+    color: var(--black);
     margin: 0 0 4px;
 }
 
 .account-footer p {
     font-family: var(--font-interstate);
     font-size: 14px;
-    color: var(--beige);
+    color: var(--black);
     margin: 0 0 20px;
 }
 
@@ -304,8 +306,9 @@
 
 .footer-hand {
     position: absolute;
-    bottom: 0;
-    right: -10px;
-    width: 200px;
-    object-fit: cover;
+    top: 90px;
+    right: -90px;
+    width: 300px;
+    object-fit: contain;
+    z-index: 10;
 }

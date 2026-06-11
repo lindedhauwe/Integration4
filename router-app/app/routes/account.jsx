@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 
 import "./account.css";
 
-import footerHandImg from "../assets/hand-tel_footer.jpg";
+import footerHandImg from "../assets/handphone.png";
 import editIcon from "../assets/edit.svg";
 import phoneIcon from "../assets/phone.svg";
 import mailIcon from "../assets/mail.svg";
 import leaveIcon from "../assets/leave.svg";
 import keysImg from "../assets/keys.png";
-import beigeVierkant from "../assets/beige-vierkant.svg";
+import beigeVierkantTop from "../assets/square-account-top.svg";
+import beigeVierkantBottom from "../assets/square-account-bottom.svg";
+
 import locationPink from "../assets/location-pink.svg";
 import fullHeartPink from "../assets/full-heart-pink.svg";
 import emptyHeartPink from "../assets/empty-heart-pink.svg";
@@ -81,7 +83,7 @@ export default function Account() {
     return (
         <div className="account-page">
             <section className="account-hero">
-                <img src={beigeVierkant} alt="" className="deco-vierkant deco-vierkant--top" />
+                <img src={beigeVierkantTop} alt="" className="deco-vierkant deco-vierkant--top" />
                 <img src={keysImg} alt="" className="deco-keys" />
                 <h1 className="account-username">{user.name}</h1>
                 <p className="account-email">{user.email}</p>
@@ -176,7 +178,7 @@ export default function Account() {
                     </div>
                 </div>
                 <img src={footerHandImg} alt="" className="footer-hand" />
-                <img src={beigeVierkant} alt="" className="deco-vierkant deco-vierkant--bottom" />
+                <img src={beigeVierkantBottom} alt="" className="deco-vierkant deco-vierkant--bottom" />
             </footer>
         </div>
     );
