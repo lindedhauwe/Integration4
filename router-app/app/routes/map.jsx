@@ -5,12 +5,7 @@ import swirlMapPage from '../assets/images/swirlMapPage.png';
 import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
 import shareIcon from '../assets/icons/iconupload.svg';
-import fullHeart from '../assets/icons/fullheart.svg';
 
-import coasterPink from '../assets/icons/coasterPink.png';
-import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
-import coasterBrown from '../assets/icons/coasterBrown.png';
-import coasterBrownHeart from '../assets/icons/coasterBrownHeart.png';
 import coasterGrey from '../assets/icons/coasterGrey.png';
 import coasterGreyHeart from '../assets/icons/coasterGrayHeart.png';
 
@@ -19,44 +14,30 @@ function getMapSpots() {
         const liked = JSON.parse(localStorage.getItem("liked_cafes") || "[]");
         const likedIds = new Set(liked.map((c) => c.cafe_id));
 
+        const seen = new Set();
         const spots = [];
 
-        // Huidig café (meest recente NFC tap)
-        const current = JSON.parse(localStorage.getItem("current_cafe") || "null");
-        if (current?.lat && current?.lng) {
+        function addSpot(id, name, lat, lng) {
+            if (!lat || !lng || seen.has(id)) return;
+            seen.add(id);
             spots.push({
-                id: `current-${current.id}`,
-                name: current.name,
-                position: [current.lat, current.lng],
-                type: likedIds.has(current.id) ? 'currentLiked' : 'current',
+                id,
+                name,
+                position: [lat, lng],
+                type: likedIds.has(id) ? 'recLiked' : 'rec',
             });
         }
 
+        // Huidig café
+        const current = JSON.parse(localStorage.getItem("current_cafe") || "null");
+        if (current) addSpot(current.id, current.name, current.lat, current.lng);
+
         // Eerder bezochte cafés
         const visited = JSON.parse(localStorage.getItem("visited_cafes") || "[]");
-        visited.forEach((c) => {
-            if (!c.lat || !c.lng) return;
-            spots.push({
-                id: `visited-${c.id}`,
-                name: c.name,
-                position: [c.lat, c.lng],
-                type: likedIds.has(c.id) ? 'visitedLiked' : 'visited',
-            });
-        });
+        visited.forEach((c) => addSpot(c.id, c.name, c.lat, c.lng));
 
-        // Gelikte cafés die nog niet current/visited zijn
-        liked.forEach((c) => {
-            if (!c.lat || !c.lng) return;
-            const alreadyAdded = spots.find((s) => s.id.endsWith(`-${c.cafe_id}`));
-            if (!alreadyAdded) {
-                spots.push({
-                    id: `liked-${c.cafe_id}`,
-                    name: c.name,
-                    position: [c.lat, c.lng],
-                    type: 'recLiked',
-                });
-            }
-        });
+        // Gelikte cafés die nog niet op de map staan
+        liked.forEach((c) => addSpot(c.cafe_id, c.name, c.lat, c.lng));
 
         return spots;
     } catch {
@@ -65,12 +46,8 @@ function getMapSpots() {
 }
 
 const ICON_MAP = {
-    current:      coasterPink,
-    currentLiked: coasterPinkHeart,
-    visited:      coasterBrown,
-    visitedLiked: coasterBrownHeart,
-    rec:          coasterGrey,
-    recLiked:     coasterGreyHeart,
+    rec:      coasterGrey,
+    recLiked: coasterGreyHeart,
 };
 
 
@@ -163,19 +140,11 @@ export default function Map() {
                 </div>
                 <div className="map-bottom__legend">
                     <div className="map-legend-item">
-                        <img src={coasterBrown} alt="" />
-                        <span>visited</span>
-                    </div>
-                    <div className="map-legend-item">
-                        <img src={coasterPink} alt="" />
-                        <span>currently</span>
-                    </div>
-                    <div className="map-legend-item">
                         <img src={coasterGrey} alt="" />
-                        <span>your rec</span>
+                        <span>café</span>
                     </div>
                     <div className="map-legend-item">
-                        <img src={fullHeart} alt="" className="map-legend-item__heart" />
+                        <img src={coasterGreyHeart} alt="" />
                         <span>liked</span>
                     </div>
                 </div>
