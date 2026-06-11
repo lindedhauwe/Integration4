@@ -44,12 +44,15 @@ type Pages = {
   "/beerloading": {
     params: {};
   };
+  "/storytelling": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/recommendations" | "/api/recommendations" | "/thespot" | "/map" | "/account" | "/account/edit" | "/create-profile" | "/login" | "/otherbar" | "/beerloading";
+    page: "/" | "/recommendations" | "/api/recommendations" | "/thespot" | "/map" | "/account" | "/account/edit" | "/create-profile" | "/login" | "/otherbar" | "/beerloading" | "/storytelling";
   };
   "./routes/home.jsx": {
     id: "routes/home";
@@ -95,6 +98,10 @@ type RouteFiles = {
     id: "routes/beerloading";
     page: "/beerloading";
   };
+  "./routes/storytelling.jsx": {
+    id: "routes/storytelling";
+    page: "/storytelling";
+  };
 };
 
 type RouteModules = {
@@ -110,4 +117,5 @@ type RouteModules = {
   "routes/login": typeof import("./app/./routes/login.jsx");
   "routes/otherbar": typeof import("./app/./routes/otherbar.jsx");
   "routes/beerloading": typeof import("./app/./routes/beerloading.jsx");
+  "routes/storytelling": typeof import("./app/./routes/storytelling.jsx");
 };

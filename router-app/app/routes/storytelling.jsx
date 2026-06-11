@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./storytelling.css";
+import bgNav from "~/assets/bg-nav.svg";
+import closeIcon from "~/assets/close.svg";
 
 // ── Story layer assets ──────────────────────────────────────────────────────
 import steenImg from "../assets/scrollytelling/story/steen.png"
@@ -311,7 +313,8 @@ export default function Storytelling() {
                             <h2 className="modal__title">{modal.title}</h2>
                             <p className="modal__text">{modal.body}</p>
                             <button className="modal__cta close-btn" onClick={closeModal}>
-                                Continue the story
+                                <img src={bgNav} alt="" className="close-bg" />
+                                <img src={closeIcon} alt="sluit menu" className="close-icon" />
                             </button>
                         </div>
                     </div>
