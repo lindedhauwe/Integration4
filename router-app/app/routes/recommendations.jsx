@@ -117,6 +117,8 @@ export default function Recommendations() {
     "cocktailBar",
     "pub",
     "rooftopBar",
+    "wineBar",
+    "musicBar",
   ];
 
   function FieldError({ msg }) {
