@@ -38,6 +38,9 @@
     padding: 100px 24px 48px;
     background: var(--dark-green);
     overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .account-username {
@@ -47,13 +50,13 @@
     line-height: 1;
     text-transform: lowercase;
     word-break: break-word;
-    margin: 0 0 6px;
+    margin: 24px 0 10px;
 }
 
 .account-email {
     font-family: var(--font-interstate);
     font-size: 14px;
-    color: var(--white);
+    color: var(--beige);
     margin: 0 0 40px;
 }
 
@@ -62,6 +65,7 @@
     flex-direction: column;
     gap: 12px;
     max-width: 220px;
+    margin: 24px 0
 }
 
 .btn-edit,
@@ -76,6 +80,7 @@
     text-decoration: none;
     /* width: 100%; */
     /* box-sizing: border-box; */
+    
 }
 
 .btn-edit {
@@ -87,7 +92,7 @@
 .btn-logout {
     background: transparent;
     color: var(--orange);
-    border: 2px solid var(--orange);
+    border: 3px solid var(--orange);
 }
 
 .btn-icon {
@@ -99,12 +104,22 @@
 .account-bars {
     background: var(--beige);
     padding-bottom: 8px;
+    padding-top: 8px;
+
 }
 
 .bars-tabs {
     display: flex;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
+    margin: 24px;
+    /* padding-top: 32px; */
+    background: var(--light-green);
+    border: 3px solid var(--bar-brown);
 }
+
+/* .bars-tabs button{
+    margin-top: 32px;
+} */
 
 .tab {
     flex: 1;
@@ -112,22 +127,30 @@
     font-family: var(--font-interstate);
     font-size: 14px;
     font-weight: 500;
-    border: 2px solid var(--black);
+    border: none;
     cursor: pointer;
-    background: transparent;
-    color: var(--black);
+    /* background: var(--light-green);
+    color: var(--bar-brown); */
+    color: var(--bar-brown);
+        background-color: var(--light-green);
+    
 }
 
 .tab--active {
-    background: var(--light-green);
-    color: var(--black);
-    border-color: var(--light-green);
+    /* background: var(--bar-brown);
+    color: var(--light-green); */
+    
+    background-color: var(--bar-brown);
+        color: var(--light-green);
+        border: 3px solid var(--light-green);
+   
+    font-weight: 700;
 }
 
 .bars-list {
     list-style: none;
-    padding: 0 24px;
-    margin: 0;
+    /* padding: 0 24px; */
+    margin: 0 24px;
 }
 
 .bar-item {
@@ -160,11 +183,39 @@
     flex-shrink: 0;
 }
 
+.bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.heart-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.btn-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--orange);
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.arrow-icon {
+    width: 16px;
+    height: 16px;
+}
+
 .btn-view-spot {
     display: flex;
     align-items: center;
     gap: 4px;
-    border: 2px solid var(--orange);
+    border: 3px solid var(--orange);
     color: var(--orange);
     padding: 8px 12px;
     font-family: var(--font-interstate);
@@ -174,13 +225,28 @@
     flex-shrink: 0;
 }
 
-.see-more {
-    display: block;
-    text-align: center;
-    padding: 20px 16px;
+.bars-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.see-more,
+.see-less {
     font-family: var(--font-interstate);
     font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
     color: var(--black);
+}
+
+.see-more:disabled {
+    color: #bbb;
+    cursor: default;
     text-decoration: underline;
 }
 
