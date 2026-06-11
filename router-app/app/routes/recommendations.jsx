@@ -22,6 +22,7 @@ export async function clientAction({ request }) {
   const city = formData.get("city");
   const description = formData.get("description");
   const location = formData.get("location");
+  const cafe_name = formData.get("cafe_name");
   const vibe = JSON.parse(formData.get("vibe") || "[]");
   const type = JSON.parse(formData.get("type") || "[]");
   const photo_url = formData.get("photo_url");
@@ -32,6 +33,7 @@ export async function clientAction({ request }) {
     city,
     description,
     location: location || null,
+    cafe_name: cafe_name || null,
     vibe_tags: vibe,
     type_tags: type,
     photo_url,
@@ -59,6 +61,7 @@ export default function Recommendations() {
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [cafeName, setCafeName] = useState("");
 
   const [vibe, setVibe] = useState([]);
   const [type, setType] = useState([]);
@@ -74,6 +77,7 @@ export default function Recommendations() {
     setCity("");
     setDescription("");
     setLocation("");
+    setCafeName("");
     setAge("");
     setVibe([]);
     setType([]);
@@ -202,6 +206,14 @@ export default function Recommendations() {
 
           {mode === "another" && (
             <>
+              <label>Name of the bar*</label>
+              <input
+                name="cafe_name"
+                placeholder="e.g Café Beveren"
+                value={cafeName}
+                onChange={(e) => setCafeName(e.target.value)}
+              />
+
               <label>Select the location*</label>
               <input
                 name="location"
