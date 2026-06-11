@@ -118,9 +118,9 @@ export default function Home() {
     return <main className="home-page"><p className="home-empty">Geen aanbevelingen gevonden.</p></main>;
   }
 
-  // "another bar" → rec.location, "current bar" → naam uit cafes tabel
-  const cafeName = rec.location || cafeMap[rec.cafe_id]?.name || "Onbekend café";
-  const cafeAddress = rec.city || "";
+  // "another bar" → rec.cafe_name/rec.location, "current bar" → naam uit cafes tabel
+  const cafeName = rec.cafe_name || cafeMap[rec.cafe_id]?.name || rec.location || "Onbekend café";
+  const cafeAddress = cafeMap[rec.cafe_id]?.adress || rec.location || "";
 
   // build media array from photo_url and video_url
   const media = [rec.photo_url, rec.video_url].filter(Boolean);
