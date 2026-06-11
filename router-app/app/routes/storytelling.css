@@ -451,7 +451,9 @@
 }
 
 @keyframes screen1Anim {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1
     }
 
@@ -518,4 +520,13 @@
             left -100% bottom -70%;
         background-repeat: no-repeat;
     }
+}
+
+.modal--maria {
+    background-image: url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/kaart.png");
+    background-position: right -200% top -70%,
+        left -100% bottom -70%,
+        top center;
+    background-repeat: no-repeat;
+    background-size: auto, auto, 120%;
 }

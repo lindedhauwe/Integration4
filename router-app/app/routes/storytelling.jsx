@@ -43,6 +43,7 @@ import silviusImg from "../assets/scrollytelling/story/silvius.png";
 // ── Popup assets ────────────────────────────────────────────────────────────
 import beerCoasterImg from "../assets/scrollytelling/pop-ups/beer-coaster.png";
 import polaroidsImg from "../assets/scrollytelling/pop-ups/polaroids.png";
+import routeImg from "../assets/scrollytelling/pop-ups/route.png";
 import mapImg from "../assets/scrollytelling/pop-ups/kaart.png";
 import bigCrossImg from "../assets/scrollytelling/pop-ups/big-cross.svg";
 import greenSquareImg from "../assets/scrollytelling/pop-ups/green-square.svg";
@@ -76,16 +77,6 @@ const MODAL_CONTENT = {
         body: "You will get personal recommendations from Antwerp locals and visitors.",
         image: beerCoasterImg,
     },
-    silvius: {
-        title:
-            (
-                <>
-                    Collect & build your <span>bar crawl!</span>,
-                </>
-            ),
-        body: "Watch your pub crawl grow with every bar you discover and share your route with fellow explorers.",
-        image: polaroidsImg,
-    },
     maria: {
         title: (
             <>
@@ -94,6 +85,16 @@ const MODAL_CONTENT = {
         ),
         body: "Your story can be shared with others who are interested!",
         image: mapImg,
+    },
+    silvius: {
+        title:
+            (
+                <>
+                    Collect & build your <span>bar crawl!</span>
+                </>
+            ),
+        body: "Watch your pub crawl grow with every bar you discover and share your route with fellow explorers.",
+        image: polaroidsImg,
     },
 };
 
@@ -119,7 +120,7 @@ export default function Storytelling() {
                 start: "top top",
                 end: () => `+=${totalTravel}`,
                 pin: true,
-                scrub: true,
+                scrub: 0.9,
                 anticipatePin: 1,
                 onUpdate(self) {
                     if (lockedScrollPos.current !== null) return;
@@ -149,6 +150,71 @@ export default function Storytelling() {
             tween.scrollTrigger?.kill();
             tween.kill();
             window.removeEventListener("scroll", onScroll);
+        };
+    }, []);
+
+    // ── Touch swipe → horizontal scroll (with momentum) ──────────────────────
+    useEffect(() => {
+        let lastX = 0;
+        let lastY = 0;
+        let velocity = 0;
+        let directionLocked = false;
+        let isHorizontal = false;
+        let rafId = null;
+
+        const stopMomentum = () => {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        };
+
+        const applyMomentum = () => {
+            if (Math.abs(velocity) < 0.5) { rafId = null; return; }
+            window.scrollBy(0, velocity);
+            velocity *= 0.9;
+            rafId = requestAnimationFrame(applyMomentum);
+        };
+
+        const onTouchStart = (e) => {
+            stopMomentum();
+            lastX = e.touches[0].clientX;
+            lastY = e.touches[0].clientY;
+            velocity = 0;
+            directionLocked = false;
+            isHorizontal = false;
+        };
+
+        const onTouchMove = (e) => {
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const dx = lastX - currentX;
+            const dy = lastY - currentY;
+
+            if (!directionLocked && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+                directionLocked = true;
+                isHorizontal = Math.abs(dx) > Math.abs(dy);
+            }
+
+            if (isHorizontal) {
+                e.preventDefault();
+                velocity = dx;
+                window.scrollBy(0, dx);
+                lastX = currentX;
+                lastY = currentY;
+            }
+        };
+
+        const onTouchEnd = () => {
+            if (isHorizontal) rafId = requestAnimationFrame(applyMomentum);
+        };
+
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        window.addEventListener("touchend", onTouchEnd, { passive: true });
+
+        return () => {
+            stopMomentum();
+            window.removeEventListener("touchstart", onTouchStart);
+            window.removeEventListener("touchmove", onTouchMove);
+            window.removeEventListener("touchend", onTouchEnd);
         };
     }, []);
 
@@ -298,14 +364,24 @@ export default function Storytelling() {
             {/* ── Modal overlay ─────────────────────────────────────────────────── */}
             {modal && (
                 <div className="modal-overlay" role="dialog" aria-modal="true" onClick={closeModal}>
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                    <div className={`modal ${activeModal === "maria" ? "modal--maria" : ""}`} onClick={(e) => e.stopPropagation()}>
 
                         <div className="modal__media">
-                            <img src={modal.image} className="modal__img modal__img--coaster" alt="" />
-                            <div className="modal__phones">
-                                <img src={phoneDemoFillImg} className="modal__phone modal__phone--fill" alt="" />
-                                <img src={phoneDemoEmptyImg} className="modal__phone modal__phone--empty" alt=""/>
-                            </div>
+                            {activeModal === "beer" && (
+                                <>
+                                    <img src={beerCoasterImg} className="modal__img modal__img--coaster" alt="" />
+                                    <div className="modal__phones">
+                                        <img src={phoneDemoFillImg} className="modal__phone modal__phone--fill" alt="" />
+                                        <img src={phoneDemoEmptyImg} className="modal__phone modal__phone--empty" alt="" />
+                                    </div>
+                                </>
+                            )}
+
+                            {activeModal === "maria" && (
+                                <>
+                                    <img src={routeImg} className="modal__img modal__img--map" alt="" />
+                                </>
+                            )}
                         </div>
 
                         <div className="modal__body">
