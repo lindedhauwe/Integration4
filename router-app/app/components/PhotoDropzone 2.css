@@ -1,0 +1,123 @@
+.photo-dropzone {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.photo-dropzone__actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.dropzone-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 140px;
+  padding: 20px 12px;
+  box-sizing: border-box;
+
+  border: 2px solid #00e46f;
+  background: transparent;
+  cursor: pointer;
+
+  color: #efe4d1;
+  font-family: var(--font-interstate);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.dropzone-card__icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.photo-dropzone__preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.preview-item {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.preview-item img,
+.preview-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 2px solid #00e46f;
+}
+
+.preview-item__remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  background: #ff6ee5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* CAMERA OVERLAY */
+.camera-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.camera-stream {
+  flex: 1;
+  width: 100%;
+  object-fit: cover;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 20px;
+  background: #111;
+}
+
+.camera-btn {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.camera-btn--capture {
+  background: #00e46f;
+  color: #173628;
+}
+
+.camera-btn--close {
+  background: transparent;
+  color: #efe4d1;
+  border: 2px solid #efe4d1;
+}
