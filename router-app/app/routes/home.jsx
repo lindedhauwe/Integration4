@@ -58,6 +58,7 @@ export async function clientLoader({ request }) {
 
   return { filtered, all: allRecs, cafeMap };
 }
+clientLoader.hydrate = true;
 
 function getLikedCafes() {
   try {
