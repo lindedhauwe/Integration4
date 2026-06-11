@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useState } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
+import Footer from "../components/Footer";
 
 import locationPin from "../assets/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";
@@ -117,9 +118,9 @@ export default function Home() {
     return <main className="home-page"><p className="home-empty">Geen aanbevelingen gevonden.</p></main>;
   }
 
-  // "another bar" → rec.location, "current bar" → naam uit cafes tabel
-  const cafeName = rec.location || cafeMap[rec.cafe_id]?.name || "Onbekend café";
-  const cafeAddress = rec.city || "";
+  // "another bar" → rec.cafe_name/rec.location, "current bar" → naam uit cafes tabel
+  const cafeName = rec.cafe_name || cafeMap[rec.cafe_id]?.name || rec.location || "Onbekend café";
+  const cafeAddress = cafeMap[rec.cafe_id]?.adress || rec.location || "";
 
   // build media array from photo_url and video_url
   const media = [rec.photo_url, rec.video_url].filter(Boolean);
@@ -249,8 +250,12 @@ export default function Home() {
 
           {media.length > 1 && (
             <>
-              <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>‹</button>
-              <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>›</button>
+              <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>
+                <img src={arrowRight} alt="prev" className="home-card__arrow-icon home-card__arrow-icon--flip" />
+              </button>
+              <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>
+                <img src={arrowRight} alt="next" className="home-card__arrow-icon" />
+              </button>
               <div className="home-card__dots">
                 {media.map((_, i) => (
                   <span
@@ -283,6 +288,7 @@ export default function Home() {
       </div>
 
     </div>
+    <Footer />
     </>
   );
 }

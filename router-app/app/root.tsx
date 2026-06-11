@@ -47,7 +47,8 @@ export default function App() {
   const location = useLocation();
 
   const hiddenNavRoutes = [
-    "/storytelling"
+    "/storytelling",
+    "/beerloading",
   ];
 
   return (

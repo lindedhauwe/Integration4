@@ -1,0 +1,81 @@
+.footer {
+  position: relative;
+  margin-top: -20px;
+  overflow: hidden;
+  padding-bottom: 32px;
+  background-color: var(--beige);
+}
+
+.footer__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.footer__img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 55%;
+  max-width: 240px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.footer__content {
+  position: relative;
+  z-index: 2;
+  padding: 100px 24px 0;
+}
+
+.footer__antwerp {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 36px;
+  line-height: 1;
+  color: var(--light-green);
+  margin: 0;
+}
+
+.footer__ontap {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 26px;
+  line-height: 1;
+  color: var(--light-green);
+  margin: 0 0 12px;
+}
+
+.footer__sub {
+  font-family: var(--font-interstate);
+  font-size: 16px;
+  color: var(--beige);
+  margin: 0 0 28px;
+  line-height: 1.4;
+}
+
+.footer__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.footer__btn {
+  width: 52px;
+  height: 52px;
+  background: var(--orange);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.footer__btn img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+}
