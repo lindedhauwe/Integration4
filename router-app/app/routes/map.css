@@ -155,7 +155,7 @@ body:has(.map-page) {
 .map-legend-item__heart {
     width: 26px !important;
     height: 26px !important;
-    filter: brightness(0) saturate(100%) invert(14%) sepia(19%) saturate(742%) hue-rotate(341deg) brightness(93%) contrast(87%);
+    filter: brightness(0) saturate(100%) invert(97%) sepia(15%) saturate(500%) hue-rotate(330deg) brightness(103%);
 }
 
 .map-legend-item span {
