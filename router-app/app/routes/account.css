@@ -1,92 +1,315 @@
-.account-title {
-    font-family: var(--font-antwerpen-regular);
-    font-size: 48px;
-    color: var(--light-green);
-}
-
-body {
+.account-page {
+    min-height: 100vh;
     background: var(--dark-green);
 }
 
-.back_to_recommedations{
-    font-family: var(--font-sunantwerpen-regular);
-    font-size: 16px;
-    text-decoration: none;  
-    color: var(--white);
+.deco-keys {
+    position: absolute;
+    top: -40px;
+    left: -50px;
+    width: 200px;
+    transform: rotate(-35deg);
+    z-index: 2;
+    pointer-events: none;
 }
 
-a {
-    text-decoration: none;
+.deco-vierkant {
+    position: absolute;
+    pointer-events: none;
 }
 
-.edit-link{
-    background-color: var(--orange);
-    font-family: var(--font-sunantwerpen-regular);
-    font-size: 16px;
+.deco-vierkant--top {
+    top: 0px;
+    left: 0px;
+    width: 220px;
+    z-index: 1;
+}
+
+.deco-vierkant--bottom {
+    bottom: -15px;
+    right: -20px;
+    width: 100%;
+    /* transform: rotate(-10deg); */
+    z-index: 0;
+}
+
+.account-hero {
+    position: relative;
+    padding: 100px 24px 48px;
+    background: var(--dark-green);
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-username {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 48px;
+    color: var(--light-green);
+    line-height: 1;
+    text-transform: lowercase;
+    word-break: break-word;
+    margin: 80px 0 10px;
+}
+
+.account-email {
+    font-family: var(--font-interstate);
+    font-size: 14px;
     color: var(--beige);
-    display: flex;
+    margin: 0 0 40px;
 }
 
-.leave-link{
-    border: 1px solid var(--orange);
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 220px;
+    margin: 24px 0
+}
+
+.btn-edit,
+.btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
     font-family: var(--font-sunantwerpen-regular);
     font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+    
+}
+
+.btn-edit {
+    background: var(--orange);
+    color: var(--beige);
+    border: none;
+}
+
+.btn-logout {
+    background: transparent;
     color: var(--orange);
+    border: 3px solid var(--orange);
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.account-bars {
+    background: var(--beige);
+    padding-bottom: 8px;
+    padding-top: 8px;
+    margin: 2rem 0 0 0;
+
+}
+
+.bars-tabs {
     display: flex;
-    margin-top: 16px;
+    /* margin-bottom: 8px; */
+    margin: 24px;
+    /* padding-top: 32px; */
+    background: var(--light-green);
+    border: 3px solid var(--bar-brown);
 }
 
-.contact-mail{
-    font-family: var(--font-sunantwerpen-regular);
-    font-size: 16px;
-    color: var(--white);
-    background-color: var(--orange);
+/* .bars-tabs button{
+    margin-top: 32px;
+} */
+
+.tab {
+    flex: 1;
+    padding: 12px 16px;
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    /* background: var(--light-green);
+    color: var(--bar-brown); */
+    color: var(--bar-brown);
+        background-color: var(--light-green);
+    
 }
 
-.mail-link {
+.tab--active {
+    /* background: var(--bar-brown);
+    color: var(--light-green); */
+    
+    background-color: var(--bar-brown);
+        color: var(--light-green);
+        border: 3px solid var(--light-green);
+   
+    font-weight: 700;
+}
+
+.bars-list {
+    list-style: none;
+    /* padding: 0 24px; */
+    margin: 0 24px;
+}
+
+.bar-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    gap: 12px;
+}
+
+.bar-name {
+    font-family: var(--font-interstate);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
+    margin: 0 0 4px;
+}
+
+.bar-location {
+    font-family: var(--font-interstate);
+    font-size: 13px;
+    color: var(--pink);
+    margin: 0;
+}
+
+.location-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.bar-actions {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-interstate);
-    color: var(--black);
+    flex-shrink: 0;
+}
+
+.heart-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.btn-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--orange);
     text-decoration: none;
+    flex-shrink: 0;
 }
 
-.mail-link .icon {
-    width: 18px;
-    height: 18px;
+.arrow-icon {
+    width: 16px;
+    height: 16px;
 }
 
-.account-footer{
-    background-image: url("/src/assets/account_footer_bg.svg");
-    background-repeat: no-repeat;
-    background-position: bottom;
-    min-height: 100%;
+.btn-view-spot {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border: 3px solid var(--orange);
+    color: var(--orange);
+    padding: 8px 12px;
+    font-family: var(--font-interstate);
+    font-size: 13px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.bars-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.see-more,
+.see-less {
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--black);
+}
+
+.see-more:disabled {
+    color: #bbb;
+    cursor: default;
+    text-decoration: underline;
+}
+
+.account-footer {
+    position: relative;
+    background: var(--dark-green);
+    padding: 40px 24px 60px;
+    min-height: 400px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.footer-content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    margin-left: 32px;
 }
 
 .account-footer h2 {
     font-family: var(--font-interstate);
-    font-size: 24px;
+    font-size: 22px;
+    font-weight: 700;
     color: var(--black);
+    margin: 0 0 4px;
 }
 
 .account-footer p {
     font-family: var(--font-interstate);
-    font-size: 16px;
+    font-size: 14px;
     color: var(--black);
+    margin: 0 0 20px;
 }
 
-.account-footer a {
-    font-family: var(--font-interstate);
-    font-size: 16px;
-    color: var(--black);
+.footer-contact {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--orange);
     text-decoration: none;
-    display: block;
-    margin-top: 8px;
+    flex-shrink: 0;
 }
 
-.account-footer__decoration {
-    width: 100px;
-    margin-top: 16px;
+.btn-contact img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
 }
 
+.footer-hand {
+    position: absolute;
+    top: 90px;
+    right: -90px;
+    width: 300px;
+    object-fit: contain;
+    z-index: 10;
+}

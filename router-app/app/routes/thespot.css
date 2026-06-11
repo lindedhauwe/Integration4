@@ -1,0 +1,100 @@
+.thespot-page {
+  background: var(--beige);
+  min-height: 100vh;
+  font-family: var(--font-interstate);
+  padding: 80px 24px 40px;
+}
+
+.thespot-back {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark-green);
+  padding: 0;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.thespot-notfound {
+  color: var(--bar-brown);
+}
+
+.thespot-hero {
+  margin-bottom: 20px;
+}
+
+.thespot-name {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 42px;
+  line-height: 1;
+  color: var(--dark-green);
+  margin: 0 0 8px;
+}
+
+.thespot-address {
+  font-size: 15px;
+  color: var(--bar-brown);
+  margin: 0;
+}
+
+.thespot-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--dark-green);
+  margin: 0 0 20px;
+}
+
+.thespot-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.thespot-tag {
+  background: var(--light-green);
+  color: var(--dark-green);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+}
+
+.thespot-recs__title {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 28px;
+  color: var(--orange);
+  margin: 0 0 16px;
+}
+
+.thespot-rec-card {
+  background: var(--dark-green);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.thespot-rec-card__photo {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+}
+
+.thespot-rec-card__body {
+  padding: 14px 16px 16px;
+}
+
+.thespot-rec-card__author {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--light-green);
+  margin: 0 0 6px;
+}
+
+.thespot-rec-card__text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--beige);
+  margin: 0;
+}

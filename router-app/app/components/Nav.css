@@ -1,17 +1,38 @@
 .nav-header {
-    width: 100%;
-    padding-top: 20px;
-    display: flex;
-    justify-content: flex-end;
     position: fixed;
-    top: 0;
+    top: -1px;
+    right: -1px;
+    width: 72px;
+    height: 72px;
     z-index: 1000;
 }
 
-.hamburger-icon {
-    width: 32px;
-    height: 44px;
+.hamburger-btn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.hamburger-icon {
+    position: relative;
+    margin: 3px 0 0 3px;
+    width: 44px;
+    height: 44px;
 }
 
 .menu-overlay {

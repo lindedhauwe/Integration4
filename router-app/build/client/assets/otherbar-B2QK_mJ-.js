@@ -1,1 +1,0 @@
-import{N as e,t}from"./jsx-runtime-SojbN6cb.js";import{t as n}from"./PhotoDropzone-DMRt9mFt.js";var r=t(),i=e(function(){return(0,r.jsxs)(`aside`,{className:`other-bar`,children:[(0,r.jsx)(`h2`,{children:`Other Bar`}),(0,r.jsx)(n,{})]})});export{i as default};
