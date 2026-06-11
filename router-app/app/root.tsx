@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./styles/index.css"; 
 import Nav from "~/components/Nav";
+import Footer from "~/components/Footer";
 import { useLocation } from "react-router";
 
 export const links: Route.LinksFunction = () => [
@@ -46,14 +47,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const location = useLocation();
 
-  const hiddenNavRoutes = [
-    "/storytelling"
+  const hiddenRoutes = [
+    "/storytelling",
+    "/beerloading",
   ];
+
+  const hideUI = hiddenRoutes.includes(location.pathname);
 
   return (
     <>
-      {!hiddenNavRoutes.includes(location.pathname) && <Nav />}
+      {!hideUI && <Nav />}
       <Outlet />
+      {!hideUI && <Footer />}
     </>
   );
 }
