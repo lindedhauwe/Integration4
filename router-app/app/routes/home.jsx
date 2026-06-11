@@ -256,24 +256,25 @@ export default function Home() {
           )}
 
           {media.length > 1 && (
-            <div className="home-card__dots">
-              {media.map((_, i) => (
-                <span
-                  key={i}
-                  className={`home-card__dot ${i === mediaIndex ? "home-card__dot--active" : ""}`}
-                  onClick={() => setMediaIndex(i)}
-                />
-              ))}
-            </div>
+            <>
+              <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>
+                <img src={arrowRight} alt="prev" className="home-card__arrow-icon home-card__arrow-icon--flip" />
+              </button>
+              <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>
+                <img src={arrowRight} alt="next" className="home-card__arrow-icon" />
+              </button>
+              <div className="home-card__dots">
+                {media.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`home-card__dot ${i === mediaIndex ? "home-card__dot--active" : ""}`}
+                    onClick={() => setMediaIndex(i)}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </div>
-
-        {media.length > 1 && (
-          <>
-            <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>‹</button>
-            <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>›</button>
-          </>
-        )}
 
         {/* body */}
         <div className="home-card__body">
