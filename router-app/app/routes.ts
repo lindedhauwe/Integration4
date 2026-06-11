@@ -33,4 +33,7 @@ export default [
 
   // BEER LOADING
   route("/beerloading", "./routes/beerloading.jsx"),
+
+  // STORYTELLING
+  route("/storytelling", "./routes/storytelling.jsx"),
 ];

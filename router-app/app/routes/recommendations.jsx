@@ -22,6 +22,7 @@ export async function clientAction({ request }) {
   const city = formData.get("city");
   const description = formData.get("description");
   const location = formData.get("location");
+  const cafe_name = formData.get("cafe_name");
   const vibe = JSON.parse(formData.get("vibe") || "[]");
   const type = JSON.parse(formData.get("type") || "[]");
   const photo_url = formData.get("photo_url");
@@ -32,6 +33,7 @@ export async function clientAction({ request }) {
     city,
     description,
     location: location || null,
+    cafe_name: cafe_name || null,
     vibe_tags: vibe,
     type_tags: type,
     photo_url,
@@ -59,6 +61,7 @@ export default function Recommendations() {
   const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [cafeName, setCafeName] = useState("");
 
   const [vibe, setVibe] = useState([]);
   const [type, setType] = useState([]);
@@ -66,6 +69,7 @@ export default function Recommendations() {
   const [submitted, setSubmitted] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [dropzoneKey, setDropzoneKey] = useState(0);
 
   const formRef = useRef(null);
 
@@ -74,11 +78,13 @@ export default function Recommendations() {
     setCity("");
     setDescription("");
     setLocation("");
+    setCafeName("");
     setAge("");
     setVibe([]);
     setType([]);
     setUploadedMedia([]);
     setSubmitted(false);
+    setDropzoneKey((k) => k + 1);
   }
 
   useEffect(() => {
@@ -113,6 +119,8 @@ export default function Recommendations() {
     "cocktailBar",
     "pub",
     "rooftopBar",
+    "wineBar",
+    "musicBar",
   ];
 
   function FieldError({ msg }) {
@@ -198,10 +206,17 @@ export default function Recommendations() {
           }}
         >
           {actionData?.error && <p className="error">Error: {actionData.error}</p>}
-          {actionData?.success && <p className="success">Saved!</p>}
 
           {mode === "another" && (
             <>
+              <label>Name of the bar*</label>
+              <input
+                name="cafe_name"
+                placeholder="e.g Café Beveren"
+                value={cafeName}
+                onChange={(e) => setCafeName(e.target.value)}
+              />
+
               <label>Select the location*</label>
               <input
                 name="location"
@@ -215,7 +230,7 @@ export default function Recommendations() {
           )}
 
           <p className="section-title">Share the vibe</p>
-          <PhotoDropzone onUpload={setUploadedMedia} />
+          <PhotoDropzone key={dropzoneKey} onUpload={setUploadedMedia} />
 
           <label>Your first name*</label>
           <input

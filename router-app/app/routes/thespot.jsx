@@ -22,6 +22,7 @@ export async function clientLoader({ request }) {
 
   return { cafe: cafe || null, recs: recs || [] };
 }
+clientLoader.hydrate = true;
 
 export default function TheSpot() {
   const { cafe, recs } = useLoaderData();
