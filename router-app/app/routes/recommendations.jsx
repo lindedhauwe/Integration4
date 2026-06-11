@@ -204,7 +204,6 @@ export default function Recommendations() {
           }}
         >
           {actionData?.error && <p className="error">Error: {actionData.error}</p>}
-          {actionData?.success && <p className="success">Saved!</p>}
 
           {mode === "another" && (
             <>
