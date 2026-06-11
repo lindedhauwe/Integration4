@@ -177,15 +177,14 @@
 }
 
 .home-card__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.45);
+  width: 10px;
+  height: 10px;
+  background: var(--beige);
   cursor: pointer;
 }
 
 .home-card__dot--active {
-  background: var(--beige);
+  background: var(--light-green);
 }
 
 /* body */
