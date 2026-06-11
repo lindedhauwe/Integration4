@@ -1,22 +1,50 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { supabase } from "../supabase";
+import "./createprofile.css";
+import typewriterImg from "../assets/typewriter.png";
+import loginVierkant from "../assets/square-login-top.svg";
+import arrowRight from "../assets/arrow-right.svg";
+import eyeOpen from "../assets/eyeopen.svg";
+import eyeClosed from "../assets/eyeclosed.svg";
+import errorIcon from "../assets/icons/error.svg";
 
 export default function CreateProfile() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirm, setConfirm] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [serverError, setServerError] = useState(null);
 
     const navigate = useNavigate();
 
+    const errors = submitted ? {
+        username: !username.trim() ? "Please fill in a username" : null,
+        email: !email.trim() ? "Please fill in your email" : null,
+        password: !password.trim() ? "Please fill in a password" : password.length < 8 ? "Password must be at least 8 characters" : null,
+        confirm: !confirm.trim() ? "Please confirm your password" : confirm !== password ? "Passwords do not match" : null,
+    } : {};
+
+    function FieldError({ msg }) {
+        if (!msg) return null;
+        return (
+            <span className="field-error">
+                <img src={errorIcon} alt="" className="field-error__icon" />
+                {msg}
+            </span>
+        );
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
+        setSubmitted(true);
+        setServerError(null);
 
-        if (password !== confirm) {
-            alert("Passwords do not match");
-            return;
-        }
+        if (!username.trim() || !email.trim() || !password.trim() || !confirm.trim()) return;
+        if (password.length < 8) return;
+        if (password !== confirm) return;
 
         const { data, error } = await supabase
             .from("users")
@@ -25,71 +53,103 @@ export default function CreateProfile() {
             .single();
 
         if (error) {
-            alert("Er ging iets mis: " + error.message);
+            setServerError("Er ging iets mis: " + error.message);
             return;
         }
 
-        // user opslaan zodat Account.jsx weet wie is ingelogd
         localStorage.setItem("user", JSON.stringify(data));
-
         navigate("/account");
     }
 
     return (
-        <>
-            <header>
-                <h1>Create Profile</h1>
-            </header>
+        <div className="createprofile-page">
+            <div className="createprofile-deco">
+                <img src={loginVierkant} alt="" className="createprofile-vierkant" />
+                <img src={typewriterImg} alt="" className="createprofile-typewriter" />
+            </div>
 
-            <main className="auth-page">
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Username
+            <h1 className="createprofile-title">Create Profile</h1>
+
+            <main className="createprofile-main">
+                <form onSubmit={handleSubmit} className="createprofile-form">
+                    {serverError && (
+                        <span className="field-error field-error--server">
+                            <img src={errorIcon} alt="" className="field-error__icon" />
+                            {serverError}
+                        </span>
+                    )}
+
+                    <div className="form-group">
+                        <label className="form-label">Username</label>
                         <input
+                            className={`form-input ${errors.username ? "input-error" : ""}`}
                             type="text"
-                            placeholder="e.g. anna_michiels"
+                            placeholder="e.g anna_michiels"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                    </label>
+                        <FieldError msg={errors.username} />
+                    </div>
 
-                    <label>
-                        Email
+                    <div className="form-group">
+                        <label className="form-label">Email</label>
                         <input
+                            className={`form-input ${errors.email ? "input-error" : ""}`}
                             type="email"
-                            placeholder="e.g. anna.michiels@gmail.be"
+                            placeholder="e.g anna.michiels@gmail.be"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </label>
+                        <FieldError msg={errors.email} />
+                    </div>
 
-                    <label>
-                        Password
-                        <input
-                            type="password"
-                            placeholder="********"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </label>
+                    <div className="form-group">
+                        <label className="form-label">
+                            Password
+                            <span className="form-label__hint">(Minimum 8 characters)</span>
+                        </label>
+                        <div className="input-wrapper">
+                            <input
+                                className={`form-input ${errors.password ? "input-error" : ""}`}
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className="toggle-pw"
+                                onClick={() => setShowPassword((p) => !p)}
+                                aria-label="Toggle password visibility"
+                            >
+                                {showPassword ? (
+                                    <img src={eyeOpen} alt="Show password" />
+                                ) : (
+                                    <img src={eyeClosed} alt="Hide password" />
+                                )}
+                            </button>
+                        </div>
+                        <FieldError msg={errors.password} />
+                    </div>
 
-                    <label>
-                        Confirm password
+                    <div className="form-group">
+                        <label className="form-label">Confirm Password</label>
                         <input
+                            className={`form-input ${errors.confirm ? "input-error" : ""}`}
                             type="password"
-                            placeholder="********"
                             value={confirm}
                             onChange={(e) => setConfirm(e.target.value)}
                         />
-                    </label>
+                        <FieldError msg={errors.confirm} />
+                    </div>
 
-                    <button type="submit">Join the community</button>
+                    <button type="submit" className="btn-createprofile">Join the community</button>
                 </form>
 
-                <Link to="/login" className="auth-link">
-                    I already have an account →
+                <Link to="/login" className="login-link">
+                    <img src={arrowRight} alt="" className="login-arrow" />
+                    Already have an account?
                 </Link>
             </main>
-        </>
+        </div>
     );
 }
