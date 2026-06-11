@@ -13,7 +13,7 @@ import waterImg from "../assets/scrollytelling/story/water.svg";
 import smallWaterImg from "../assets/scrollytelling/story/small-water-part.svg";
 import roadImg from "../assets/scrollytelling/story/road.svg";
 import buildingsImg from "../assets/scrollytelling/story/buildings.png";
-import pubsImg from "../assets/scrollytelling/story/Pubs.png";
+import pubsImg from "../assets/scrollytelling/story/pubs.png";
 import marketImg from "../assets/scrollytelling/story/market.png";
 import masImg from "../assets/scrollytelling/story/mas.png";
 import havenhuisImg from "../assets/scrollytelling/story/havenhuis.png";
