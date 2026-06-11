@@ -5,9 +5,10 @@
 
 .deco-keys {
     position: absolute;
-    top: -5px;
-    left: 0px;
+    top: -40px;
+    left: -50px;
     width: 200px;
+    transform: rotate(-35deg);
     z-index: 2;
     pointer-events: none;
 }

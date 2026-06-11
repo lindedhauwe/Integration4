@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./storytelling.css";
+import bgNav from "~/assets/bg-nav.svg";
+import closeIcon from "~/assets/close.svg";
 
 // ── Story layer assets ──────────────────────────────────────────────────────
 import steenImg from "../assets/scrollytelling/story/steen.png"
@@ -11,7 +13,7 @@ import waterImg from "../assets/scrollytelling/story/water.svg";
 import smallWaterImg from "../assets/scrollytelling/story/small-water-part.svg";
 import roadImg from "../assets/scrollytelling/story/road.svg";
 import buildingsImg from "../assets/scrollytelling/story/buildings.png";
-import pubsImg from "../assets/scrollytelling/story/Pubs.png";
+import pubsImg from "../assets/scrollytelling/story/pubs.png";
 import marketImg from "../assets/scrollytelling/story/market.png";
 import masImg from "../assets/scrollytelling/story/mas.png";
 import havenhuisImg from "../assets/scrollytelling/story/havenhuis.png";
@@ -311,7 +313,8 @@ export default function Storytelling() {
                             <h2 className="modal__title">{modal.title}</h2>
                             <p className="modal__text">{modal.body}</p>
                             <button className="modal__cta close-btn" onClick={closeModal}>
-                                Continue the story
+                                <img src={bgNav} alt="" className="close-bg" />
+                                <img src={closeIcon} alt="sluit menu" className="close-icon" />
                             </button>
                         </div>
                     </div>
