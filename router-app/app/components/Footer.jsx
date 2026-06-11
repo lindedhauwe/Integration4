@@ -5,6 +5,19 @@ import mailIcon from "../assets/mail.svg";
 import phoneIcon from "../assets/phone.svg";
 import shareIcon from "../assets/icons/iconupload.svg";
 
+async function handleShare() {
+  if (navigator.share) {
+    await navigator.share({
+      title: "Antwerp On Tap",
+      text: "Taste it, experience it, share it.",
+      url: window.location.origin,
+    });
+  } else {
+    await navigator.clipboard.writeText(window.location.origin);
+    alert("Link gekopieerd!");
+  }
+}
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -19,13 +32,13 @@ export default function Footer() {
         </div>
 
         <div className="footer__actions">
-          <a href="mailto:info@antwerpontap.be" className="footer__btn">
+          <a href="mailto:info@visitantwerpen.be" className="footer__btn">
             <img src={mailIcon} alt="mail" />
           </a>
-          <a href="tel:+3200000000" className="footer__btn">
+          <a href="tel:+3222113333" className="footer__btn">
             <img src={phoneIcon} alt="phone" />
           </a>
-          <button className="footer__btn">
+          <button className="footer__btn" onClick={handleShare}>
             <img src={shareIcon} alt="share" />
           </button>
         </div>
