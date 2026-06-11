@@ -1,1 +1,0 @@
-import{N as e,t}from"./jsx-runtime-SojbN6cb.js";var n=t(),r=e(function(){return(0,n.jsx)(`h1`,{children:`The Spot`})});export{r as default};

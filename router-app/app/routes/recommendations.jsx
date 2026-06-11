@@ -47,6 +47,11 @@ export default function Recommendations() {
   const submit = useSubmit();
   const navigate = useNavigate();
 
+  const currentCafe = (() => {
+    try { return JSON.parse(sessionStorage.getItem("current_cafe") || "null"); }
+    catch { return null; }
+  })();
+
   const [mode, setMode] = useState("current");
   const [uploadedMedia, setUploadedMedia] = useState([]);
 
@@ -149,8 +154,8 @@ export default function Recommendations() {
           <>
             <div className="hero">
               <p className="small">You're currently at...</p>
-              <h1>Café Beveren</h1>
-              <div className="location">📍 Vlasmarkt 2, Antwerp</div>
+              <h1>{currentCafe?.name || "Onbekend café"}</h1>
+              <div className="location">📍 {currentCafe?.adress || ""}</div>
             </div>
             <div className="intro">
               <h2>Capture the moment</h2>
