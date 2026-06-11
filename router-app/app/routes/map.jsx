@@ -5,7 +5,12 @@ import swirlMapPage from '../assets/images/swirlMapPage.png';
 import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
 import shareIcon from '../assets/icons/iconupload.svg';
+import fullHeart from '../assets/icons/fullheart.svg';
 
+import coasterPink from '../assets/icons/coasterPink.png';
+import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
+import coasterBrown from '../assets/icons/coasterBrown.png';
+import coasterBrownHeart from '../assets/icons/coasterBrownHeart.png';
 import coasterGrey from '../assets/icons/coasterGrey.png';
 import coasterGreyHeart from '../assets/icons/coasterGrayHeart.png';
 
@@ -46,8 +51,12 @@ function getMapSpots() {
 }
 
 const ICON_MAP = {
-    rec:      coasterGrey,
-    recLiked: coasterGreyHeart,
+    current:      coasterPink,
+    currentLiked: coasterPinkHeart,
+    visited:      coasterBrown,
+    visitedLiked: coasterBrownHeart,
+    rec:          coasterGrey,
+    recLiked:     coasterGreyHeart,
 };
 
 
@@ -140,11 +149,19 @@ export default function Map() {
                 </div>
                 <div className="map-bottom__legend">
                     <div className="map-legend-item">
-                        <img src={coasterGrey} alt="" />
-                        <span>café</span>
+                        <img src={coasterBrown} alt="" />
+                        <span>visited</span>
                     </div>
                     <div className="map-legend-item">
-                        <img src={coasterGreyHeart} alt="" />
+                        <img src={coasterPink} alt="" />
+                        <span>currently</span>
+                    </div>
+                    <div className="map-legend-item">
+                        <img src={coasterGrey} alt="" />
+                        <span>your rec</span>
+                    </div>
+                    <div className="map-legend-item">
+                        <img src={fullHeart} alt="" className="map-legend-item__heart" />
                         <span>liked</span>
                     </div>
                 </div>
