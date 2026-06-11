@@ -169,7 +169,7 @@
 /* dots */
 .home-card__dots {
   position: absolute;
-  bottom: 8px;
+  bottom: 52px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
