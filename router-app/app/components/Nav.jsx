@@ -12,12 +12,10 @@ export default function Nav() {
   return (
     <>
       <header className="nav-header">
-        <img
-          src={hamburger}
-          alt="menu"
-          className="hamburger-icon"
-          onClick={() => setOpen(true)}
-        />
+        <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="open menu">
+          <img src={bgNav} alt="" className="hamburger-bg" />
+          <img src={hamburger} alt="" className="hamburger-icon" />
+        </button>
       </header>
 
       {open && (
