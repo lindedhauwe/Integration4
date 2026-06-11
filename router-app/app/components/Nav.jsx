@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import hamburger from "~/assets/hamburgermenu.svg";
+import hamburgerBeige from "~/assets/hamburgermenu-beige.svg";
 import bgNav from "~/assets/bg-nav.svg";
+import bgNavOrange from "~/assets/bg-nav-orange.svg";
 import closeIcon from "~/assets/close.svg";
 import playIcon from "~/assets/play-icon.svg";
 import "./Nav.css";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const hamburgerBg = pathname === "/" ? bgNavOrange : bgNav;
+  const hamburgerIcon = pathname === "/" ? hamburgerBeige : hamburger;
 
   return (
     <>
       <header className="nav-header">
         <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="open menu">
-          <img src={bgNav} alt="" className="hamburger-bg" />
-          <img src={hamburger} alt="" className="hamburger-icon" />
+          <img src={hamburgerBg} alt="" className="hamburger-bg" />
+          <img src={hamburgerIcon} alt="" className="hamburger-icon" />
         </button>
       </header>
 
