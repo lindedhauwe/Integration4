@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useState } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
+import Footer from "../components/Footer";
 
 import locationPin from "../assets/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";
@@ -287,6 +288,7 @@ export default function Home() {
       </div>
 
     </div>
+    <Footer />
     </>
   );
 }
