@@ -138,34 +138,28 @@
   background: #3a5e4e;
 }
 
-/* carousel arrows */
+/* carousel arrows — gepositioneerd op de card zelf, buiten overflow:hidden photo-wrap */
 .home-card__arrow {
   position: absolute;
-  top: 50%;
+  top: calc(((100vw - 40px) * 0.75) / 2);
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--orange);
   border: none;
   cursor: pointer;
-  padding: 8px 10px;
-  border-radius: 6px;
-  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
 }
 
-.home-card__arrow--left  { left: 8px; }
-.home-card__arrow--right { right: 8px; }
-
-.home-card__arrow-icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
-}
-
-.home-card__arrow-icon--flip {
-  transform: scaleX(-1);
-}
+.home-card__arrow--left  { left: -14px; }
+.home-card__arrow--right { right: -14px; }
 
 /* dots */
 .home-card__dots {
