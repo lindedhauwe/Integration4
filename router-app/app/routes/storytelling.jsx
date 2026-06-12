@@ -21,6 +21,7 @@ import langeWapperImg from "../assets/scrollytelling/story/lange-wapper.svg";
 import coupleImg from "../assets/scrollytelling/story/couple-steen.png";
 import duoStandingImg from "../assets/scrollytelling/story/duo-standing.png";
 import barrelGuysImg from "../assets/scrollytelling/story/barrel-guys.png";
+import barrelImg from "../assets/scrollytelling/story/barrel.png"
 import banjoPlayerImg from "../assets/scrollytelling/story/banjo-player.png";
 import contrabasImg from "../assets/scrollytelling/story/contrabas-player.png";
 import table01Img from "../assets/scrollytelling/story/table-cafe01.png";
@@ -100,6 +101,9 @@ export default function Storytelling() {
     const trackRef = useRef(null);
     const lockedScrollPos = useRef(null);
     const unlockedGates = useRef(new Set());
+    const langeWapperRef = useRef(null);
+    const wapperAnimated = useRef(false);
+    const wapperSway = useRef(null);
 
     const [activeModal, setActiveModal] = useState(null);
 
@@ -107,7 +111,15 @@ export default function Storytelling() {
     useEffect(() => {
         const wrapper = wrapperRef.current;
         const track = trackRef.current;
+        const el = langeWapperRef.current;
         const totalTravel = TRACK_WIDTH - window.innerWidth;
+
+        gsap.set(el, {
+            x: 30,
+            y: 0,
+            rotate: -10,
+            transformOrigin: "bottom center"
+        });
 
         const tween = gsap.to(track, {
             x: -totalTravel,
@@ -120,6 +132,28 @@ export default function Storytelling() {
                 scrub: 0.9,
                 anticipatePin: 1,
                 onUpdate(self) {
+                    if (!wapperAnimated.current && self.progress >= 0.09) {
+                        wapperAnimated.current = true;
+                        gsap.to(el, {
+                            x: 9,
+                            y: -3,
+                            rotate: -20,
+                            opacity: 1,
+                            duration: 0.85,
+                            ease: "back.out(1.7)",
+                            onComplete() {
+                                wapperSway.current = gsap.timeline({
+                                    repeat: -1
+                                });
+                                wapperSway.current
+                                    .to({}, { duration: 1 })
+                                    .to(el, { rotate: 0, x: 28, y: 2, duration: 0.9, ease: "back.inOut(0.5)" })
+                                    .to({}, { duration: 1 })
+                                    .to(el, { rotate: -20, x: 9, y: -3, duration: 1.5, ease: "back.out(1.4)" })
+                            },
+                        });
+                    }
+
                     if (lockedScrollPos.current !== null) return;
 
                     const currentX = self.progress * totalTravel;
@@ -147,6 +181,7 @@ export default function Storytelling() {
             tween.scrollTrigger?.kill();
             tween.kill();
             window.removeEventListener("scroll", onScroll);
+            wapperSway.current?.kill();
         };
     }, []);
 
@@ -215,46 +250,6 @@ export default function Storytelling() {
         };
     }, []);
 
-    // ── Ambient animations ────────────────────────────────────────────────────
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            // Birds — float up/down at slightly different rhythms
-            gsap.utils.toArray(".bird").forEach((el, i) => {
-                gsap.to(el, {
-                    y: i % 2 === 0 ? -16 : -10,
-                    duration: 2 + i * 0.5,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut",
-                });
-            });
-
-            // Boat — gentle bob + slight tilt
-            gsap.to(".boat", {
-                y: 8,
-                rotation: 1.5,
-                duration: 3.2,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-            });
-
-            // Trees — sway from base
-            gsap.utils.toArray(".tree").forEach((el, i) => {
-                gsap.to(el, {
-                    rotation: i % 2 === 0 ? 2.5 : -2.5,
-                    transformOrigin: "50% 100%",
-                    duration: 2.8 + i * 0.4,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut",
-                });
-            });
-        }, trackRef);
-
-        return () => ctx.revert();
-    }, []);
-
     // ── Modal handlers ────────────────────────────────────────────────────────
     const openModal = (id) => setActiveModal(id);
 
@@ -278,11 +273,13 @@ export default function Storytelling() {
               BACKGROUND LAYER  (z-index 1–3)
               Hills, sky elements, water, road
               ════════════════════════════════════════════════════════════════ */}
-                    <img src={hillsImg} className="asset hills" alt="" draggable="false" />
+                    {/* <img src={hillsImg} className="asset hills" alt="" draggable="false" />
                     <img src={sunImg} className="asset sun" alt="" draggable="false" />
                     <img src={waterImg} className="asset water" alt="" draggable="false" />
                     <img src={smallWaterImg} className="asset small-water" alt="" draggable="false" />
-                    <img src={roadImg} className="asset road" alt="" draggable="false" />
+                    <img src={roadImg} className="asset road" alt="" draggable="false" /> */}
+
+                    <h1 class="st-title">Antwerp</h1>
 
                     {/* ════════════════════════════════════════════════════════════════
               BUILDINGS & STRUCTURES LAYER  (z-index 5)
@@ -294,7 +291,7 @@ export default function Storytelling() {
                     <img src={masImg} className="asset mas" alt="" draggable="false" />
                     <img src={havenhuisImg} className="asset havenhuis" alt="" draggable="false" />
                     <img src={lightsImg} className="asset lights" alt="" draggable="false" />
-                    <img src={langeWapperImg} className="asset lange-wapper" alt="" draggable="false" />
+                    <img ref={langeWapperRef} src={langeWapperImg} className="asset lange-wapper lange-wapper--barrel" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
               CHARACTERS & PROPS LAYER  (z-index 7)
@@ -302,6 +299,7 @@ export default function Storytelling() {
                     <img src={coupleImg} className="asset couple-steen" alt="" draggable="false" />
                     <img src={duoStandingImg} className="asset duo-standing" alt="" draggable="false" />
                     <img src={barrelGuysImg} className="asset barrel-guys" alt="" draggable="false" />
+                    <img src={barrelImg} className="asset barrel" alt="" draggable="false" />
                     <img src={banjoPlayerImg} className="asset banjo-player" alt="" draggable="false" />
                     <img src={contrabasImg} className="asset contrabas-player" alt="" draggable="false" />
                     <img src={table01Img} className="asset table-cafe-01" alt="" draggable="false" />
@@ -311,11 +309,10 @@ export default function Storytelling() {
 
                     {/* ════════════════════════════════════════════════════════════════
               AMBIENT ANIMATION LAYER  (z-index 8)
-              Birds, boat, trees — animated via GSAP in useEffect
               ════════════════════════════════════════════════════════════════ */}
                     <img src={pigeons01Img} className="asset bird bird--01" alt="" draggable="false" />
                     <img src={pigeons02Img} className="asset bird bird--02" alt="" draggable="false" />
-                    <img src={seagullImg} className="asset bird bird--03" alt="" draggable="false" />
+                    <img src={seagullImg} className="asset seagull--01" alt="" draggable="false" />
                     <img src={boatImg} className="asset boat" alt="" draggable="false" />
                     <img src={tree01Img} className="asset tree tree--01" alt="" draggable="false" />
                     <img src={tree02Img} className="asset tree tree--02" alt="" draggable="false" />
