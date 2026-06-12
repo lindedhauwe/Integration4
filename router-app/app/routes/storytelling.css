@@ -72,7 +72,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   BUILDINGS & STRUCTURES  (z 5–6)
+   BUILDINGS & STRUCTURES
    ══════════════════════════════════════════════════════════════════════════ */
 .steen {
     left: 0px;
@@ -86,6 +86,43 @@
     left: 1700px;
     width: 1150px;
     z-index: 4;
+}
+
+.buildings {
+    width: 100%;
+}
+
+.maria-glow {
+    width: 65px;
+    mix-blend-mode: plus-lighter;
+}
+
+.maria-glow--1 {
+    bottom: 7rem;
+    left: 196px;
+}
+
+.maria-glow--2 {
+    bottom: 16rem;
+    left: 420px;
+    width: 71px;
+}
+
+.maria-glow--3 {
+    bottom: 7rem;
+    left: 631px;
+}
+
+.maria-glow--4 {
+    bottom: -8px;
+    left: -20px;
+    width: 81px;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.maria-glow--visible {
+    opacity: 1;
 }
 
 .market {
@@ -117,7 +154,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CHARACTERS & PROPS  (z 7)
+   CHARACTERS & PROPS
    ══════════════════════════════════════════════════════════════════════════ */
 .barrel {
     bottom: 11rem;
@@ -211,7 +248,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   AMBIENT ANIMATION ELEMENTS  (z 6–8)
+   AMBIENT ANIMATION ELEMENTS
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Birds */
@@ -259,6 +296,8 @@
     left: 1160px;
     width: 120px;
     z-index: 5;
+
+    animation: birdsFloating 3s ease-in-out infinite;
 }
 
 @keyframes birdHop {
@@ -390,7 +429,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   CHECKPOINT BUTTONS  (z 10)
+   CHECKPOINT BUTTONS
    ══════════════════════════════════════════════════════════════════════════ */
 .checkpoint {
     position: absolute;
@@ -472,8 +511,8 @@
 
 .checkpoint--maria .click-hint {
     position: absolute;
-    width: 30px;
-    top: -1rem;
+    width: 55px;
+    top: -3rem;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -528,7 +567,7 @@
     }
 }
 
-/* Decorative green square — top-left corner */
+/* Decorative green square */
 .modal__deco {
     position: absolute;
     top: -28px;
@@ -563,7 +602,6 @@
     display: block;
 }
 
-/* Optional app mockup overlaid on media */
 .modal__img--coaster {
     margin-top: -4.5rem;
     margin-left: -3.5rem;
@@ -676,7 +714,6 @@
     margin-bottom: 3rem;
 }
 
-/* ── Responsive: stack modal columns on small screens ── */
 @media (max-width: 580px) {
     .modal {
         grid-template-columns: 1fr;

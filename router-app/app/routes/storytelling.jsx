@@ -36,6 +36,7 @@ import boatImg from "../assets/scrollytelling/story/lange-wapper-boat.png";
 import tree01Img from "../assets/scrollytelling/story/tree01.png";
 import tree02Img from "../assets/scrollytelling/story/tree02.png";
 import clickImg from "../assets/scrollytelling/story/click.svg";
+import mariaGlowImg from "../assets/scrollytelling/story/maria-glow.png"
 
 // ── Checkpoint / interactive assets ────────────────────────────────────────
 import beerImg from "../assets/scrollytelling/story/beer.png";
@@ -104,18 +105,31 @@ export default function Storytelling() {
     const trackRef = useRef(null);
     const lockedScrollPos = useRef(null);
     const unlockedGates = useRef(new Set());
+
     const langeWapperBarrelRef = useRef(null);
+    const langeWapperAnimated = useRef(false);
+    const langeWapperSway = useRef(null);
+
     const langeWapperTableRef = useRef(null);
-    const wapperAnimated = useRef(false);
-    const wapperSway = useRef(null);
+    const langeWapperTableAnimated = useRef(false);
+    const langeWapperTableSway = useRef(null);
+    
+    const mariaGlowRef1 = useRef(null);
+    const mariaGlowRef2 = useRef(null);
+    const mariaGlowRef3 = useRef(null);
+    const mariaGlow1Animated = useRef(false);
+    const mariaGlow2Animated = useRef(false);
+    const mariaGlow3Animated = useRef(false);
 
     const [activeModal, setActiveModal] = useState(null);
+    const [mariaVisited, setMariaVisited] = useState(false);
 
     // ── Horizontal scroll + gate enforcement ─────────────────────────────────
     useEffect(() => {
         const wrapper = wrapperRef.current;
         const track = trackRef.current;
         const langeWapperBarrel = langeWapperBarrelRef.current;
+        const langeWapperTable = langeWapperTableRef.current;
         const totalTravel = TRACK_WIDTH - window.innerWidth;
 
         gsap.set(langeWapperBarrel, {
@@ -124,6 +138,17 @@ export default function Storytelling() {
             rotate: -10,
             transformOrigin: "bottom center"
         });
+
+        gsap.set(langeWapperTable, {
+            x: 0,
+            y: 80,
+            rotate: 15,
+            opacity: 0,
+            transformOrigin: "bottom center"
+        });
+
+        gsap.set([mariaGlowRef1.current, mariaGlowRef2.current, mariaGlowRef3.current], { opacity: 0 });
+
 
         const tween = gsap.to(track, {
             x: -totalTravel,
@@ -136,8 +161,8 @@ export default function Storytelling() {
                 scrub: 0.9,
                 anticipatePin: 1,
                 onUpdate(self) {
-                    if (!wapperAnimated.current && self.progress >= 0.09) {
-                        wapperAnimated.current = true;
+                    if (!langeWapperAnimated.current && self.progress >= 0.09) {
+                        langeWapperAnimated.current = true;
                         gsap.to(langeWapperBarrel, {
                             x: 9,
                             y: -3,
@@ -146,14 +171,64 @@ export default function Storytelling() {
                             duration: 0.85,
                             ease: "back.out(1.7)",
                             onComplete() {
-                                wapperSway.current = gsap.timeline({
+                                langeWapperSway.current = gsap.timeline({
                                     repeat: -1
                                 });
-                                wapperSway.current
+                                langeWapperSway.current
                                     .to({}, { duration: 1 })
                                     .to(langeWapperBarrel, { rotate: 0, x: 28, y: 2, duration: 0.9, ease: "back.inOut(0.5)" })
                                     .to({}, { duration: 1 })
                                     .to(langeWapperBarrel, { rotate: -20, x: 9, y: -3, duration: 1.5, ease: "back.out(1.4)" })
+                            },
+                        });
+                    }
+
+                    if (!langeWapperTableAnimated.current && self.progress >= 0.46) {
+                        langeWapperTableAnimated.current = true;
+                        gsap.to(langeWapperTable, {
+                            x: 6,
+                            y: 0,
+                            rotate: -7,
+                            opacity: 1,
+                            duration: 0.85,
+                            ease: "back.out(1.7)",
+                            onComplete() {
+                                langeWapperTableSway.current = gsap.timeline({ repeat: -1 });
+                                langeWapperTableSway.current
+                                    .to({}, { duration: 1.2 })
+                                    .to(langeWapperTable, { rotate: 10, x: 12, y: 4, duration: 1, ease: "back.inOut(0.5)" })
+                                    .to({}, { duration: 1.2 })
+                                    .to(langeWapperTable, { rotate: -7, x: 6, y: 0, duration: 1.5, ease: "back.out(1.4)" });
+                            },
+                        });
+                    }
+
+                    if (!mariaGlow1Animated.current && self.progress >= 0.40) {
+                        mariaGlow1Animated.current = true;
+                        gsap.to(mariaGlowRef1.current, {
+                            opacity: 1, duration: 1.5, ease: "power2.inOut",
+                            onComplete() {
+                                gsap.to(mariaGlowRef1.current, { opacity: 0.55, duration: 2, ease: "sine.inOut", repeat: -1, yoyo: true });
+                            },
+                        });
+                    }
+
+                    if (!mariaGlow2Animated.current && self.progress >= 0.47) {
+                        mariaGlow2Animated.current = true;
+                        gsap.to(mariaGlowRef2.current, {
+                            opacity: 1, duration: 1.5, ease: "power2.inOut",
+                            onComplete() {
+                                gsap.to(mariaGlowRef2.current, { opacity: 0.55, duration: 2.4, ease: "sine.inOut", repeat: -1, yoyo: true });
+                            },
+                        });
+                    }
+
+                    if (!mariaGlow3Animated.current && self.progress >= 0.52) {
+                        mariaGlow3Animated.current = true;
+                        gsap.to(mariaGlowRef3.current, {
+                            opacity: 1, duration: 1.5, ease: "power2.inOut",
+                            onComplete() {
+                                gsap.to(mariaGlowRef3.current, { opacity: 0.55, duration: 1.6, ease: "sine.inOut", repeat: -1, yoyo: true });
                             },
                         });
                     }
@@ -185,7 +260,8 @@ export default function Storytelling() {
             tween.scrollTrigger?.kill();
             tween.kill();
             window.removeEventListener("scroll", onScroll);
-            wapperSway.current?.kill();
+            langeWapperSway.current?.kill();
+            langeWapperTableSway.current?.kill();
         };
     }, []);
 
@@ -280,7 +356,12 @@ export default function Storytelling() {
 
 
                     <img src={steenImg} className="asset steen" alt="" draggable="false" />
-                    <img src={pubsImg} className="asset pubs" alt="" draggable="false" />
+                    <div className="asset pubs">
+                        <img src={pubsImg} className="buildings" alt="" draggable="false" />
+                        <img ref={mariaGlowRef1} src={mariaGlowImg} class="asset maria-glow maria-glow--1" alt=""></img>
+                        <img ref={mariaGlowRef2} src={mariaGlowImg} class="asset maria-glow maria-glow--2" alt=""></img>
+                        <img ref={mariaGlowRef3} src={mariaGlowImg} class="asset maria-glow maria-glow--3" alt=""></img>
+                    </div>
                     <img src={marketImg} className="asset market" alt="" draggable="false" />
                     <img src={masImg} className="asset mas" alt="" draggable="false" />
                     <img src={havenhuisImg} className="asset havenhuis" alt="" draggable="false" />
@@ -334,11 +415,12 @@ export default function Storytelling() {
 
                     <button
                         className="checkpoint checkpoint--maria"
-                        onClick={() => openModal("maria")}
+                        onClick={() => { openModal("maria"); setMariaVisited(true); }}
                         aria-label="Interact: Maria statue"
                     >
                         <img src={clickImg} className="click-hint" alt="" />
                         <img src={mariaImg} className="image" alt="Maria statue" />
+                        <img src={mariaGlowImg} className={`asset maria-glow maria-glow--4${mariaVisited ? " maria-glow--visible" : ""}`} alt="" />
                     </button>
 
                     <button
