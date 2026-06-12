@@ -164,14 +164,672 @@ body:has(.map-page) {
     color: var(--beige);
 }
 
-/* leaflet popup */
-.leaflet-popup-content-wrapper {
-    background: var(--bar-brown);
-    color: var(--beige);
-    border-radius: 0;
-    box-shadow: none;
+/* ── FULL-SCREEN PIN PANEL ── */
+.mpp {
+    position: absolute;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.leaflet-popup-tip {
+/* Header — zelfde als map-header maar uitgebreid voor bar-info */
+.mpp__header {
+    position: relative;
+    height: 180px;
+    flex-shrink: 0;
+}
+
+.mpp__header-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.mpp__header-swirl {
+    position: relative;
+    z-index: 2;
+    width: 40%;
+    height: auto;
+    flex-shrink: 0;
+    margin-top: -4rem;
+    left: -4rem;
+}
+
+.mpp__header-title {
+    position: absolute;
+    left: 50%;
+    top: 28%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-family: var(--font-antwerpen-regular);
+    font-size: 32px;
+    color: var(--beige);
+    white-space: nowrap;
+    margin: 0;
+}
+
+/* Sluit knop: beige cirkel, oranje X */
+.mpp__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1300;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--beige);
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--orange);
+    font-family: var(--font-interstate);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* Bar info: absolute in header, linksonder */
+.mpp__bar-info {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 60px;
+    z-index: 2;
+}
+
+.mpp__name-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.mpp__bar-name {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 30px;
+    color: var(--light-green);
+    line-height: 1;
+    margin: 0 0 8px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+}
+
+.mpp__heart {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    object-fit: contain;
+}
+
+.mpp__location {
+    background: var(--pink);
+    color: var(--white);
+    padding: 5px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-interstate);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.mpp__location img {
+    width: 13px;
+    height: 13px;
+    filter: brightness(0) invert(1);
+}
+
+/* Body: vult resterende ruimte, blob gecentreerd */
+.mpp__body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0 96px;
+    overflow: hidden;
+}
+
+/* Blob wrapper — ZELFDE hoogte als breedte (cirkel fix) */
+.mpp__blob-wrap {
+    position: relative;
+    width: 88vw;
+    height: 88vw;
+    max-width: 350px;
+    max-height: 350px;
+    flex-shrink: 0;
+}
+
+/* De beige cirkel */
+.mpp__blob {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--beige);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Story inhoud */
+.mpp__story {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20% 24%;
+    width: 100%;
+    height: 100%;
+}
+
+.mpp__quotes {
+    font-size: 30px;
+    color: var(--pink);
+    font-family: Georgia, serif;
+    letter-spacing: -5px;
+    line-height: 1;
+}
+
+.mpp__desc {
+    font-family: var(--font-interstate);
+    font-size: 12.5px;
+    color: var(--black);
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+}
+
+/* Kleine thumb linksonder cirkel */
+.mpp__thumb-wrap {
+    position: absolute;
+    bottom: 8%;
+    left: 8%;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid white;
+    cursor: pointer;
     background: var(--bar-brown);
+    padding: 0;
+}
+
+.mpp__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Volle foto */
+.mpp__photo-full {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mpp__no-photo {
+    width: 100%;
+    height: 100%;
+    background: var(--bar-brown);
+    opacity: 0.25;
+}
+
+/* Pijlen (photo view, links/rechts van cirkel) */
+.mpp__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    background: var(--dark-green);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 0;
+}
+
+.mpp__arrow--left  { left: -17px; }
+.mpp__arrow--right { right: -17px; }
+
+.mpp__arrow-icon { width: 14px; height: 14px; filter: brightness(0) invert(1); }
+.mpp__arrow-icon--flip { transform: rotate(180deg); }
+
+/* Carousel dots */
+.mpp__dots {
+    position: absolute;
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.mpp__dot {
+    width: 9px;
+    height: 9px;
+    background: rgba(255,255,255,0.5);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0;
+}
+
+.mpp__dot--active {
+    background: var(--pink);
+}
+
+/* Geen aanbeveling */
+.mpp__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 14% 18%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.mpp__empty-text {
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 13px;
+    color: var(--orange);
+    line-height: 1.5;
+}
+
+.mpp__add-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    font-size: 46px;
+    font-family: var(--font-interstate);
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0.85;
+    padding-bottom: 4px;
+}
+
+/* Flip knop */
+.mpp__flip {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    z-index: 1200;
+}
+
+.mpp__flip img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+}
+
+/* ── CURRENT LOCATION TOAST ── */
+.map-toast {
+    position: absolute;
+    top: 120px;
+    left: 20px;
+    right: 20px;
+    z-index: 1100;
+    background: var(--dark-green);
+    color: var(--beige);
+    padding: 16px 20px;
+    text-align: center;
+}
+
+.map-toast__label {
+    font-family: var(--font-interstate);
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 4px;
+}
+
+.map-toast__name {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 22px;
+    color: var(--light-green);
+    line-height: 1;
+}
+
+.map-toast__adress {
+    font-family: var(--font-interstate);
+    font-size: 12px;
+    margin-top: 4px;
+    opacity: 0.7;
+}
+
+/* ── FULL-SCREEN PIN PANEL ── */
+.mpp {
+    position: absolute;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header (same design as map header) */
+.mpp__header {
+    position: relative;
+    height: 110px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.mpp__header-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 120%;
+    object-fit: fill;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.mpp__header-swirl {
+    position: relative;
+    z-index: 2;
+    width: 40%;
+    height: auto;
+    flex-shrink: 0;
+    margin-top: -4rem;
+    left: -4rem;
+}
+
+.mpp__header-title {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-family: var(--font-antwerpen-regular);
+    font-size: 32px;
+    color: var(--beige);
+    white-space: nowrap;
+    margin: 0;
+}
+
+.mpp__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1300;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.mpp__close img {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) invert(1);
+}
+
+/* Body — sits over the map (transparent bg, map shows through) */
+.mpp__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px 100px;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.mpp__heart {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.mpp__bar-name {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 30px;
+    color: var(--light-green);
+    text-align: center;
+    line-height: 1;
+    margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.mpp__location {
+    background: var(--pink);
+    color: var(--white);
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-interstate);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.mpp__location img {
+    width: 13px;
+    height: 13px;
+    filter: brightness(0) invert(1);
+}
+
+/* ── BLOB ── */
+.mpp__blob-wrap {
+    position: relative;
+    width: 88vw;
+    max-width: 360px;
+    margin-top: 6px;
+}
+
+.mpp__blob {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--beige);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Story view */
+.mpp__story {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22% 24%;
+    width: 100%;
+    height: 100%;
+}
+
+.mpp__quotes {
+    font-size: 30px;
+    color: var(--pink);
+    line-height: 1;
+    font-family: Georgia, serif;
+    letter-spacing: -4px;
+}
+
+.mpp__desc {
+    font-family: var(--font-interstate);
+    font-size: 12.5px;
+    color: var(--black);
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+}
+
+/* Small photo thumb (story view, bottom-left of blob) */
+.mpp__thumb-wrap {
+    position: absolute;
+    bottom: 9%;
+    left: 9%;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--beige);
+    background: var(--bar-brown);
+    cursor: pointer;
+    padding: 0;
+}
+
+.mpp__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Full photo view */
+.mpp__photo-full {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mpp__photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--bar-brown);
+    opacity: 0.3;
+}
+
+/* Carousel dots */
+.mpp__dots {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.mpp__dot {
+    width: 9px;
+    height: 9px;
+    background: var(--beige);
+    opacity: 0.45;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0;
+}
+
+.mpp__dot--active {
+    opacity: 1;
+}
+
+/* No recommendation state */
+.mpp__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 16% 20%;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.mpp__empty-text {
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 13px;
+    color: var(--orange);
+    line-height: 1.5;
+}
+
+.mpp__add-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    font-size: 44px;
+    font-family: var(--font-interstate);
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0.9;
+    padding-bottom: 4px;
+}
+
+/* Flip button (fixed to bottom, orange) */
+.mpp__flip {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 12px 22px;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    z-index: 1200;
+}
+
+.mpp__flip img {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) invert(1);
+}
+
+/* account page empty state */
+.bar-item--empty {
+    color: var(--beige);
+    opacity: 0.6;
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    padding: 12px 0;
+    border: none;
 }
