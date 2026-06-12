@@ -11,7 +11,6 @@ import sunImg from "../assets/scrollytelling/story/sun.svg";
 import waterImg from "../assets/scrollytelling/story/water.svg";
 import smallWaterImg from "../assets/scrollytelling/story/small-water-part.svg";
 import roadImg from "../assets/scrollytelling/story/road.svg";
-import buildingsImg from "../assets/scrollytelling/story/buildings.png";
 import pubsImg from "../assets/scrollytelling/story/pubs.png";
 import marketImg from "../assets/scrollytelling/story/market.png";
 import masImg from "../assets/scrollytelling/story/mas.png";
@@ -19,6 +18,7 @@ import havenhuisImg from "../assets/scrollytelling/story/havenhuis.png";
 import lightsImg from "../assets/scrollytelling/story/lights.png";
 import langeWapperImg from "../assets/scrollytelling/story/lange-wapper.svg";
 import coupleImg from "../assets/scrollytelling/story/couple-steen.png";
+import coupleBushImg from "../assets/scrollytelling/story/couple-bush.png";
 import duoStandingImg from "../assets/scrollytelling/story/duo-standing.png";
 import barrelGuysImg from "../assets/scrollytelling/story/barrel-guys.png";
 import barrelImg from "../assets/scrollytelling/story/barrel.png"
@@ -31,6 +31,7 @@ import rollingBeerImg from "../assets/scrollytelling/story/rolling beer bottle.p
 import pigeons01Img from "../assets/scrollytelling/story/pigeons01.png";
 import pigeons02Img from "../assets/scrollytelling/story/pigeons02.png";
 import seagullImg from "../assets/scrollytelling/story/seagull01.png";
+import seagullFlyingImg from "../assets/scrollytelling/story/seagull02.png";
 import boatImg from "../assets/scrollytelling/story/lange-wapper-boat.png";
 import tree01Img from "../assets/scrollytelling/story/tree01.png";
 import tree02Img from "../assets/scrollytelling/story/tree02.png";
@@ -52,17 +53,19 @@ import phoneDemoFillImg from "../assets/scrollytelling/pop-ups/phone-demo-fill.p
 import phoneDemoEmptyImg from "../assets/scrollytelling/pop-ups/phone-demo-empty.png"
 import buttonSpaceImg from "../assets/scrollytelling/pop-ups/button-space.svg"
 
+import fullFrameImg from "../assets/scrollytelling/story/full-frame.jpg";
+
 gsap.registerPlugin(ScrollTrigger);
 
 // ── Total track width ───────────────────────────────────────────────────────
-const TRACK_WIDTH = 5300;
+const TRACK_WIDTH = 4300;
 
 // ── Gate positions (x = pixels along the horizontal track where scroll locks)
 // Adjust these values to match the visual position of each interactive object.
 const GATES = [
-    { id: "beer", x: 1380 },
-    { id: "maria", x: 2980 },
-    { id: "silvius", x: 4480 },
+    { id: "beer", x: 930 },
+    { id: "maria", x: 2500 },
+    { id: "silvius", x: 3100 },
 ];
 
 // ── Modal content per gate ──────────────────────────────────────────────────
@@ -101,7 +104,8 @@ export default function Storytelling() {
     const trackRef = useRef(null);
     const lockedScrollPos = useRef(null);
     const unlockedGates = useRef(new Set());
-    const langeWapperRef = useRef(null);
+    const langeWapperBarrelRef = useRef(null);
+    const langeWapperTableRef = useRef(null);
     const wapperAnimated = useRef(false);
     const wapperSway = useRef(null);
 
@@ -111,10 +115,10 @@ export default function Storytelling() {
     useEffect(() => {
         const wrapper = wrapperRef.current;
         const track = trackRef.current;
-        const el = langeWapperRef.current;
+        const langeWapperBarrel = langeWapperBarrelRef.current;
         const totalTravel = TRACK_WIDTH - window.innerWidth;
 
-        gsap.set(el, {
+        gsap.set(langeWapperBarrel, {
             x: 30,
             y: 0,
             rotate: -10,
@@ -134,7 +138,7 @@ export default function Storytelling() {
                 onUpdate(self) {
                     if (!wapperAnimated.current && self.progress >= 0.09) {
                         wapperAnimated.current = true;
-                        gsap.to(el, {
+                        gsap.to(langeWapperBarrel, {
                             x: 9,
                             y: -3,
                             rotate: -20,
@@ -147,9 +151,9 @@ export default function Storytelling() {
                                 });
                                 wapperSway.current
                                     .to({}, { duration: 1 })
-                                    .to(el, { rotate: 0, x: 28, y: 2, duration: 0.9, ease: "back.inOut(0.5)" })
+                                    .to(langeWapperBarrel, { rotate: 0, x: 28, y: 2, duration: 0.9, ease: "back.inOut(0.5)" })
                                     .to({}, { duration: 1 })
-                                    .to(el, { rotate: -20, x: 9, y: -3, duration: 1.5, ease: "back.out(1.4)" })
+                                    .to(langeWapperBarrel, { rotate: -20, x: 9, y: -3, duration: 1.5, ease: "back.out(1.4)" })
                             },
                         });
                     }
@@ -268,35 +272,27 @@ export default function Storytelling() {
 
                 {/* ── 5300px-wide track ── */}
                 <div ref={trackRef} className="st-track">
-
-                    {/* ════════════════════════════════════════════════════════════════
-              BACKGROUND LAYER  (z-index 1–3)
-              Hills, sky elements, water, road
-              ════════════════════════════════════════════════════════════════ */}
-                    {/* <img src={hillsImg} className="asset hills" alt="" draggable="false" />
-                    <img src={sunImg} className="asset sun" alt="" draggable="false" />
-                    <img src={waterImg} className="asset water" alt="" draggable="false" />
-                    <img src={smallWaterImg} className="asset small-water" alt="" draggable="false" />
-                    <img src={roadImg} className="asset road" alt="" draggable="false" /> */}
-
-                    <h1 class="st-title">Antwerp</h1>
+                    <h1 className="st-title">Antwerp</h1>
 
                     {/* ════════════════════════════════════════════════════════════════
               BUILDINGS & STRUCTURES LAYER  (z-index 5)
               ════════════════════════════════════════════════════════════════ */}
+
+
                     <img src={steenImg} className="asset steen" alt="" draggable="false" />
-                    <img src={buildingsImg} className="asset buildings" alt="" draggable="false" />
                     <img src={pubsImg} className="asset pubs" alt="" draggable="false" />
                     <img src={marketImg} className="asset market" alt="" draggable="false" />
                     <img src={masImg} className="asset mas" alt="" draggable="false" />
                     <img src={havenhuisImg} className="asset havenhuis" alt="" draggable="false" />
                     <img src={lightsImg} className="asset lights" alt="" draggable="false" />
-                    <img ref={langeWapperRef} src={langeWapperImg} className="asset lange-wapper lange-wapper--barrel" alt="" draggable="false" />
+                    <img ref={langeWapperBarrelRef} src={langeWapperImg} className="asset lange-wapper lange-wapper--barrel" alt="" draggable="false" />
+                    <img ref={langeWapperTableRef} src={langeWapperImg} className="asset lange-wapper lange-wapper--table" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
               CHARACTERS & PROPS LAYER  (z-index 7)
               ════════════════════════════════════════════════════════════════ */}
                     <img src={coupleImg} className="asset couple-steen" alt="" draggable="false" />
+                    <img src={coupleBushImg} className="asset couple-bush" alt="" draggable="false" />
                     <img src={duoStandingImg} className="asset duo-standing" alt="" draggable="false" />
                     <img src={barrelGuysImg} className="asset barrel-guys" alt="" draggable="false" />
                     <img src={barrelImg} className="asset barrel" alt="" draggable="false" />
@@ -313,9 +309,11 @@ export default function Storytelling() {
                     <img src={pigeons01Img} className="asset bird bird--01" alt="" draggable="false" />
                     <img src={pigeons02Img} className="asset bird bird--02" alt="" draggable="false" />
                     <img src={seagullImg} className="asset seagull--01" alt="" draggable="false" />
+                    <img src={seagullFlyingImg} className="asset seagull--02" alt="" draggable="false" />
                     <img src={boatImg} className="asset boat" alt="" draggable="false" />
                     <img src={tree01Img} className="asset tree tree--01" alt="" draggable="false" />
                     <img src={tree02Img} className="asset tree tree--02" alt="" draggable="false" />
+                    <img src={tree02Img} className="asset tree tree--03" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
               CHECKPOINT LAYER  (z-index 10)
@@ -330,8 +328,8 @@ export default function Storytelling() {
                         onClick={() => openModal("beer")}
                         aria-label="Interact: beer mug"
                     >
-                        <img src={beerImg} alt="Beer mug" />
                         <img src={clickImg} className="click-hint" alt="" />
+                        <img src={beerImg} className="image" alt="Beer mug" />
                     </button>
 
                     <button
@@ -339,8 +337,8 @@ export default function Storytelling() {
                         onClick={() => openModal("maria")}
                         aria-label="Interact: Maria statue"
                     >
-                        <img src={mariaImg} alt="Maria" />
                         <img src={clickImg} className="click-hint" alt="" />
+                        <img src={mariaImg} className="image" alt="Maria statue" />
                     </button>
 
                     <button
@@ -348,8 +346,8 @@ export default function Storytelling() {
                         onClick={() => openModal("silvius")}
                         aria-label="Interact: Silvius Brabo"
                     >
-                        <img src={silviusImg} alt="Silvius" />
                         <img src={clickImg} className="click-hint" alt="" />
+                        <img src={silviusImg} className="image" alt="Silvius" />
                     </button>
 
                 </div>{/* end st-track */}

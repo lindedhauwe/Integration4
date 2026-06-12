@@ -6,6 +6,13 @@
 
 /* ── Scroll wrapper (gets pinned by GSAP) ───────────────────────────────── */
 
+.full-frame {
+    z-index: 100;
+    height: 100%;
+    opacity: 0.35;
+    mix-blend-mode: difference;
+}
+
 .pin-spacer {
     background-color: var(--beige);
 }
@@ -33,17 +40,27 @@
 /* ── Horizontal track ───────────────────────────────────────────────────── */
 .st-track {
     position: relative;
-    width: 5300px;
+    width: 4300px;
     height: 100vh;
     will-change: transform;
 
     background-image:
-        /* url("../assets/scrollytelling/story/sun.svg"), url("../assets/scrollytelling/story/water.svg"), url("../assets/scrollytelling/story/small-water-part.svg"), */
         url("../assets/scrollytelling/story/road.svg"),
-        url("../assets/scrollytelling/story/hills.svg");
+        url("../assets/scrollytelling/story/small-water-part.svg"),
+        url("../assets/scrollytelling/story/water.svg"),
+        url("../assets/scrollytelling/story/hills.svg"),
+        url("../assets/scrollytelling/story/buildings.png"),
+        url("../assets/scrollytelling/story/background-hills.svg"),
+        url("../assets/scrollytelling/story/sun.svg");
     background-repeat: no-repeat;
-    background-size: 60%, 55%;
-    background-position: left 6% bottom -14%, left 7% top 39%;
+    background-size: 3339px, 424px, 1272px, 4770px, 954px, 1802px, 689px;
+    background-position: left 72px bottom -3.5rem,
+        left 1290px bottom 15.75rem,
+        left 3220px bottom -2rem,
+        left -192px bottom 5.5rem,
+        left 2940px bottom 13rem,
+        left 1590px bottom 18rem,
+        left 770px bottom;
 }
 
 /* ── Base for every asset ───────────────────────────────────────────────── */
@@ -55,96 +72,41 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   BACKGROUND LAYER  (z 1–4)
-   ══════════════════════════════════════════════════════════════════════════ */
-.hills {
-    bottom: 0;
-    left: 0;
-    width: 5300px;
-    height: auto;
-    z-index: 1;
-}
-
-.sun {
-    top: 30px;
-    left: 260px;
-    width: 300px;
-    z-index: 2;
-}
-
-.water {
-    bottom: 0;
-    left: 0;
-    width: 5300px;
-    height: auto;
-    z-index: 3;
-}
-
-.small-water {
-    bottom: 55px;
-    left: 1580px;
-    width: 580px;
-    z-index: 3;
-}
-
-.road {
-    bottom: 0;
-    left: 0;
-    width: 5300px;
-    height: auto;
-    z-index: 4;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════
    BUILDINGS & STRUCTURES  (z 5–6)
    ══════════════════════════════════════════════════════════════════════════ */
 .steen {
     left: 0px;
-    top: 145px;
+    bottom: -90px;
     z-index: 5;
-    width: 583px;
-}
-
-.buildings {
-    bottom: 115px;
-    left: 1060px;
-    width: 440px;
-    z-index: 5;
+    width: 560px;
 }
 
 .pubs {
-    bottom: 115px;
-    left: 1860px;
-    width: 880px;
-    z-index: 5;
+    bottom: 15rem;
+    left: 1700px;
+    width: 1150px;
+    z-index: 4;
 }
 
 .market {
-    bottom: 12rem;
-    left: 528px;
-    width: 477px;
+    bottom: 13.5rem;
+    left: 505px;
+    width: 430px;
     z-index: 5;
 }
 
 .mas {
-    bottom: 100px;
-    left: 4260px;
-    width: 400px;
+    bottom: 18rem;
+    left: 2830px;
+    width: 300px;
     z-index: 5;
 }
 
 .havenhuis {
-    bottom: 100px;
-    left: 4680px;
-    width: 440px;
+    bottom: 21rem;
+    left: 1380px;
+    width: 260px;
     z-index: 5;
-}
-
-.lights {
-    top: 180px;
-    left: 1820px;
-    width: 340px;
-    z-index: 6;
 }
 
 .lange-wapper {
@@ -159,71 +121,85 @@
    ══════════════════════════════════════════════════════════════════════════ */
 .barrel {
     bottom: 11rem;
-    left: 570px;
+    left: 550px;
     width: 70px;
     z-index: 5;
 }
 
 .lange-wapper--barrel {
     bottom: 11.75rem;
-    left: 545px;
+    left: 525px;
     width: 67px;
     z-index: 5;
 }
 
+.lange-wapper--table {
+    bottom: -6rem;
+    left: 1950px;
+    width: 150px;
+    z-index: 5;
+}
+
 .couple-steen {
-    bottom: 25px;
-    left: 10px;
+    bottom: 1.3rem;
+    left: 0px;
     width: 255px;
     z-index: 7;
 }
 
 .duo-standing {
-    bottom: 165px;
-    left: 1660px;
+    bottom: 19rem;
+    left: 950px;
     width: 140px;
     z-index: 7;
 }
 
+.couple-bush {
+    bottom: 18.5rem;
+    left: 1250px;
+    width: 170px;
+    z-index: 7;
+}
+
 .barrel-guys {
-    bottom: 160px;
-    left: 1080px;
-    width: 210px;
+    bottom: 7.5rem;
+    left: 1320px;
+    width: 350px;
     z-index: 7;
 }
 
 .banjo-player {
-    bottom: 155px;
-    left: 3560px;
-    width: 130px;
+    bottom: 12rem;
+    left: 2790px;
+    width: 85px;
     z-index: 7;
 }
 
 .contrabas-player {
-    bottom: 155px;
-    left: 3720px;
-    width: 130px;
+    bottom: 12rem;
+    left: 2870px;
+    width: 90px;
     z-index: 7;
 }
 
 .table-cafe-01 {
-    bottom: 135px;
-    left: 1340px;
-    width: 165px;
+    bottom: 6rem;
+    left: 970px;
+    width: 280px;
     z-index: 7;
 }
 
 .table-cafe-02 {
-    bottom: 135px;
-    left: 1560px;
-    width: 165px;
+    bottom: -6.5rem;
+    left: 1860px;
+    width: 320px;
     z-index: 7;
 }
 
 .table-cafe-03 {
-    bottom: 135px;
-    left: 2860px;
-    width: 165px;
+    bottom: -6rem;
+    left: 2430px;
+    width: 400px;
     z-index: 7;
 }
 
@@ -236,7 +212,6 @@
 
 /* ══════════════════════════════════════════════════════════════════════════
    AMBIENT ANIMATION ELEMENTS  (z 6–8)
-   Positions here; motion driven by GSAP.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Birds */
@@ -262,19 +237,28 @@
 }
 
 .bird--02 {
-    top: 55px;
-    left: 2180px;
-    width: 105px;
+    top: 3rem;
+    left: 1660px;
+    width: 180px;
     z-index: 8;
+
+    animation: birdsFloating 3s ease-in-out infinite;
 }
 
 .seagull--01 {
     bottom: 16.5rem;
-    left: 580px;
+    left: 560px;
     width: 80px;
     z-index: 5;
 
     animation: birdHop 6s infinite ease-in-out;
+}
+
+.seagull--02 {
+    top: 4rem;
+    left: 1160px;
+    width: 120px;
+    z-index: 5;
 }
 
 @keyframes birdHop {
@@ -346,24 +330,62 @@
 
 /* Boat */
 .boat {
-    bottom: 35px;
-    left: 1680px;
-    width: 290px;
-    z-index: 6;
+    bottom: 19rem;
+    left: 1580px;
+    width: 60px;
+    z-index: 4;
+
+    animation: boatWiggle 5s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+
+@keyframes boatWiggle {
+
+    0%,
+    100% {
+        transform: rotate(-4deg) translateY(-2px);
+    }
+
+    25% {
+        transform: rotate(2deg) translateY(-1px);
+    }
+
+    50% {
+        transform: rotate(-2deg) translateY(2px);
+    }
+
+    75% {
+        transform: rotate(4deg) translateY(1px);
+    }
 }
 
 /* Trees */
 .tree--01 {
-    bottom: 155px;
-    left: 1380px;
-    width: 165px;
-    z-index: 6;
+    bottom: 18rem;
+    left: 720px;
+    width: 350px;
+    z-index: 4;
 }
 
 .tree--02 {
-    bottom: 155px;
-    left: 1548px;
-    width: 145px;
+    bottom: 20rem;
+    left: 1150px;
+    width: 250px;
+    z-index: 4;
+}
+
+.tree--03 {
+    bottom: 15rem;
+    left: 1580px;
+    width: 250px;
+    transform: scaleX(-1);
+    z-index: 4;
+}
+
+.lights {
+    bottom: 20rem;
+    left: 890px;
+    width: 400px;
     z-index: 6;
 }
 
@@ -372,74 +394,86 @@
    ══════════════════════════════════════════════════════════════════════════ */
 .checkpoint {
     position: absolute;
+
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
     pointer-events: all;
+
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
+
+    animation: checkpoint-pulse 1.6s ease-in-out infinite;
 }
 
-.checkpoint>img:first-child {
+.checkpoint>img:last-child {
     display: block;
-    transition: transform 0.2s ease;
-}
-
-.checkpoint:hover>img:first-child {
-    transform: scale(1.08);
-}
-
-/* Click hint icon pulses to draw attention */
-.click-hint {
-    width: 30px;
-    pointer-events: none;
-    animation: hint-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes hint-pulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 0.5;
-        transform: scale(0.88);
-    }
 }
 
 /* Individual checkpoint positions */
 .checkpoint--beer {
-    bottom: 160px;
-    left: 1360px;
+    bottom: 12.75rem;
+    left: 1010px;
+    width: 48px;
 }
 
-.checkpoint--beer>img:first-child {
-    width: 95px;
+.checkpoint--beer .image {
+    width: 48px;
+}
+
+@keyframes checkpoint-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.checkpoint--beer .click-hint {
+    position: absolute;
+    width: 55px;
+    left: 0.1rem;
+    bottom: 3.75rem;
 }
 
 .checkpoint--silvius {
-    bottom: 140px;
-    left: 4460px;
+    bottom: 0rem;
+    left: 3060px;
 }
 
-.checkpoint--silvius>img:first-child {
-    width: 115px;
+.checkpoint--silvius .click-hint {
+    position: absolute;
+    left: 9rem;
+    top: -1.5rem;
+    transform: rotate(50deg);
+    width: 75px;
+}
+
+.checkpoint--silvius .image {
+    width: 390px;
 }
 
 .checkpoint--maria {
-    bottom: 140px;
-    left: 2960px;
+    bottom: 28.5rem;
+    left: 2657px;
 }
 
-.checkpoint--maria>img:first-child {
-    width: 105px;
+.checkpoint--maria .image {
+    width: 40px;
+}
+
+.checkpoint--maria .click-hint {
+    position: absolute;
+    width: 30px;
+    top: -1rem;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -448,7 +482,7 @@
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: #312c1cc3;
     display: flex;
     align-items: center;
     justify-content: center;
