@@ -11,11 +11,12 @@ export async function clientLoader({ request }) {
   const url = new URL(request.url);
   const cafeId = url.searchParams.get("cafe_id");
 
-  if (!cafeId) return { cafe: null, recs: [] };
+  const id = Number(cafeId);
+  if (!id) return { cafe: null, recs: [] };
 
   const [{ data: cafe }, { data: recs }] = await Promise.all([
-    supabase.from("cafés").select("*").eq("id", cafeId).single(),
-    supabase.from("recommendations").select("*").eq("cafe_id", cafeId),
+    supabase.from("cafés").select("*").eq("id", id).single(),
+    supabase.from("recommendations").select("*").eq("cafe_id", id),
   ]);
 
   return { cafe: cafe || null, recs: recs || [] };
