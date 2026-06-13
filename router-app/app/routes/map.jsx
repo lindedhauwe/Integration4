@@ -79,6 +79,12 @@ export default function Map() {
     const instanceRef = useRef(null);
     const navigate = useNavigate();
 
+    const [showIntro, setShowIntro] = useState(true);
+
+    function dismissIntro() {
+        setShowIntro(false);
+    }
+
     const [panel, setPanel] = useState(null);
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
@@ -191,8 +197,50 @@ export default function Map() {
             {/* Close button geportald naar body */}
             {closeBtn}
 
+            {/* ── INTRO OVERLAY ── */}
+            {showIntro && (
+                <div className="map-intro">
+                    <div className="map-intro__topbar">
+                        <button className="map-intro__back" onClick={() => navigate(-1)}>
+                            <img src={arrowRight} alt="" className="map-intro__back-arrow" />
+                            Go back
+                        </button>
+                    </div>
+
+                    <div className="map-intro__body">
+                        <div className="map-intro__legend">
+                            <div className="map-intro__item">
+                                <img src={coasterGrey} alt="" className="map-intro__coaster" />
+                                <span>Active recommended bar</span>
+                            </div>
+                            <div className="map-intro__item">
+                                <img src={coasterBrown} alt="" className="map-intro__coaster" />
+                                <span>Bars you've visited</span>
+                            </div>
+                            <div className="map-intro__item">
+                                <img src={coasterPink} alt="" className="map-intro__coaster" />
+                                <span>Your current bar location</span>
+                            </div>
+                            <div className="map-intro__item">
+                                <img src={fullHeartPink} alt="" className="map-intro__heart" />
+                                <span>Liked bars</span>
+                            </div>
+                        </div>
+
+                        <p className="map-intro__text">
+                            Tap a coaster to read more about the bar or revisit your own story.<br />
+                            Build your own pub crawl through Antwerp!
+                        </p>
+
+                        <button className="map-intro__start" onClick={dismissIntro}>
+                            Start Pub Crawl
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* ── NORMALE KAART ── */}
-            {!panelOpen && (
+            {!panelOpen && !showIntro && (
                 <>
                     <header className="map-header">
                         <img src={rectTopMap} alt="" className="map-header__bg" />
@@ -216,7 +264,7 @@ export default function Map() {
             )}
 
             {/* ── CURRENT TOAST ── */}
-            {panel?.type === 'current' && (
+            {!showIntro && panel?.type === 'current' && (
                 <>
                     <header className="map-header">
                         <img src={rectTopMap} alt="" className="map-header__bg" />
@@ -232,7 +280,7 @@ export default function Map() {
             )}
 
             {/* ── FULL PANEL ── */}
-            {isFullPanel && (
+            {!showIntro && isFullPanel && (
                 <div className="mpp">
                     {/* Header — enkel titel */}
                     <header className="mpp__header">

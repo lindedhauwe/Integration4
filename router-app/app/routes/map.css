@@ -33,9 +33,9 @@ body:has(.map-page) {
 
 .map-header__bg {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 110%;
+    top: 0; left: -40px;
+    width: 120%;
+    height: 120%;
     object-fit: fill;
     z-index: 0;
     pointer-events: none;
@@ -54,7 +54,7 @@ body:has(.map-page) {
 .map-header__title {
     position: absolute;
     left: 50%;
-    top: 40%;
+    top: 60%;
     transform: translate(-50%, -50%);
     z-index: 2;
     font-family: var(--font-antwerpen-regular);
@@ -151,6 +151,105 @@ body:has(.map-page) {
     color: var(--beige);
 }
 
+/* ── INTRO OVERLAY ── */
+.map-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    background: var(--bar-brown);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.map-intro__topbar {
+    display: flex;
+    align-items: center;
+    padding: 16px 16px;
+    flex-shrink: 0;
+}
+
+.map-intro__back {
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 8px 14px 8px 10px;
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.map-intro__back-arrow {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+    transform: rotate(180deg);
+}
+
+.map-intro__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 32px 40px;
+}
+
+.map-intro__legend {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.map-intro__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--beige);
+    font-family: var(--font-interstate);
+    font-size: 13px;
+    text-align: center;
+}
+
+.map-intro__coaster {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.map-intro__heart {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.map-intro__text {
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    color: var(--beige);
+    text-align: center;
+    line-height: 1.65;
+    margin-top: 36px;
+    opacity: 0.85;
+}
+
+.map-intro__start {
+    margin-top: 40px;
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 14px 48px;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* ── CURRENT TOAST ── */
 .map-toast {
     position: absolute;
     top: 120px; left: 20px; right: 20px;
