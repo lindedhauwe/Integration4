@@ -1,25 +1,25 @@
 .thespot-page {
-  background: var(--beige);
+  background: var(--dark-green);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* GO BACK */
+/* ── GO BACK ── */
 .thespot-back {
   position: absolute;
-  top: 56px;
-  left: 16px;
+  top: 30px;
+  left: 20px;
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--light-green);
+  background: var(--orange);
   border: none;
   cursor: pointer;
   padding: 8px 14px;
   font-family: var(--font-interstate);
   font-size: 14px;
   font-weight: 700;
-  color: var(--dark-green);
+  color: var(--beige);
   z-index: 10;
 }
 
@@ -27,14 +27,15 @@
   width: 14px;
   height: 14px;
   transform: scaleX(-1);
-  filter: brightness(0) saturate(100%) invert(14%) sepia(31%) saturate(573%) hue-rotate(95deg) brightness(85%) contrast(90%);
+  filter: brightness(0) invert(1);
 }
 
-/* HERO */
+/* ── HERO ── */
 .thespot-hero {
   position: relative;
   width: 100%;
-  height: 260px;
+  height: 280px;
+  overflow: visible;
 }
 
 .thespot-hero__img {
@@ -50,39 +51,93 @@
   background: var(--dark-green);
 }
 
-/* CAFÉ INFO */
+.thespot-hero__rect-top {
+  position: absolute;
+  bottom: -200px;
+  left: 0;
+  width: 40px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── CAFÉ INFO ── */
 .thespot-info {
-  background: var(--beige);
-  padding: 24px 24px 32px;
+  background: var(--dark-green);
+  padding: 40px 24px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thespot-info__rect-side {
+  position: absolute;
+  top: 0;
+  right: -10px;
+  height: 160px;
+  width: auto;
+  pointer-events: none;
+}
+
+.thespot-info__name-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 10px;
 }
 
 .thespot-info__name {
   font-family: var(--font-antwerpen-regular);
-  font-size: 32px;
-  color: var(--bar-brown);
-  margin: 0 0 10px;
+  font-size: 34px;
+  color: var(--beige);
+  margin: 0;
   text-transform: uppercase;
-  border-bottom: 3px solid var(--light-green);
-  padding-bottom: 8px;
-  display: inline-block;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.thespot-info__name-line {
+  flex: 1;
+  height: 10px;
+  object-fit: fill;
+  min-width: 0;
+  margin-right: -24px;
+  align-self: flex-end;
+  margin-bottom: 4px;
+}
+
+.thespot-info__status-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
 }
 
 .thespot-info__status {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .thespot-status {
   font-family: var(--font-interstate);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
 }
 
-.thespot-status--open { color: var(--dark-green); }
-.thespot-status--busy { color: var(--orange); }
-.thespot-status__dot  { color: var(--bar-brown); }
+.thespot-status--open   { color: var(--green); text-decoration: underline; cursor: pointer; }
+.thespot-status--closed { color: var(--orange); text-decoration: underline; cursor: pointer; }
+.thespot-status--hours  { color: var(--green); text-decoration: underline; cursor: pointer; }
+
+.thespot-status__square {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--beige);
+  flex-shrink: 0;
+}
+
 
 .thespot-info__address {
   display: inline-flex;
@@ -91,7 +146,8 @@
   background: var(--pink);
   padding: 6px 14px;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-right: -24px;
+  margin-top: 15px;
 }
 
 .thespot-info__pin {
@@ -112,50 +168,102 @@
   font-family: var(--font-interstate);
   font-size: 15px;
   line-height: 1.6;
-  color: var(--bar-brown);
+  color: var(--beige);
   margin: 0;
+  opacity: 0.85;
 }
 
-/* QUOTE */
+/* ── QUOTE ── */
 .thespot-quote {
   background: var(--dark-green);
-  padding: 40px 24px;
+  padding: 40px 24px 48px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  z-index: 1;
 }
 
-.thespot-quote__deco {
+.thespot-quote__pixels {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 36px;
-  height: 36px;
-  background: var(--pink);
-  transform: rotate(15deg);
+  top: 20px;
+  right: 0;
+  width: 120px;
+  height: auto;
+  pointer-events: none;
+}
+
+.thespot-quote__spark {
+  position: absolute;
+  bottom: 24px;
+  right: 20px;
+  width: 48px;
+  height: auto;
+  pointer-events: none;
+  opacity: 0.9;
 }
 
 .thespot-quote__text {
   font-family: var(--font-antwerpen-regular);
-  font-size: 36px;
-  line-height: 1.1;
+  font-size: 38px;
+  line-height: 1.05;
   color: var(--beige);
   margin: 0;
+  max-width: 70%;
 }
 
 .thespot-quote__text span {
   color: var(--light-green);
 }
 
-/* VIBE TAGS */
+.thespot-quote__beer {
+  position: absolute;
+  right: -10px;
+  bottom: -90px;
+  width: 170px;
+  height: auto;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+}
+
+/* ── VIBE / BEER ── */
 .thespot-vibe {
   background: var(--beige);
-  padding: 32px 24px;
+  padding: 110px 24px 36px;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  min-height: 180px;
+}
+
+.thespot-vibe__bg {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  width: 90%;
+  height: auto;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.thespot-vibe__content {
+  position: relative;
+  z-index: 1;
+  max-width: calc(100% - 120px);
+}
+
+.thespot-vibe__name {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 26px;
+  color: var(--bar-brown);
+  margin: 0 0 12px;
 }
 
 .thespot-vibe__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 14px;
 }
 
 .thespot-vibe__tag {
@@ -167,7 +275,15 @@
   border-radius: 20px;
 }
 
-/* STORIES */
+.thespot-vibe__desc {
+  font-family: var(--font-interstate);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--bar-brown);
+  margin: 0;
+}
+
+/* ── STORIES ── */
 .thespot-stories {
   background: var(--dark-green);
   padding: 40px 24px 48px;
@@ -231,6 +347,147 @@
   background: var(--light-green);
 }
 
+/* ── NEIGHBOURHOOD ── */
+.thespot-neighbourhood {
+  background: var(--beige);
+  padding: 40px 0 0;
+}
+
+.thespot-neighbourhood__title {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 34px;
+  color: var(--bar-brown);
+  margin: 0 0 24px;
+  line-height: 1.1;
+  padding: 0 24px;
+}
+
+.thespot-neighbourhood__title span {
+  color: var(--light-green);
+}
+
+.thespot-neighbourhood__card {
+  background: var(--dark-green);
+  padding-bottom: 40px;
+}
+
+.thespot-neighbourhood__photo-wrap {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.thespot-neighbourhood__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thespot-neighbourhood__photo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bar-brown);
+  opacity: 0.4;
+}
+
+.thespot-neighbourhood__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 4px;
+}
+
+.thespot-neighbourhood__walk {
+  font-family: var(--font-interstate);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--beige);
+}
+
+.thespot-neighbourhood__counter {
+  font-family: var(--font-interstate);
+  font-size: 12px;
+  color: var(--beige);
+  opacity: 0.7;
+}
+
+.thespot-neighbourhood__name {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 28px;
+  color: var(--beige);
+  margin: 0 0 10px;
+  padding: 0 24px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.thespot-neighbourhood__address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-interstate);
+  font-size: 13px;
+  color: var(--beige);
+  margin: 0 0 14px;
+  padding: 0 24px;
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+.thespot-neighbourhood__pin {
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
+}
+
+.thespot-neighbourhood__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+
+.thespot-neighbourhood__tag {
+  font-family: var(--font-interstate);
+  font-size: 12px;
+  color: var(--beige);
+  background: rgba(255,255,255,0.15);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.thespot-neighbourhood__nav {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+.thespot-neighbourhood__arrow {
+  width: 44px;
+  height: 44px;
+  background: var(--light-green);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.thespot-neighbourhood__arrow-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(31%) saturate(573%) hue-rotate(95deg) brightness(85%) contrast(90%);
+}
+
+.thespot-neighbourhood__arrow-icon--flip {
+  transform: scaleX(-1);
+}
+
+/* ── NOT FOUND ── */
 .thespot-notfound {
   padding: 2rem;
   color: var(--bar-brown);

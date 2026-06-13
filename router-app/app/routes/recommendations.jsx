@@ -23,6 +23,7 @@ export async function clientAction({ request }) {
   const description = formData.get("description");
   const location = formData.get("location");
   const cafe_name = formData.get("cafe_name");
+  const cafe_id = formData.get("cafe_id") || null;
   const vibe = JSON.parse(formData.get("vibe") || "[]");
   const type = JSON.parse(formData.get("type") || "[]");
   const photo_url = formData.get("photo_url");
@@ -34,6 +35,7 @@ export async function clientAction({ request }) {
     description,
     location: location || null,
     cafe_name: cafe_name || null,
+    cafe_id: cafe_id || null,
     vibe_tags: vibe,
     type_tags: type,
     photo_url,
@@ -317,6 +319,9 @@ export default function Recommendations() {
           <input type="hidden" name="vibe" value={JSON.stringify(vibe)} />
           <input type="hidden" name="type" value={JSON.stringify(type)} />
           <input type="hidden" name="photo_url" value={JSON.stringify(uploadedMedia)} />
+          {mode === "current" && currentCafe?.id && (
+            <input type="hidden" name="cafe_id" value={currentCafe.id} />
+          )}
 
           <button
             className="submit-btn"

@@ -25,11 +25,11 @@ export async function clientLoader({ request }) {
   let filtered = allRecs;
 
   if (cafeId && allRecs.length) {
-    const vibeTags = cafeMap[Number(cafeId)]?.vibe_tags;
+    const vibeTags = cafeMap[cafeId]?.vibe_tags;
     if (vibeTags?.length) {
       const vibeFiltered = allRecs.filter(
         (r) =>
-          r.cafe_id !== Number(cafeId) &&
+          r.cafe_id !== cafeId &&
           r.vibe_tags?.some((v) => vibeTags.includes(v))
       );
       if (vibeFiltered.length) filtered = vibeFiltered;
@@ -37,8 +37,8 @@ export async function clientLoader({ request }) {
   }
 
   // Sla gescande café op voor map (localStorage) en recommendations pagina (sessionStorage)
-  if (cafeId && cafeMap[Number(cafeId)]) {
-    const c = cafeMap[Number(cafeId)];
+  if (cafeId && cafeMap[cafeId]) {
+    const c = cafeMap[cafeId];
     const newCurrent = { id: c.id, name: c.name, lat: c.gps_lat, lng: c.gps_lng };
 
     // Zet vorige "current" in visited als het een ander café is
