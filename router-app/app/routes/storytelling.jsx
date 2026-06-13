@@ -101,6 +101,26 @@ const MODAL_CONTENT = {
     },
 };
 
+const STORYTELLING_TEXT = [
+    "You’re drinking a beer from Antwerp",
+    "A beer that carries centuries of tales",
+    "Leaving stains of stories on coasters in bars",
+    "Stories that know the best trail around Antwerp",
+    "Bar by bar, tap by tap",
+    "Until a trail became a story of its own",
+    "Some keep it as a memory, others pass it on"
+];
+
+const TEXT_STEPS = [
+    { progress: 0.00, index: 0 },
+    { progress: 0.10, index: 1 },
+    { progress: 0.21, index: 2 },
+    { progress: 0.37, index: 3 },
+    { progress: 0.51, index: 4 },
+    { progress: 0.62, index: 5 },
+    { progress: 0.75, index: 6 },
+];
+
 export default function Storytelling() {
     const wrapperRef = useRef(null);
     const trackRef = useRef(null);
@@ -127,6 +147,8 @@ export default function Storytelling() {
 
     const [activeModal, setActiveModal] = useState(null);
     const [mariaVisited, setMariaVisited] = useState(false);
+    const [storyTextIndex, setStoryTextIndex] = useState(0);
+    const lastTextIndexRef = useRef(-1);
 
     // ── Horizontal scroll + gate enforcement ─────────────────────────────────
     useEffect(() => {
@@ -251,6 +273,12 @@ export default function Storytelling() {
 
                     bottleTween.progress(self.progress);
 
+                    const newIdx = [...TEXT_STEPS].reverse().find(s => self.progress >= s.progress)?.index ?? 0;
+                    if (newIdx !== lastTextIndexRef.current) {
+                        lastTextIndexRef.current = newIdx;
+                        setStoryTextIndex(newIdx);
+                    }
+
                     if (lockedScrollPos.current !== null) return;
 
                     const currentX = self.progress * totalTravel;
@@ -370,9 +398,8 @@ export default function Storytelling() {
                     <h1 className="st-title">Antwerp</h1>
 
                     {/* ════════════════════════════════════════════════════════════════
-              BUILDINGS & STRUCTURES LAYER  (z-index 5)
+              BUILDINGS & STRUCTURES LAYER
               ════════════════════════════════════════════════════════════════ */}
-
 
                     <img src={steenImg} className="asset steen" alt="" draggable="false" />
                     <div className="asset pubs">
@@ -389,7 +416,7 @@ export default function Storytelling() {
                     <img ref={langeWapperTableRef} src={langeWapperImg} className="asset lange-wapper lange-wapper--table" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
-              CHARACTERS & PROPS LAYER  (z-index 7)
+              CHARACTERS & PROPS LAYER
               ════════════════════════════════════════════════════════════════ */}
                     <img src={coupleImg} className="asset couple-steen" alt="" draggable="false" />
                     <img src={coupleBushImg} className="asset couple-bush" alt="" draggable="false" />
@@ -403,7 +430,7 @@ export default function Storytelling() {
                     <img src={table03Img} className="asset table-cafe-03" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
-              AMBIENT ANIMATION LAYER  (z-index 8)
+              AMBIENT ANIMATION LAYER
               ════════════════════════════════════════════════════════════════ */}
                     <img src={pigeons01Img} className="asset bird bird--01" alt="" draggable="false" />
                     <img src={pigeons02Img} className="asset bird bird--02" alt="" draggable="false" />
@@ -415,12 +442,7 @@ export default function Storytelling() {
                     <img src={tree02Img} className="asset tree tree--03" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
-              CHECKPOINT LAYER  (z-index 10)
-              Each button locks scroll on approach; modal unlocks it.
-              To add a new checkpoint:
-                1. Add an entry to GATES with { id, x }
-                2. Add content to MODAL_CONTENT
-                3. Add a <button> below with onClick={() => openModal('yourId')}
+              CHECKPOINT LAYER
               ════════════════════════════════════════════════════════════════ */}
                     <button
                         className="checkpoint checkpoint--beer"
@@ -469,9 +491,17 @@ export default function Storytelling() {
                         draggable="false"
                     />
 
+
                 </div>{/* end st-track */}
 
             </div>{/* end st-wrapper */}
+
+            {/* ── Fixed storytelling caption ─────────────────────────────────────── */}
+            <div className="story-caption">
+                <p key={storyTextIndex} className="story-caption__text">
+                    {STORYTELLING_TEXT[storyTextIndex]}
+                </p>
+            </div>
 
             {/* ── Modal overlay ─────────────────────────────────────────────────── */}
             {modal && (
