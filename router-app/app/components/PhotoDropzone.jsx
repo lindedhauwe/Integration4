@@ -32,8 +32,11 @@ export default function PhotoDropzone({ onUpload }) {
             urls.push(url);
         }
 
-        setMedia((prev) => [...prev, ...urls]);
-        if (onUpload) onUpload(urls);
+        setMedia((prev) => {
+            const all = [...prev, ...urls];
+            if (onUpload) onUpload(all);
+            return all;
+        });
     }
 
     async function openCamera() {
@@ -73,8 +76,11 @@ export default function PhotoDropzone({ onUpload }) {
 
         canvas.toBlob(async (blob) => {
             const url = await uploadToCloudinary(blob);
-            setMedia((prev) => [...prev, url]);
-            if (onUpload) onUpload([url]);
+            setMedia((prev) => {
+                const all = [...prev, url];
+                if (onUpload) onUpload(all);
+                return all;
+            });
             closeCamera();
         }, "image/jpeg");
     }

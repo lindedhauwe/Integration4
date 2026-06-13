@@ -1,10 +1,39 @@
 /* HOME PAGE */
+.home-wrapper {
+  background: var(--beige);
+}
+
+.home-wrapper > .footer {
+  background-color: transparent;
+}
+
 .home-page {
   background: var(--beige);
   min-height: 100vh;
   font-family: var(--font-interstate);
   padding-bottom: 48px;
-  overflow-x: clip;
+  overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .home-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 0 0;
+  }
+
+  .home-page {
+    width: 100%;
+    max-width: 500px;
+    min-height: unset;
+  }
+
+  .home-wrapper > .footer {
+    width: 100%;
+    max-width: 500px;
+  }
 }
 
 .home-empty {
@@ -138,28 +167,38 @@
   background: #3a5e4e;
 }
 
-/* carousel arrows */
+/* carousel arrows — onderaan de foto, donkergroene vakjes */
 .home-card__arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
+  bottom: 0;
+  background: var(--dark-green);
   border: none;
-  color: var(--beige);
-  font-size: 32px;
   cursor: pointer;
-  padding: 8px 12px;
-  line-height: 1;
-  opacity: 0.85;
+  width: 40px;
+  height: 40px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .home-card__arrow--left  { left: 0; }
 .home-card__arrow--right { right: 0; }
 
+.home-card__arrow-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.home-card__arrow-icon--flip {
+  transform: scaleX(-1);
+}
+
 /* dots */
 .home-card__dots {
   position: absolute;
-  bottom: 8px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -167,15 +206,14 @@
 }
 
 .home-card__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.45);
+  width: 10px;
+  height: 10px;
+  background: var(--beige);
   cursor: pointer;
 }
 
 .home-card__dot--active {
-  background: var(--beige);
+  background: var(--light-green);
 }
 
 /* body */

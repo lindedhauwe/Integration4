@@ -2,6 +2,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import { useState } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
+import Footer from "../components/Footer";
 
 import locationPin from "../assets/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";
@@ -24,11 +25,11 @@ export async function clientLoader({ request }) {
   let filtered = allRecs;
 
   if (cafeId && allRecs.length) {
-    const vibeTags = cafeMap[Number(cafeId)]?.vibe_tags;
+    const vibeTags = cafeMap[cafeId]?.vibe_tags;
     if (vibeTags?.length) {
       const vibeFiltered = allRecs.filter(
         (r) =>
-          r.cafe_id !== Number(cafeId) &&
+          r.cafe_id !== cafeId &&
           r.vibe_tags?.some((v) => vibeTags.includes(v))
       );
       if (vibeFiltered.length) filtered = vibeFiltered;
@@ -36,8 +37,8 @@ export async function clientLoader({ request }) {
   }
 
   // Sla gescande café op voor map (localStorage) en recommendations pagina (sessionStorage)
-  if (cafeId && cafeMap[Number(cafeId)]) {
-    const c = cafeMap[Number(cafeId)];
+  if (cafeId && cafeMap[cafeId]) {
+    const c = cafeMap[cafeId];
     const newCurrent = { id: c.id, name: c.name, lat: c.gps_lat, lng: c.gps_lng };
 
     // Zet vorige "current" in visited als het een ander café is
@@ -52,7 +53,7 @@ export async function clientLoader({ request }) {
       }
     } catch {}
 
-    localStorage.setItem("current_cafe", JSON.stringify(newCurrent));
+    localStorage.setItem("current_cafe", JSON.stringify({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
     sessionStorage.setItem("current_cafe", JSON.stringify({ id: c.id, name: c.name, adress: c.adress }));
   }
 
@@ -117,11 +118,24 @@ export default function Home() {
     return <main className="home-page"><p className="home-empty">Geen aanbevelingen gevonden.</p></main>;
   }
 
-  // "another bar" → rec.location, "current bar" → naam uit cafes tabel
-  const cafeName = rec.location || cafeMap[rec.cafe_id]?.name || "Onbekend café";
-  const cafeAddress = rec.city || "";
+  // "another bar" → rec.cafe_name/rec.location, "current bar" → naam uit cafes tabel
+  const cafeName = rec.cafe_name || cafeMap[rec.cafe_id]?.name || rec.location || "Onbekend café";
+  const cafeAddress = cafeMap[rec.cafe_id]?.adress || rec.location || "";
 
-  // parse photo_url: kan een JSON array zijn of een enkele URL string
+  // Sla de aanbevolen bar op voor de map (grijze pin)
+  const recCafe = cafeMap[rec.cafe_id];
+  if (recCafe?.gps_lat && recCafe?.gps_lng) {
+    sessionStorage.setItem(
+      "rec_cafe",
+      JSON.stringify({ id: rec.cafe_id, name: cafeName, adress: cafeAddress, lat: recCafe.gps_lat, lng: recCafe.gps_lng })
+    );
+    sessionStorage.setItem(
+      "home_rec",
+      JSON.stringify({ name: rec.name, age: rec.age, description: rec.description, photo_url: rec.photo_url, cafe_name: cafeName })
+    );
+  }
+
+  // parse photo_url: kan een JSON array zijn (meerdere fotos) of een enkele URL string
   let photoUrls = [];
   try {
     const parsed = JSON.parse(rec.photo_url);
@@ -163,21 +177,22 @@ export default function Home() {
     }
 
     // fetch GPS from cafes table
-    let lat = null, lng = null, name = cafeName;
+    let lat = null, lng = null, name = cafeName, adress = cafeAddress;
     if (rec.cafe_id) {
       const { data } = await supabase
         .from("cafés")
-        .select("name, gps_lat, gps_lng")
+        .select("name, adress, gps_lat, gps_lng")
         .eq("id", rec.cafe_id)
         .single();
       if (data) {
         lat = data.gps_lat;
         lng = data.gps_lng;
         name = data.name || cafeName;
+        adress = data.adress || "";
       }
     }
 
-    saveLikedCafe({ cafe_id: rec.cafe_id, name, lat, lng });
+    saveLikedCafe({ cafe_id: rec.cafe_id, name, adress, lat, lng });
     setLiked(getLikedCafes());
   }
 
@@ -204,6 +219,7 @@ export default function Home() {
         </div>
       </div>
     )}
+    <div className="home-wrapper">
     <div className="home-page">
       {/* HERO */}
       <section className="home-hero">
@@ -256,8 +272,12 @@ export default function Home() {
 
           {media.length > 1 && (
             <>
-              <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>‹</button>
-              <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>›</button>
+              <button className="home-card__arrow home-card__arrow--left" onClick={prevMedia}>
+                <img src={arrowRight} alt="prev" className="home-card__arrow-icon home-card__arrow-icon--flip" />
+              </button>
+              <button className="home-card__arrow home-card__arrow--right" onClick={nextMedia}>
+                <img src={arrowRight} alt="next" className="home-card__arrow-icon" />
+              </button>
               <div className="home-card__dots">
                 {media.map((_, i) => (
                   <span
@@ -289,6 +309,8 @@ export default function Home() {
         </button>
       </div>
 
+    </div>
+    <Footer />
     </div>
     </>
   );
