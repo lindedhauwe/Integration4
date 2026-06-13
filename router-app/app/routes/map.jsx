@@ -9,6 +9,7 @@ import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
 import shareIcon from '../assets/icons/iconupload.svg';
 import fullHeart from '../assets/icons/fullheart.svg';
+import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
 import locationPin from '../assets/location-pink.svg';
@@ -16,6 +17,7 @@ import bgNav from '../assets/bg-nav.svg';
 import closeIcon from '../assets/close.svg';
 import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
 import handtap from '../assets/icons/handtap.svg';
+import addrecIcon from '../assets/icons/addrec.svg';
 
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
@@ -56,6 +58,9 @@ function getMapSpots() {
             addedIds.add(String(c.cafe_id));
         });
 
+        // Demo pin — geen rec ingevuld (bruine pin zonder hartje)
+        spots.push({ id: 'demo-empty', cafeId: 9999, name: 'De Vagant', adress: 'Reyndersstraat 25, Antwerp', position: [51.2210, 4.4038], type: 'visited' });
+
         return spots;
     } catch { return []; }
 }
@@ -77,6 +82,8 @@ function parsePhotos(raw) {
 export default function Map() {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
+    const markersRef = useRef({});
+    const leafletRef = useRef(null);
     const navigate = useNavigate();
 
     const [showIntro, setShowIntro] = useState(true);
@@ -88,10 +95,44 @@ export default function Map() {
     const [panel, setPanel] = useState(null);
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
     const setPanelRef = useRef(setPanel);
     setPanelRef.current = setPanel;
 
     useEffect(() => { setPanelView('story'); setPhotoIdx(0); }, [panel?.name, panel?.type]);
+
+    useEffect(() => {
+        if (!panel?.cafeId) { setIsLiked(false); return; }
+        const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
+        setIsLiked(liked.some((c) => String(c.cafe_id) === String(panel.cafeId)));
+    }, [panel?.cafeId]);
+
+    function togglePanelLike() {
+        if (!panel?.cafeId) return;
+        const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
+        const cafeIdStr = String(panel.cafeId);
+        const wasLiked = liked.some((c) => String(c.cafe_id) === cafeIdStr);
+
+        let newLiked;
+        if (wasLiked) {
+            newLiked = liked.filter((c) => String(c.cafe_id) !== cafeIdStr);
+        } else {
+            const latlng = markersRef.current[cafeIdStr]?.marker?.getLatLng();
+            newLiked = [...liked, { cafe_id: panel.cafeId, name: panel.name, adress: panel.adress, lat: latlng?.lat ?? null, lng: latlng?.lng ?? null }];
+        }
+        localStorage.setItem('liked_cafes', JSON.stringify(newLiked));
+        setIsLiked(!wasLiked);
+
+        const markerData = markersRef.current[cafeIdStr];
+        if (markerData && leafletRef.current) {
+            const L = leafletRef.current;
+            const LIKED_TYPE = { current: 'currentLiked', visited: 'visitedLiked', rec: 'recLiked' };
+            const BASE_TYPE = { currentLiked: 'current', visitedLiked: 'visited', recLiked: 'rec' };
+            const nextType = wasLiked ? (BASE_TYPE[markerData.type] || markerData.type) : (LIKED_TYPE[markerData.type] || markerData.type);
+            markerData.type = nextType;
+            markerData.marker.setIcon(L.icon({ iconUrl: ICON_MAP[nextType], iconSize: [56, 56], iconAnchor: [28, 56] }));
+        }
+    }
 
     // Fetch rec from DB when panel type is 'pending'
     useEffect(() => {
@@ -126,6 +167,7 @@ export default function Map() {
             const L = (await import('leaflet')).default;
             await import('leaflet/dist/leaflet.css');
             if (cancelled || !mapRef.current) return;
+            leafletRef.current = L;
 
             const antwerpenBounds = L.latLngBounds([51.15, 4.28], [51.31, 4.52]);
             const current = (() => { try { return JSON.parse(localStorage.getItem('current_cafe') || 'null'); } catch { return null; } })();
@@ -142,24 +184,20 @@ export default function Map() {
                 attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
             }).addTo(map);
 
+            const newMarkers = {};
             getMapSpots().forEach((spot) => {
                 const icon = L.icon({ iconUrl: ICON_MAP[spot.type], iconSize: [56, 56], iconAnchor: [28, 56] });
-                L.marker(spot.position, { icon }).on('click', () => {
+                const marker = L.marker(spot.position, { icon }).on('click', () => {
                     const t = spot.type;
 
                     if (t === 'current' || t === 'currentLiked') {
-                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress });
+                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                         return;
                     }
 
                     if (t === 'rec' || t === 'recLiked') {
-                        try {
-                            const homeRec = JSON.parse(sessionStorage.getItem('home_rec') || 'null');
-                            const recCafe = JSON.parse(sessionStorage.getItem('rec_cafe') || 'null');
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: recCafe?.adress || spot.adress, rec: homeRec });
-                        } catch {
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: spot.adress, rec: null });
-                        }
+                        const recCafe = (() => { try { return JSON.parse(sessionStorage.getItem('rec_cafe') || 'null'); } catch { return null; } })();
+                        setPanelRef.current({ type: 'not-visited', name: spot.name, adress: recCafe?.adress || spot.adress, cafeId: spot.cafeId });
                         return;
                     }
 
@@ -167,7 +205,9 @@ export default function Map() {
                         setPanelRef.current({ type: 'pending', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                     }
                 }).addTo(map);
+                newMarkers[String(spot.cafeId)] = { marker, type: spot.type };
             });
+            markersRef.current = newMarkers;
 
             setTimeout(() => map.invalidateSize(), 100);
         }
@@ -179,7 +219,7 @@ export default function Map() {
     const photos = panel?.rec ? parsePhotos(panel.rec.photo_url) : [];
     const hasPhotos = photos.length > 0;
     const panelOpen = !!panel;
-    const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add';
+    const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add' || panel?.type === 'not-visited';
 
     // Close button — geportald naar document.body zodat het ALTIJD boven de hamburger staat
     const closeBtn = panelOpen ? createPortal(
@@ -208,6 +248,7 @@ export default function Map() {
                     </div>
 
                     <div className="map-intro__body">
+                        {/* <h1 className="map-header__title">YOUR PUB CRAWL</h1> */}
                         <div className="map-intro__legend">
                             <div className="map-intro__item">
                                 <img src={coasterGrey} alt="" className="map-intro__coaster" />
@@ -282,22 +323,20 @@ export default function Map() {
             {/* ── FULL PANEL ── */}
             {!showIntro && isFullPanel && (
                 <div className="mpp">
-                    {/* Header — enkel titel */}
-                    <header className="mpp__header">
-                        <img src={rectTopMap} alt="" className="mpp__header-bg" />
-                        <img src={swirlMapPage} alt="" className="mpp__header-swirl" />
-                        <h1 className="mpp__header-title">YOUR PUB CRAWL</h1>
-                    </header>
-
                     {/* Body */}
                     <div className="mpp__body">
 
-                        {/* Bar info tab — donkergroene rechthoek boven de cirkel */}
-                        <div className="mpp__bar-tab">
-                            <div className="mpp__name-row">
-                                <h2 className="mpp__bar-name">{panel.name}</h2>
-                                <img src={fullHeartPink} alt="" className="mpp__heart" />
+                        {/* Cafénaam — donkergroene rechthoek */}
+                        <div className="mpp__bar-header">
+                            <div className="mpp__bar-tab">
+                                <div className="mpp__name-row">
+                                    <h2 className="mpp__bar-name">{panel.name}</h2>
+                                    <button className="mpp__heart-btn" onClick={togglePanelLike}>
+                                        <img src={isLiked ? fullHeartPink : emptyHeart} alt="like" className={`mpp__heart${isLiked ? ' mpp__heart--liked' : ''}`} />
+                                    </button>
+                                </div>
                             </div>
+                            {/* Locatie — roze balk los onder naam */}
                             {panel.adress && (
                                 <div className="mpp__location">
                                     <img src={locationPin} alt="" />
@@ -319,13 +358,10 @@ export default function Map() {
                                         <div className="mpp__story">
                                             <img src={aanhalingstekens} alt="" className="mpp__quotes" />
                                             <p className="mpp__desc">{panel.rec.description}</p>
-                                            {panel.rec.name && (
-                                                <p className="mpp__author">{panel.rec.name}{panel.rec.age ? `, ${panel.rec.age}` : ''}</p>
-                                            )}
                                         </div>
                                     ) : (
                                         hasPhotos
-                                            ? <img src={photos[photoIdx]} alt="" className="mpp__photo-full" />
+                                            ? <img src={photos[photoIdx]} alt="" className="mpp__photo-full" onClick={() => setPanelView('story')} style={{ cursor: 'pointer' }} />
                                             : <div className="mpp__no-photo" />
                                     )
                                 )}
@@ -333,14 +369,21 @@ export default function Map() {
                                 {(panel.type === 'add' || (panel.type === 'rec' && !panel.rec)) && (
                                     <div className="mpp__empty">
                                         <p className="mpp__empty-text">
-                                            You've visited this bar but left no recommendation yet.
+                                            You've visited this bar but left no recommendations for others or to look back at.
                                         </p>
-                                        <button className="mpp__add-circle" onClick={() => navigate('/recommendations')}>+</button>
                                     </div>
                                 )}
 
-                                {/* Pijlen in photo view — BINNEN cirkel */}
-                                {panelView === 'photos' && photos.length > 1 && (
+                                {panel.type === 'not-visited' && (
+                                    <div className="mpp__empty">
+                                        <p className="mpp__empty-text">
+                                            You haven't visited this bar yet. Once you have, you can write a recommendation for others!
+                                        </p>
+                                    </div>
+                                )}
+
+                                {/* Pijlen BINNEN de blob — circular clip geeft halve-button look op de rand */}
+                                {panelView === 'photos' && hasPhotos && (
                                     <>
                                         <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
                                             <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
@@ -366,6 +409,13 @@ export default function Map() {
                                 <button className="mpp__thumb-wrap" onClick={() => setPanelView('photos')} aria-label="Bekijk foto's">
                                     <img src={photos[0]} alt="" className="mpp__thumb" />
                                     <img src={handtap} alt="" className="mpp__handtap" />
+                                </button>
+                            )}
+
+                            {/* Add rec knop — onderaan cirkel, zelfde positie als thumb */}
+                            {(panel.type === 'add' || (panel.type === 'rec' && !panel.rec)) && (
+                                <button className="mpp__addrec-wrap" onClick={() => navigate('/recommendations')} aria-label="Voeg aanbeveling toe">
+                                    <img src={addrecIcon} alt="+" className="mpp__addrec-icon" />
                                 </button>
                             )}
                         </div>

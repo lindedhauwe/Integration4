@@ -22,7 +22,9 @@ body:has(.map-page) {
 
 .map-header {
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     height: 130px;
     display: flex;
@@ -33,7 +35,8 @@ body:has(.map-page) {
 
 .map-header__bg {
     position: absolute;
-    top: 0; left: -40px;
+    top: 0;
+    left: -40px;
     width: 120%;
     height: 120%;
     object-fit: fill;
@@ -67,14 +70,17 @@ body:has(.map-page) {
 
 .map-bottom {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     padding: 0 20px 24px;
 }
 
 .map-bottom__deco {
     position: absolute;
-    top: 20px; left: 0;
+    top: 20px;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: fill;
@@ -157,9 +163,11 @@ body:has(.map-page) {
     inset: 0;
     z-index: 1500;
     background: var(--bar-brown);
+    opacity: 0.95;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+
 }
 
 .map-intro__topbar {
@@ -195,6 +203,7 @@ body:has(.map-page) {
     flex-direction: column;
     align-items: center;
     padding: 8px 32px 40px;
+    margin-top: 5rem;
 }
 
 .map-intro__legend {
@@ -252,7 +261,9 @@ body:has(.map-page) {
 /* ── CURRENT TOAST ── */
 .map-toast {
     position: absolute;
-    top: 120px; left: 20px; right: 20px;
+    top: 120px;
+    left: 20px;
+    right: 20px;
     z-index: 1100;
     background: var(--dark-green);
     color: var(--beige);
@@ -316,7 +327,7 @@ body:has(.map-page) {
     position: absolute;
     inset: 0;
     z-index: 200;
-    background: var(--beige);
+    background: rgba(49, 44, 28, 0.92);
     display: flex;
     flex-direction: column;
 }
@@ -331,7 +342,8 @@ body:has(.map-page) {
 
 .mpp__header-bg {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 115%;
     object-fit: fill;
@@ -362,21 +374,28 @@ body:has(.map-page) {
     margin: 0;
 }
 
-/* Bar info tab — donkergroene rechthoek die boven de cirkel hangt */
+.mpp__bar-header {
+    margin-bottom: -4rem;
+    margin-left: -2rem;
+}
+
+/* Bar info tab — donkergroene rechthoek */
 .mpp__bar-tab {
     background: var(--dark-green);
     padding: 12px 18px 14px;
     align-self: flex-start;
-    margin-bottom: -24px;
     position: relative;
     z-index: 5;
-    max-width: 75%;
+    /* max-width: 100%; */
+    transform: rotate(-2deg);
+    margin-left: 20px;
 }
 
 .mpp__name-row {
     display: flex;
     align-items: flex-start;
     gap: 8px;
+
 }
 
 .mpp__bar-name {
@@ -387,25 +406,45 @@ body:has(.map-page) {
     margin: 0;
 }
 
+.mpp__heart-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
 .mpp__heart {
     width: 24px;
     height: 24px;
-    flex-shrink: 0;
-    margin-top: 4px;
     object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
+.mpp__heart--liked {
+    filter: brightness(0) saturate(100%) invert(61%) sepia(78%) saturate(900%) hue-rotate(270deg) brightness(108%);
+}
+
+/* Roze locatiebalk — los onder de naam, net als home */
 .mpp__location {
     background: var(--pink);
     color: var(--white);
-    padding: 5px 12px;
+    padding: 6px 16px 6px 12px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 8px;
+    align-self: flex-start;
+    margin-top: -6px;
+    position: relative;
+    z-index: 10;
     font-family: var(--font-interstate);
     font-size: 11px;
     font-weight: bold;
+    margin-bottom: 16px;
+        transform: rotate(3deg);
 }
 
 .mpp__location img {
@@ -415,22 +454,27 @@ body:has(.map-page) {
     flex-shrink: 0;
 }
 
+.mpp__location span {
+    color: var(--white);
+    text-decoration: underline;
+}
+
 .mpp__body {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 20px 100px;
+    padding: 100px 20px 100px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 .mpp__blob-wrap {
     position: relative;
-    width: 88vw;
-    height: 88vw;
-    max-width: 370px;
-    max-height: 370px;
+    width: 120vw;
+    height: 120vw;
+    /* max-width: 370px;
+    max-height: 370px; */
     flex-shrink: 0;
 }
 
@@ -451,35 +495,38 @@ body:has(.map-page) {
 .mpp__spinner {
     width: 44px;
     height: 44px;
-    border: 4px solid rgba(255,103,0,0.25);
+    border: 4px solid rgba(255, 103, 0, 0.25);
     border-top-color: var(--orange);
     border-radius: 50%;
     animation: mpp-spin 0.8s linear infinite;
 }
 
 @keyframes mpp-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .mpp__story {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    padding: 18% 22%;
-    width: 100%;
-    height: 100%;
+    padding: 0 10%;
+    /* width: 100%;
+    height: 100%; */
     box-sizing: border-box;
 }
 
 .mpp__quotes {
-    width: 37px;
-    height: 32px;
+    width: 20px;
+    height: 18px;
     flex-shrink: 0;
+    align-self: flex-start;
 }
 
 .mpp__desc {
     font-family: var(--font-interstate);
-    font-size: 12.5px;
+    font-size: 16px;
     color: var(--bar-brown);
     line-height: 1.55;
     overflow: hidden;
@@ -501,8 +548,8 @@ body:has(.map-page) {
     bottom: 4%;
     left: 50%;
     transform: translateX(-50%);
-    width: 84px;
-    height: 84px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid var(--dark-green);
@@ -552,8 +599,8 @@ body:has(.map-page) {
     top: 50%;
     transform: translateY(-50%);
     width: 34px;
-    height: 34px;
-    background: var(--dark-green);
+    height: 48px;
+    background: var(--light-green);
     border: none;
     cursor: pointer;
     display: flex;
@@ -563,16 +610,23 @@ body:has(.map-page) {
     padding: 0;
 }
 
-.mpp__arrow--left  { left: 0; }
-.mpp__arrow--right { right: 0; }
+.mpp__arrow--left {
+    left: calc(10vw - 12px);
+}
+
+.mpp__arrow--right {
+    right: calc(10vw - 12px);
+}
 
 .mpp__arrow-icon {
     width: 14px;
     height: 14px;
-    filter: brightness(0) invert(1);
+    filter: brightness(0);
 }
 
-.mpp__arrow-icon--flip { transform: rotate(180deg); }
+.mpp__arrow-icon--flip {
+    transform: rotate(180deg);
+}
 
 .mpp__dots {
     position: absolute;
@@ -587,8 +641,8 @@ body:has(.map-page) {
 .mpp__dot {
     width: 9px;
     height: 9px;
-    background: var(--dark-green);
-    opacity: 0.3;
+    background: var(--beige);
+    opacity: 0.4;
     border: none;
     cursor: pointer;
     padding: 0;
@@ -604,8 +658,7 @@ body:has(.map-page) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    padding: 14% 18%;
+    padding: 18% 10%;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -614,27 +667,34 @@ body:has(.map-page) {
 
 .mpp__empty-text {
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 13px;
-    color: var(--dark-green);
+    font-size: 16px;
+    color: var(--orange);
     line-height: 1.5;
 }
 
-.mpp__add-circle {
-    width: 72px;
-    height: 72px;
+.mpp__addrec-wrap {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    background: var(--orange);
-    color: var(--white);
-    border: none;
-    font-size: 46px;
-    font-family: var(--font-interstate);
-    font-weight: 300;
+    background: transparent;
     cursor: pointer;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 0.85;
-    padding-bottom: 4px;
+    z-index: 5;
+}
+
+.mpp__addrec-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+        /* border: solid 10px var(--dark-green); */
+    
 }
 
 .mpp__flip {
