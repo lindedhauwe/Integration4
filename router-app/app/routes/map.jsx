@@ -17,6 +17,7 @@ import bgNav from '../assets/bg-nav.svg';
 import closeIcon from '../assets/close.svg';
 import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
 import handtap from '../assets/icons/handtap.svg';
+import addrecIcon from '../assets/icons/addrec.svg';
 
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
@@ -56,6 +57,9 @@ function getMapSpots() {
             spots.push({ id: `liked-${c.cafe_id}`, cafeId: c.cafe_id, name: c.name, adress: c.adress || '', position: [c.lat, c.lng], type: 'recLiked' });
             addedIds.add(String(c.cafe_id));
         });
+
+        // Demo pin — geen rec ingevuld (bruine pin zonder hartje)
+        spots.push({ id: 'demo-empty', cafeId: 9999, name: 'De Vagant', adress: 'Reyndersstraat 25, Antwerp', position: [51.2210, 4.4038], type: 'visited' });
 
         return spots;
     } catch { return []; }
@@ -192,13 +196,8 @@ export default function Map() {
                     }
 
                     if (t === 'rec' || t === 'recLiked') {
-                        try {
-                            const homeRec = JSON.parse(sessionStorage.getItem('home_rec') || 'null');
-                            const recCafe = JSON.parse(sessionStorage.getItem('rec_cafe') || 'null');
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: recCafe?.adress || spot.adress, rec: homeRec, cafeId: spot.cafeId });
-                        } catch {
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: spot.adress, rec: null, cafeId: spot.cafeId });
-                        }
+                        const recCafe = (() => { try { return JSON.parse(sessionStorage.getItem('rec_cafe') || 'null'); } catch { return null; } })();
+                        setPanelRef.current({ type: 'not-visited', name: spot.name, adress: recCafe?.adress || spot.adress, cafeId: spot.cafeId });
                         return;
                     }
 
@@ -220,7 +219,7 @@ export default function Map() {
     const photos = panel?.rec ? parsePhotos(panel.rec.photo_url) : [];
     const hasPhotos = photos.length > 0;
     const panelOpen = !!panel;
-    const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add';
+    const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add' || panel?.type === 'not-visited';
 
     // Close button — geportald naar document.body zodat het ALTIJD boven de hamburger staat
     const closeBtn = panelOpen ? createPortal(
@@ -370,24 +369,31 @@ export default function Map() {
                                 {(panel.type === 'add' || (panel.type === 'rec' && !panel.rec)) && (
                                     <div className="mpp__empty">
                                         <p className="mpp__empty-text">
-                                            You've visited this bar but left no recommendation yet.
+                                            You've visited this bar but left no recommendations for others or to look back at.
                                         </p>
-                                        <button className="mpp__add-circle" onClick={() => navigate('/recommendations')}>+</button>
                                     </div>
                                 )}
-                            </div>
 
-                            {/* Pijlen in photo view — buiten cirkel zodat ze niet geclipped worden */}
-                            {panelView === 'photos' && hasPhotos && (
-                                <>
-                                    <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
-                                        <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
-                                    </button>
-                                    <button className="mpp__arrow mpp__arrow--right" onClick={() => setPhotoIdx((i) => (i + 1) % photos.length)}>
-                                        <img src={arrowRight} alt="volgende" className="mpp__arrow-icon" />
-                                    </button>
-                                </>
-                            )}
+                                {panel.type === 'not-visited' && (
+                                    <div className="mpp__empty">
+                                        <p className="mpp__empty-text">
+                                            You haven't visited this bar yet. Once you have, you can write a recommendation for others!
+                                        </p>
+                                    </div>
+                                )}
+
+                                {/* Pijlen BINNEN de blob — circular clip geeft halve-button look op de rand */}
+                                {panelView === 'photos' && hasPhotos && (
+                                    <>
+                                        <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
+                                            <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
+                                        </button>
+                                        <button className="mpp__arrow mpp__arrow--right" onClick={() => setPhotoIdx((i) => (i + 1) % photos.length)}>
+                                            <img src={arrowRight} alt="volgende" className="mpp__arrow-icon" />
+                                        </button>
+                                    </>
+                                )}
+                            </div>
 
                             {/* Dots — buiten cirkel, centraal onderaan */}
                             {panelView === 'photos' && photos.length > 1 && (
@@ -403,6 +409,13 @@ export default function Map() {
                                 <button className="mpp__thumb-wrap" onClick={() => setPanelView('photos')} aria-label="Bekijk foto's">
                                     <img src={photos[0]} alt="" className="mpp__thumb" />
                                     <img src={handtap} alt="" className="mpp__handtap" />
+                                </button>
+                            )}
+
+                            {/* Add rec knop — onderaan cirkel, zelfde positie als thumb */}
+                            {(panel.type === 'add' || (panel.type === 'rec' && !panel.rec)) && (
+                                <button className="mpp__addrec-wrap" onClick={() => navigate('/recommendations')} aria-label="Voeg aanbeveling toe">
+                                    <img src={addrecIcon} alt="+" className="mpp__addrec-icon" />
                                 </button>
                             )}
                         </div>
