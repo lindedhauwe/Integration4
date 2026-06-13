@@ -88,6 +88,9 @@ export default function Map() {
     const leafletRef = useRef(null);
     const navigate = useNavigate();
 
+    const [showAuthGate, setShowAuthGate] = useState(() => {
+        try { return !localStorage.getItem('user'); } catch { return true; }
+    });
     const [showIntro, setShowIntro] = useState(true);
 
     function dismissIntro() {
@@ -98,10 +101,27 @@ export default function Map() {
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
+    const [toastPos, setToastPos] = useState(null);
     const setPanelRef = useRef(setPanel);
     setPanelRef.current = setPanel;
 
     useEffect(() => { setPanelView('story'); setPhotoIdx(0); }, [panel?.name, panel?.type]);
+
+    // Pin de toast boven de roze marker door Leaflet pixel-coördinaten bij te houden
+    useEffect(() => {
+        if (panel?.type !== 'current' || !panel.position || !instanceRef.current) {
+            setToastPos(null);
+            return;
+        }
+        const map = instanceRef.current;
+        function updatePos() {
+            const pt = map.latLngToContainerPoint(panel.position);
+            setToastPos({ x: pt.x, y: pt.y });
+        }
+        updatePos();
+        map.on('move zoom viewreset', updatePos);
+        return () => { map.off('move zoom viewreset', updatePos); };
+    }, [panel?.type, panel?.position]);
 
     useEffect(() => {
         if (!panel?.cafeId) { setIsLiked(false); return; }
@@ -193,7 +213,7 @@ export default function Map() {
                     const t = spot.type;
 
                     if (t === 'current' || t === 'currentLiked') {
-                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
+                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId, position: spot.position });
                         return;
                     }
 
@@ -239,8 +259,33 @@ export default function Map() {
             {/* Close button geportald naar body */}
             {closeBtn}
 
+            {/* ── AUTH GATE — alleen als niet ingelogd ── */}
+            {showAuthGate && (
+                <div className="map-auth-gate">
+                    <div className="map-auth-gate__topbar">
+                        <button className="map-auth-gate__back" onClick={() => navigate(-1)}>
+                            <img src={arrowRight} alt="" className="map-auth-gate__back-icon" />
+                            Go back
+                        </button>
+                    </div>
+<div className="map-auth-gate__content">
+                        <h1 className="map-auth-gate__title" onClick={() => setShowAuthGate(false)} style={{ cursor: 'pointer' }}>Start your own pub crawl!</h1>
+                        <p className="map-auth-gate__text">
+                            Save all the spots you've visited, the places you plan to visit, and your current recommendations. Later, you can share your personal pub crawl with your friends!
+                        </p>
+                        <p className="map-auth-gate__text">
+                            To save your pub crawl, you'll need to create an account.
+                        </p>
+                        <div className="map-auth-gate__actions">
+                            <button className="map-auth-gate__login" onClick={() => navigate('/login')}>Log in</button>
+                            <button className="map-auth-gate__register" onClick={() => navigate('/create-profile')}>Create account</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* ── INTRO OVERLAY ── */}
-            {showIntro && (
+            {!showAuthGate && showIntro && (
                 <div className="map-intro">
                     <div className="map-intro__topbar">
                         <button className="map-intro__back" onClick={() => navigate(-1)}>
@@ -283,8 +328,7 @@ export default function Map() {
             )}
 
             {/* ── HEADER + BOTTOM — altijd zichtbaar op de achtergrond ── */}
-            {!showIntro && (
-                <>
+            <>
                     <header className="map-header">
                         <img src={rectTopMap} alt="" className="map-header__bg" />
                         <img src={swirlMapPage} alt="" className="map-header__swirl" />
@@ -303,14 +347,20 @@ export default function Map() {
                             <div className="map-legend-item"><img src={fullHeart} alt="" className="map-legend-item__heart" /><span>liked</span></div>
                         </div>
                     </div>
-                </>
-            )}
+            </>
 
             {/* ── CURRENT TOAST ── */}
-            {!showIntro && panel?.type === 'current' && (
+            {!showIntro && panel?.type === 'current' && toastPos && (
                 <>
                     <div className="map-toast__dismiss" onClick={() => setPanel(null)} />
-                    <div className="map-toast">
+                    <div
+                        className="map-toast"
+                        style={{
+                            left: toastPos.x,
+                            top: toastPos.y - 56 - 12,
+                            transform: 'translateX(-50%) translateY(-100%)',
+                        }}
+                    >
                         <img src={currenttapbg} alt="" className="map-toast__bg" />
                         <div className="map-toast__content">
                             <p className="map-toast__label">Your latest tap:</p>
