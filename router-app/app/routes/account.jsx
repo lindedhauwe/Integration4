@@ -14,63 +14,55 @@ import beigeVierkantBottom from "../assets/square-account-bottom.svg";
 
 import locationPink from "../assets/location-pink.svg";
 import fullHeartPink from "../assets/full-heart-pink.svg";
-import emptyHeartPink from "../assets/empty-heart-pink.svg";
 import arrowRight from "../assets/arrow-right.svg";
 
-const VISITED_BARS = [
-    { id: 1, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 2, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 3, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 4, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 5, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 6, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 7, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 8, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 9, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-    { id: 10, name: "Café Beveren", location: "Vlasmarkt 2, Antwerp" },
-];
+function getVisitedBars() {
+    try {
+        const visited = JSON.parse(localStorage.getItem("visited_cafes") || "[]");
+        const current = JSON.parse(localStorage.getItem("current_cafe") || "null");
+        const all = [...visited];
+        if (current && !all.find((v) => String(v.id) === String(current.id))) {
+            all.unshift(current);
+        }
+        return all;
+    } catch { return []; }
+}
 
-const LIKED_BARS = [
-    { id: 1, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 2, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 3, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 4, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 5, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 6, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 7, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 8, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 9, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-    { id: 10, name: "Café t'Hoeksen", location: "Vlasmarkt 2, Antwerp" },
-];
+function getLikedBarsFromStorage() {
+    try { return JSON.parse(localStorage.getItem("liked_cafes") || "[]"); }
+    catch { return []; }
+}
 
 export default function Account() {
     const [user, setUser] = useState(null);
     const [activeTab, setActiveTab] = useState("liked");
     const [visibleCount, setVisibleCount] = useState(5);
-    const [likedIds, setLikedIds] = useState(() => new Set(LIKED_BARS.map((b) => b.id)));
+    const [visitedBars, setVisitedBars] = useState([]);
+    const [likedBars, setLikedBars] = useState([]);
 
     function switchTab(tab) {
         setActiveTab(tab);
         setVisibleCount(5);
     }
 
-    function toggleLike(id) {
-        setLikedIds((prev) => {
-            const next = new Set(prev);
-            next.has(id) ? next.delete(id) : next.add(id);
-            return next;
-        });
+    function toggleLike(cafeId) {
+        const liked = getLikedBarsFromStorage();
+        const updated = liked.filter((c) => String(c.cafe_id) !== String(cafeId));
+        localStorage.setItem("liked_cafes", JSON.stringify(updated));
+        setLikedBars(updated);
     }
     const navigate = useNavigate();
 
     useEffect(() => {
         const stored = localStorage.getItem("user");
         if (stored) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setUser(JSON.parse(stored));
         } else {
             navigate("/login");
+            return;
         }
+        setVisitedBars(getVisitedBars());
+        setLikedBars(getLikedBarsFromStorage());
     }, [navigate]);
 
     if (!user) return null;
@@ -117,35 +109,45 @@ export default function Account() {
                 </div>
 
                 <ul className="bars-list">
-                    {(activeTab === "liked" ? LIKED_BARS : VISITED_BARS).slice(0, visibleCount).map((bar) => (
-                        <li className="bar-item" key={bar.id}>
-                            <div>
-                                <h3 className="bar-name">{bar.name}</h3>
-                                <p className="bar-location">
-                                    <img src={locationPink} alt="" className="location-icon" />
-                                    {bar.location}
-                                </p>
-                            </div>
-                            {activeTab === "liked" ? (
-                                <div className="bar-actions">
-                                    <img
-                                        src={likedIds.has(bar.id) ? fullHeartPink : emptyHeartPink}
-                                        alt="liked"
-                                        className="heart-icon"
-                                        onClick={() => toggleLike(bar.id)}
-                                        style={{ cursor: "pointer" }}
-                                    />
-                                    <Link to={`/bar/${bar.id}`} className="btn-arrow">
-                                        <img src={arrowRight} alt="" className="arrow-icon" />
-                                    </Link>
+                    {(activeTab === "liked" ? likedBars : visitedBars).slice(0, visibleCount).map((bar) => {
+                        const barId = bar.cafe_id ?? bar.id;
+                        return (
+                            <li className="bar-item" key={barId}>
+                                <div>
+                                    <h3 className="bar-name">{bar.name}</h3>
+                                    {bar.adress && (
+                                        <p className="bar-location">
+                                            <img src={locationPink} alt="" className="location-icon" />
+                                            {bar.adress}
+                                        </p>
+                                    )}
                                 </div>
-                            ) : (
-                                <Link to={`/bar/${bar.id}`} className="btn-view-spot">
-                                    View spot <img src={arrowRight} alt="" className="arrow-icon" />
-                                </Link>
-                            )}
+                                {activeTab === "liked" ? (
+                                    <div className="bar-actions">
+                                        <img
+                                            src={fullHeartPink}
+                                            alt="liked"
+                                            className="heart-icon"
+                                            onClick={() => toggleLike(barId)}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <Link to={`/thespot?cafe_id=${barId}`} className="btn-arrow">
+                                            <img src={arrowRight} alt="" className="arrow-icon" />
+                                        </Link>
+                                    </div>
+                                ) : (
+                                    <Link to={`/thespot?cafe_id=${barId}`} className="btn-view-spot">
+                                        View spot <img src={arrowRight} alt="" className="arrow-icon" />
+                                    </Link>
+                                )}
+                            </li>
+                        );
+                    })}
+                    {(activeTab === "liked" ? likedBars : visitedBars).length === 0 && (
+                        <li className="bar-item bar-item--empty">
+                            <p>{activeTab === "liked" ? "No liked bars yet." : "No visited bars yet."}</p>
                         </li>
-                    ))}
+                    )}
                 </ul>
 
                 <div className="bars-pagination">
@@ -157,7 +159,7 @@ export default function Account() {
                     <button
                         className="see-more"
                         onClick={() => setVisibleCount((c) => c + 5)}
-                        disabled={visibleCount >= (activeTab === "liked" ? LIKED_BARS : VISITED_BARS).length}
+                        disabled={visibleCount >= (activeTab === "liked" ? likedBars : visitedBars).length}
                     >
                         See 5 more
                     </button>

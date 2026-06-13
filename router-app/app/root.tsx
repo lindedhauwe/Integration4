@@ -8,9 +8,11 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./styles/index.css"; 
+import "./styles/index.css";
 import Nav from "~/components/Nav";
+import { useEffect } from "react";
 import { useLocation } from "react-router";
+import { seedDevData } from "./devSeed";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -45,6 +47,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    if (import.meta.env.DEV) seedDevData();
+  }, []);
 
   const hiddenNavRoutes = [
     "/storytelling",
