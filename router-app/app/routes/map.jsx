@@ -13,6 +13,8 @@ import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
 import locationPin from '../assets/location-pink.svg';
+import currenttapbg from '../assets/icons/currenttapbg.svg';
+import locationpingreen from '../assets/icons/locationpingreen.svg';
 import bgNav from '../assets/bg-nav.svg';
 import closeIcon from '../assets/close.svg';
 import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
@@ -86,6 +88,9 @@ export default function Map() {
     const leafletRef = useRef(null);
     const navigate = useNavigate();
 
+    const [showAuthGate, setShowAuthGate] = useState(() => {
+        try { return !localStorage.getItem('user'); } catch { return true; }
+    });
     const [showIntro, setShowIntro] = useState(true);
 
     function dismissIntro() {
@@ -96,10 +101,27 @@ export default function Map() {
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
+    const [toastPos, setToastPos] = useState(null);
     const setPanelRef = useRef(setPanel);
     setPanelRef.current = setPanel;
 
     useEffect(() => { setPanelView('story'); setPhotoIdx(0); }, [panel?.name, panel?.type]);
+
+    // Pin de toast boven de roze marker door Leaflet pixel-coördinaten bij te houden
+    useEffect(() => {
+        if (panel?.type !== 'current' || !panel.position || !instanceRef.current) {
+            setToastPos(null);
+            return;
+        }
+        const map = instanceRef.current;
+        function updatePos() {
+            const pt = map.latLngToContainerPoint(panel.position);
+            setToastPos({ x: pt.x, y: pt.y });
+        }
+        updatePos();
+        map.on('move zoom viewreset', updatePos);
+        return () => { map.off('move zoom viewreset', updatePos); };
+    }, [panel?.type, panel?.position]);
 
     useEffect(() => {
         if (!panel?.cafeId) { setIsLiked(false); return; }
@@ -191,7 +213,7 @@ export default function Map() {
                     const t = spot.type;
 
                     if (t === 'current' || t === 'currentLiked') {
-                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
+                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId, position: spot.position });
                         return;
                     }
 
@@ -221,8 +243,8 @@ export default function Map() {
     const panelOpen = !!panel;
     const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add' || panel?.type === 'not-visited';
 
-    // Close button — geportald naar document.body zodat het ALTIJD boven de hamburger staat
-    const closeBtn = panelOpen ? createPortal(
+    // Close button — enkel bij full panel, niet bij de current toast
+    const closeBtn = isFullPanel ? createPortal(
         <button className="mpp__close" onClick={() => setPanel(null)}>
             <img src={bgNav} alt="" className="mpp__close-bg" />
             <img src={closeIcon} alt="sluit" className="mpp__close-icon" />
@@ -237,8 +259,33 @@ export default function Map() {
             {/* Close button geportald naar body */}
             {closeBtn}
 
+            {/* ── AUTH GATE — alleen als niet ingelogd ── */}
+            {showAuthGate && (
+                <div className="map-auth-gate">
+                    <div className="map-auth-gate__topbar">
+                        <button className="map-auth-gate__back" onClick={() => navigate(-1)}>
+                            <img src={arrowRight} alt="" className="map-auth-gate__back-icon" />
+                            Go back
+                        </button>
+                    </div>
+<div className="map-auth-gate__content">
+                        <h1 className="map-auth-gate__title" onClick={() => setShowAuthGate(false)} style={{ cursor: 'pointer' }}>Start your own pub crawl!</h1>
+                        <p className="map-auth-gate__text">
+                            Save all the spots you've visited, the places you plan to visit, and your current recommendations. Later, you can share your personal pub crawl with your friends!
+                        </p>
+                        <p className="map-auth-gate__text">
+                            To save your pub crawl, you'll need to create an account.
+                        </p>
+                        <div className="map-auth-gate__actions">
+                            <button className="map-auth-gate__login" onClick={() => navigate('/login')}>Log in</button>
+                            <button className="map-auth-gate__register" onClick={() => navigate('/create-profile')}>Create account</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* ── INTRO OVERLAY ── */}
-            {showIntro && (
+            {!showAuthGate && showIntro && (
                 <div className="map-intro">
                     <div className="map-intro__topbar">
                         <button className="map-intro__back" onClick={() => navigate(-1)}>
@@ -280,9 +327,8 @@ export default function Map() {
                 </div>
             )}
 
-            {/* ── NORMALE KAART ── */}
-            {!panelOpen && !showIntro && (
-                <>
+            {/* ── HEADER + BOTTOM — altijd zichtbaar op de achtergrond ── */}
+            <>
                     <header className="map-header">
                         <img src={rectTopMap} alt="" className="map-header__bg" />
                         <img src={swirlMapPage} alt="" className="map-header__swirl" />
@@ -301,30 +347,37 @@ export default function Map() {
                             <div className="map-legend-item"><img src={fullHeart} alt="" className="map-legend-item__heart" /><span>liked</span></div>
                         </div>
                     </div>
-                </>
-            )}
+            </>
 
             {/* ── CURRENT TOAST ── */}
-            {!showIntro && panel?.type === 'current' && (
+            {!showIntro && panel?.type === 'current' && toastPos && (
                 <>
-                    <header className="map-header">
-                        <img src={rectTopMap} alt="" className="map-header__bg" />
-                        <img src={swirlMapPage} alt="" className="map-header__swirl" />
-                        <h1 className="map-header__title">YOUR PUB CRAWL</h1>
-                    </header>
-                    <div className="map-toast">
-                        <p className="map-toast__label">You are now at:</p>
-                        <p className="map-toast__name">{panel.name}</p>
-                        {panel.adress && <p className="map-toast__adress">{panel.adress}</p>}
+                    <div className="map-toast__dismiss" onClick={() => setPanel(null)} />
+                    <div
+                        className="map-toast"
+                        style={{
+                            left: toastPos.x,
+                            top: toastPos.y - 56 - 12,
+                            transform: 'translateX(-50%) translateY(-100%)',
+                        }}
+                    >
+                        <img src={currenttapbg} alt="" className="map-toast__bg" />
+                        <div className="map-toast__content">
+                            <p className="map-toast__label">Your latest tap:</p>
+                            <div className="map-toast__name-row">
+                                <img src={locationpingreen} alt="" className="map-toast__pin" />
+                                <p className="map-toast__name">{panel.name}</p>
+                            </div>
+                        </div>
                     </div>
                 </>
             )}
 
             {/* ── FULL PANEL ── */}
             {!showIntro && isFullPanel && (
-                <div className="mpp">
+                <div className="mpp" onClick={() => setPanel(null)}>
                     {/* Body */}
-                    <div className="mpp__body">
+                    <div className="mpp__body" onClick={(e) => e.stopPropagation()}>
 
                         {/* Cafénaam — donkergroene rechthoek */}
                         <div className="mpp__bar-header">
