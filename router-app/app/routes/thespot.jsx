@@ -176,6 +176,7 @@ export default function TheSpot() {
       {/* STORIES */}
       {recs.length > 0 && (
         <div className="thespot-stories">
+          <img src={rectSide} alt="" className="thespot-stories__rect" />
           <h2 className="thespot-stories__title">Stories &<br />recommendations</h2>
 
           <div
@@ -250,10 +251,15 @@ export default function TheSpot() {
               <h3 className="thespot-neighbourhood__name">{currentSpot.name}</h3>
 
               {currentSpot.address && (
-                <p className="thespot-neighbourhood__address">
+                <a
+                  className="thespot-neighbourhood__address"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(currentSpot.name + ' ' + currentSpot.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img src={locationPin} alt="" className="thespot-neighbourhood__pin" />
                   {currentSpot.address}
-                </p>
+                </a>
               )}
 
               {Array.isArray(currentSpot.tags) && currentSpot.tags.length > 0 && (

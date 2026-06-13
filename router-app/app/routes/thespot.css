@@ -299,6 +299,18 @@
   background: var(--dark-green);
   padding: 40px 24px 48px;
   text-align: center;
+  position: relative;
+  overflow: visible;
+}
+
+.thespot-stories__rect {
+  position: absolute;
+  right: 0;
+  bottom: -60px;
+  height: 140px;
+  width: auto;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .thespot-stories__title {
@@ -494,6 +506,7 @@
   color: var(--pink);
   margin: 0 0 14px;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .thespot-neighbourhood__pin {
