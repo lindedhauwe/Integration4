@@ -106,6 +106,7 @@
     justify-content: space-between;
     padding: 0.75rem 0.75rem;
     text-decoration: none;
+    overflow: hidden;
 }
 
 .nav-cell--home {
@@ -135,7 +136,7 @@
 
 .nav-cell__title {
     font-family: var(--font-antwerpen-regular);
-    font-size: 28px;
+    font-size: clamp(18px, 5.8vw, 28px);
     color: var(--light-green);
     line-height: 1.05;
     text-transform: uppercase;
