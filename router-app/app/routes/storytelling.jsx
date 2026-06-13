@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import "./storytelling.css";
 import closeIcon from "~/assets/close.svg";
 
@@ -27,7 +28,6 @@ import contrabasImg from "../assets/scrollytelling/story/contrabas-player.png";
 import table01Img from "../assets/scrollytelling/story/table-cafe01.png";
 import table02Img from "../assets/scrollytelling/story/table-cafe02.png";
 import table03Img from "../assets/scrollytelling/story/table-cafe03.png";
-import rollingBeerImg from "../assets/scrollytelling/story/rolling beer bottle.png";
 import pigeons01Img from "../assets/scrollytelling/story/pigeons01.png";
 import pigeons02Img from "../assets/scrollytelling/story/pigeons02.png";
 import seagullImg from "../assets/scrollytelling/story/seagull01.png";
@@ -37,6 +37,7 @@ import tree01Img from "../assets/scrollytelling/story/tree01.png";
 import tree02Img from "../assets/scrollytelling/story/tree02.png";
 import clickImg from "../assets/scrollytelling/story/click.svg";
 import mariaGlowImg from "../assets/scrollytelling/story/maria-glow.png"
+import beerBottleImg from "../assets/scrollytelling/story/beer-bottle.png"
 
 // ── Checkpoint / interactive assets ────────────────────────────────────────
 import beerImg from "../assets/scrollytelling/story/beer.png";
@@ -56,7 +57,7 @@ import buttonSpaceImg from "../assets/scrollytelling/pop-ups/button-space.svg"
 
 import fullFrameImg from "../assets/scrollytelling/story/full-frame.jpg";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 // ── Total track width ───────────────────────────────────────────────────────
 const TRACK_WIDTH = 4300;
@@ -113,7 +114,10 @@ export default function Storytelling() {
     const langeWapperTableRef = useRef(null);
     const langeWapperTableAnimated = useRef(false);
     const langeWapperTableSway = useRef(null);
-    
+
+    const beerBottleRef = useRef(null);
+    const beerPathRef = useRef(null);
+
     const mariaGlowRef1 = useRef(null);
     const mariaGlowRef2 = useRef(null);
     const mariaGlowRef3 = useRef(null);
@@ -149,6 +153,17 @@ export default function Storytelling() {
 
         gsap.set([mariaGlowRef1.current, mariaGlowRef2.current, mariaGlowRef3.current], { opacity: 0 });
 
+        const bottleTween = gsap.to(beerBottleRef.current, {
+            motionPath: {
+                path: beerPathRef.current,
+                align: beerPathRef.current,
+                autoRotate: true,
+                alignOrigin: [0.5, 0.5],
+            },
+            duration: 1,
+            ease: "none",
+            paused: true,
+        });
 
         const tween = gsap.to(track, {
             x: -totalTravel,
@@ -233,6 +248,8 @@ export default function Storytelling() {
                         });
                     }
 
+                    bottleTween.progress(self.progress);
+
                     if (lockedScrollPos.current !== null) return;
 
                     const currentX = self.progress * totalTravel;
@@ -259,6 +276,7 @@ export default function Storytelling() {
         return () => {
             tween.scrollTrigger?.kill();
             tween.kill();
+            bottleTween.kill();
             window.removeEventListener("scroll", onScroll);
             langeWapperSway.current?.kill();
             langeWapperTableSway.current?.kill();
@@ -358,9 +376,9 @@ export default function Storytelling() {
                     <img src={steenImg} className="asset steen" alt="" draggable="false" />
                     <div className="asset pubs">
                         <img src={pubsImg} className="buildings" alt="" draggable="false" />
-                        <img ref={mariaGlowRef1} src={mariaGlowImg} class="asset maria-glow maria-glow--1" alt=""></img>
-                        <img ref={mariaGlowRef2} src={mariaGlowImg} class="asset maria-glow maria-glow--2" alt=""></img>
-                        <img ref={mariaGlowRef3} src={mariaGlowImg} class="asset maria-glow maria-glow--3" alt=""></img>
+                        <img ref={mariaGlowRef1} src={mariaGlowImg} className="asset maria-glow maria-glow--1" alt=""></img>
+                        <img ref={mariaGlowRef2} src={mariaGlowImg} className="asset maria-glow maria-glow--2" alt=""></img>
+                        <img ref={mariaGlowRef3} src={mariaGlowImg} className="asset maria-glow maria-glow--3" alt=""></img>
                     </div>
                     <img src={marketImg} className="asset market" alt="" draggable="false" />
                     <img src={masImg} className="asset mas" alt="" draggable="false" />
@@ -382,7 +400,6 @@ export default function Storytelling() {
                     <img src={table01Img} className="asset table-cafe-01" alt="" draggable="false" />
                     <img src={table02Img} className="asset table-cafe-02" alt="" draggable="false" />
                     <img src={table03Img} className="asset table-cafe-03" alt="" draggable="false" />
-                    <img src={rollingBeerImg} className="asset rolling-beer" alt="" draggable="false" />
 
                     {/* ════════════════════════════════════════════════════════════════
               AMBIENT ANIMATION LAYER  (z-index 8)
@@ -432,7 +449,27 @@ export default function Storytelling() {
                         <img src={silviusImg} className="image" alt="Silvius" />
                     </button>
 
+                    {/* SVG path for the beer bottle to follow */}
+                    <svg
+                        className="beer-bottle-path"
+                        viewBox="0 0 5213 260"
+                        preserveAspectRatio="none"
+                        aria-hidden="true"
+                    >
+                        <path ref={beerPathRef} d="M0 160.718C140 160.885 431.7 162.718 478.5 168.718C537 176.218 903.689 181.439 1035.5 110.218C1221.5 9.71836 1505 -15.7828 1685.5 9.71717C1866 35.2172 2239 167.218 2439 156.218C2639 145.218 2889.83 156.218 3069.5 131.718C3245.5 107.718 3526.74 184.216 3660.5 131.718C3846.5 58.718 3905.5 132.218 4012.5 210.218C4119.5 288.218 4283 256.718 4387 222.218C4491 187.718 4507 211.718 4537.5 222.218C4568 232.718 4641.5 234.218 4676 210.218C4710.5 186.218 4778.5 198.218 4805.5 210.218C4832.5 222.218 4908 244.718 4959 210.218C5010 175.718 5060 198.218 5093 210.218C5126 222.218 5167 240.218 5213 215.718" />
+                    </svg>
+
+                    {/* Beer bottle — follows path via MotionPath */}
+                    <img
+                        ref={beerBottleRef}
+                        src={beerBottleImg}
+                        className="beer-bottle-follower"
+                        alt=""
+                        draggable="false"
+                    />
+
                 </div>{/* end st-track */}
+
             </div>{/* end st-wrapper */}
 
             {/* ── Modal overlay ─────────────────────────────────────────────────── */}
