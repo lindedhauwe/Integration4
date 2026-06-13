@@ -1,5 +1,5 @@
 import { useLoaderData, useNavigate } from "react-router";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "../supabase";
 import Footer from "../components/Footer";
 import "./thespot.css";
@@ -52,6 +52,7 @@ export default function TheSpot() {
   const navigate = useNavigate();
   const [recIndex, setRecIndex] = useState(0);
   const [spotIndex, setSpotIndex] = useState(0);
+  const touchStartX = useRef(null);
 
   if (!cafe) {
     return (
@@ -176,18 +177,32 @@ export default function TheSpot() {
         <div className="thespot-stories">
           <h2 className="thespot-stories__title">Stories &<br />recommendations</h2>
 
-          <div className="thespot-story-card">
-            <span className="thespot-story__author">
-              {currentRec.name} ({currentRec.age}y) • {currentRec.city}
-            </span>
-            <p className="thespot-story__text">{currentRec.description}</p>
-            {parsePhotos(currentRec.photo_url).length > 0 && (
-              <img
-                src={parsePhotos(currentRec.photo_url)[0]}
-                alt=""
-                className="thespot-story__photo"
-              />
-            )}
+          <div
+            className="thespot-story__carousel"
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+            onTouchEnd={(e) => {
+              if (touchStartX.current === null) return;
+              const diff = touchStartX.current - e.changedTouches[0].clientX;
+              if (Math.abs(diff) > 40) {
+                if (diff > 0) setRecIndex((i) => (i + 1) % recs.length);
+                else setRecIndex((i) => (i - 1 + recs.length) % recs.length);
+              }
+              touchStartX.current = null;
+            }}
+          >
+            <div
+              className="thespot-story__track"
+              style={{ transform: `translateX(calc(-${recIndex} * 85%))` }}
+            >
+              {recs.map((r, i) => (
+                <div key={r.id} className="thespot-story-card">
+                  <span className="thespot-story__author">
+                    {r.name} ({r.age}y) • {r.city}
+                  </span>
+                  <p className="thespot-story__text">{r.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {recs.length > 1 && (

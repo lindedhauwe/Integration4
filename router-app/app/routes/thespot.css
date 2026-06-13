@@ -246,7 +246,6 @@
 .thespot-vibe__content {
   position: relative;
   z-index: 1;
-  max-width: calc(100% - 120px);
 }
 
 .thespot-vibe__name {
@@ -258,18 +257,25 @@
 
 .thespot-vibe__tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 8px;
   margin-bottom: 14px;
+  scrollbar-width: none;
+}
+
+.thespot-vibe__tags::-webkit-scrollbar {
+  display: none;
 }
 
 .thespot-vibe__tag {
-  background: var(--dark-green);
-  color: var(--beige);
+  flex-shrink: 0;
+  background: var(--blue);
+  color: var(--white);
   font-family: var(--font-interstate);
-  font-size: 13px;
-  padding: 5px 14px;
-  border-radius: 20px;
+  font-size: 12px;
+  padding: 7px 14px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, calc(100% - 12px) 8px, 100% 8px, 100% 100%, 0 100%);
 }
 
 .thespot-vibe__desc {
@@ -284,6 +290,7 @@
 .thespot-stories {
   background: var(--dark-green);
   padding: 40px 24px 48px;
+  text-align: center;
 }
 
 .thespot-stories__title {
@@ -294,9 +301,23 @@
   line-height: 1.1;
 }
 
+.thespot-story__carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.thespot-story__track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+
 .thespot-story-card {
+  flex: 0 0 85%;
   background: var(--beige);
-  padding: 20px;
+  padding: 20px 15px 20px 15px;
+  text-align: center;
 }
 
 .thespot-story__author {
@@ -306,9 +327,9 @@
   font-family: var(--font-interstate);
   font-size: 13px;
   font-weight: 700;
-  padding: 5px 14px;
-  border-radius: 20px;
+  padding: 8px 18px;
   margin-bottom: 16px;
+  transform: rotate(-2deg);
 }
 
 .thespot-story__text {
@@ -331,6 +352,7 @@
   display: flex;
   gap: 8px;
   margin-top: 20px;
+  justify-content: center;
 }
 
 .thespot-story__dot {
