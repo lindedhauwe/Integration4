@@ -328,22 +328,23 @@ export default function Map() {
                     <div className="mpp__body">
 
                         {/* Cafénaam — donkergroene rechthoek */}
-                        <div className="mpp__bar-tab">
-                            <div className="mpp__name-row">
-                                <h2 className="mpp__bar-name">{panel.name}</h2>
-                                <button className="mpp__heart-btn" onClick={togglePanelLike}>
-                                    <img src={isLiked ? fullHeartPink : emptyHeart} alt="like" className={`mpp__heart${isLiked ? ' mpp__heart--liked' : ''}`} />
-                                </button>
+                        <div className="mpp__bar-header">
+                            <div className="mpp__bar-tab">
+                                <div className="mpp__name-row">
+                                    <h2 className="mpp__bar-name">{panel.name}</h2>
+                                    <button className="mpp__heart-btn" onClick={togglePanelLike}>
+                                        <img src={isLiked ? fullHeartPink : emptyHeart} alt="like" className={`mpp__heart${isLiked ? ' mpp__heart--liked' : ''}`} />
+                                    </button>
+                                </div>
                             </div>
+                            {/* Locatie — roze balk los onder naam */}
+                            {panel.adress && (
+                                <div className="mpp__location">
+                                    <img src={locationPin} alt="" />
+                                    <span>{panel.adress}</span>
+                                </div>
+                            )}
                         </div>
-
-                        {/* Locatie — roze balk los onder naam */}
-                        {panel.adress && (
-                            <div className="mpp__location">
-                                <img src={locationPin} alt="" />
-                                <span>{panel.adress}</span>
-                            </div>
-                        )}
 
                         {/* Grote beige cirkel */}
                         <div className="mpp__blob-wrap">
