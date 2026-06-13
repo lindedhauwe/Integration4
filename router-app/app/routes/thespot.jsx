@@ -97,7 +97,7 @@ export default function TheSpot() {
   function nextSpot() { setSpotIndex((i) => (i + 1) % spots.length); }
 
   return (
-    <>
+    <div className="thespot-wrapper">
     <div className="thespot-page">
 
       {/* HERO */}
@@ -290,6 +290,6 @@ export default function TheSpot() {
     <div className="thespot-footer">
       <Footer />
     </div>
-    </>
+    </div>
   );
 }

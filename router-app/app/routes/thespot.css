@@ -1,7 +1,39 @@
+.thespot-wrapper {
+  background: var(--dark-green);
+  min-height: 100vh;
+}
+
 .thespot-page {
   background: var(--dark-green);
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .thespot-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0 60px;
+  }
+
+  .thespot-page,
+  .thespot-footer {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .thespot-page {
+    min-height: unset;
+  }
+
+  .thespot-footer .footer {
+    margin-top: 0;
+  }
+
+  .thespot-hero {
+    height: 320px;
+  }
 }
 
 .thespot-footer .footer {
