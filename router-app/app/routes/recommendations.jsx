@@ -300,11 +300,13 @@ export default function Recommendations() {
                   <button
                     type="button"
                     key={tag}
-                    className="tag blue"
+                    className={`tag blue${vibe.includes(tag) ? " tag--selected" : ""}`}
                     onClick={() => toggleTag(tag, vibe, setVibe)}
                   >
-                    #{tag}
-                    {vibe.includes(tag) && <span className="tag__remove">✕</span>}
+                    <span className="tag__fill">
+                      #{tag}
+                      {vibe.includes(tag) && <span className="tag__remove">✕</span>}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -317,11 +319,13 @@ export default function Recommendations() {
                   <button
                     type="button"
                     key={tag}
-                    className="tag green"
+                    className={`tag green${type.includes(tag) ? " tag--selected" : ""}`}
                     onClick={() => toggleTag(tag, type, setType)}
                   >
-                    #{tag}
-                    {type.includes(tag) && <span className="tag__remove">✕</span>}
+                    <span className="tag__fill">
+                      #{tag}
+                      {type.includes(tag) && <span className="tag__remove">✕</span>}
+                    </span>
                   </button>
                 ))}
               </div>
