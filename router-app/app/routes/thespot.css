@@ -71,11 +71,12 @@
 
 .thespot-info__rect-side {
   position: absolute;
-  top: 0;
-  right: -10px;
-  height: 160px;
+  bottom: -220px;
+  right: 0;
+  height: 480px;
   width: auto;
   pointer-events: none;
+  z-index: 0;
 }
 
 .thespot-info__name-row {
@@ -166,7 +167,7 @@
 
 .thespot-info__description {
   font-family: var(--font-interstate);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--beige);
   margin: 0;
@@ -184,18 +185,18 @@
 
 .thespot-quote__pixels {
   position: absolute;
-  top: 20px;
-  right: 0;
-  width: 120px;
+  top: 200px;
+  right: 20px;
+  width: 220px;
   height: auto;
   pointer-events: none;
 }
 
 .thespot-quote__spark {
   position: absolute;
-  bottom: 24px;
+  bottom: 200px;
   right: 20px;
-  width: 48px;
+  width: 80px;
   height: auto;
   pointer-events: none;
   opacity: 0.9;
@@ -207,18 +208,26 @@
   line-height: 1.05;
   color: var(--beige);
   margin: 0;
-  max-width: 70%;
+  max-width: 85%;
 }
 
 .thespot-quote__text span {
   color: var(--light-green);
 }
 
+.thespot-quote__line {
+  display: block;
+  margin-left: -25px;
+  width: 60%;
+  height: auto;
+  margin-top: 16px;
+}
+
 .thespot-quote__beer {
   position: absolute;
   right: -10px;
-  bottom: -90px;
-  width: 170px;
+  bottom: -120px;
+  width: 130px;
   height: auto;
   z-index: 5;
   pointer-events: none;
@@ -227,23 +236,11 @@
 
 /* ── VIBE / BEER ── */
 .thespot-vibe {
-  background: var(--beige);
-  padding: 110px 24px 36px;
+  padding: 140px 24px 36px;
   position: relative;
   z-index: 0;
   overflow: hidden;
   min-height: 180px;
-}
-
-.thespot-vibe__bg {
-  position: absolute;
-  top: -30px;
-  left: -20px;
-  width: 90%;
-  height: auto;
-  pointer-events: none;
-  opacity: 0.5;
-  z-index: 0;
 }
 
 .thespot-vibe__content {
@@ -254,8 +251,8 @@
 
 .thespot-vibe__name {
   font-family: var(--font-antwerpen-regular);
-  font-size: 26px;
-  color: var(--bar-brown);
+  font-size: 32px;
+  color: var(--beige);
   margin: 0 0 12px;
 }
 
@@ -277,9 +274,9 @@
 
 .thespot-vibe__desc {
   font-family: var(--font-interstate);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
-  color: var(--bar-brown);
+  color: var(--beige);
   margin: 0;
 }
 

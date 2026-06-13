@@ -12,7 +12,9 @@ import areaBeige    from "../assets/images/area-beige-detailPage.png";
 import pinkPixels   from "../assets/images/pink-pixels-detailPage.png";
 import sparkOrange  from "../assets/images/spark-orange-detailPage.png";
 import seefImg      from "../assets/images/seef.png";
+import bollekaImg   from "../assets/images/bolleke-de-konink-detail.png";
 import titleCafeLine from "../assets/images/title-cafe-line-detailPage.png";
+import greenLine     from "../assets/images/greenLine-detailPage.png";
 
 function getOpenStatus(opening_hours) {
   if (!opening_hours || Object.keys(opening_hours).length === 0) return null;
@@ -85,6 +87,10 @@ export default function TheSpot() {
     }
   }
 
+  const beerImg = cafe.beer_name?.toLowerCase().includes("bolleke") || cafe.beer_name?.toLowerCase().includes("koninck")
+    ? bollekaImg
+    : seefImg;
+
   function prevSpot() { setSpotIndex((i) => (i - 1 + spots.length) % spots.length); }
   function nextSpot() { setSpotIndex((i) => (i + 1) % spots.length); }
 
@@ -107,7 +113,6 @@ export default function TheSpot() {
 
       {/* CAFÉ INFO */}
       <div className="thespot-info">
-        <img src={rectSide} alt="" className="thespot-info__rect-side" />
         <div className="thespot-info__name-row">
           <h1 className="thespot-info__name">{cafe.name}</h1>
           <img src={titleCafeLine} alt="" className="thespot-info__name-line" />
@@ -139,17 +144,18 @@ export default function TheSpot() {
 
       {/* QUOTE */}
       <div className="thespot-quote">
+        <img src={rectSide} alt="" className="thespot-info__rect-side" />
         <img src={pinkPixels} alt="" className="thespot-quote__pixels" />
         <img src={sparkOrange} alt="" className="thespot-quote__spark" />
         <p className="thespot-quote__text">
-          Every great spot <span>deserves a<br />great beer!</span>
+          Every great spot <span>deserves a great beer!</span>
         </p>
-        <img src={seefImg} alt="beer" className="thespot-quote__beer" />
+        <img src={greenLine} alt="" className="thespot-quote__line" />
+        <img src={beerImg} alt={cafe.beer_name || "beer"} className="thespot-quote__beer" />
       </div>
 
       {/* VIBE / BEER */}
       <div className="thespot-vibe">
-        <img src={areaBeige} alt="" className="thespot-vibe__bg" />
         <div className="thespot-vibe__content">
           <p className="thespot-vibe__name">{cafe.beer_name || "House special"}</p>
           {vibeTags.length > 0 && (
