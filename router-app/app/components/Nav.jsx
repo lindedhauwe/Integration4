@@ -11,6 +11,7 @@ import "./Nav.css";
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const isLoggedIn = (() => { try { return !!localStorage.getItem('user'); } catch { return false; } })();
   const hamburgerBg = pathname === "/" ? bgNavOrange : bgNav;
   const hamburgerIcon = pathname === "/" ? hamburgerBeige : hamburger;
 
@@ -52,12 +53,12 @@ export default function Nav() {
                   <span className="nav-cell__subtitle">Your personal <br /> bar journey</span>
                 </NavLink>
                 <NavLink
-                  to="/login"
+                  to={isLoggedIn ? "/account" : "/login"}
                   className={({ isActive }) => `nav-cell nav-cell--account${isActive ? " nav-cell--active" : ""}`}
                   onClick={() => setOpen(false)}
                 >
                   <span className="nav-cell__title">My Account</span>
-                  <span className="nav-cell__subtitle">Manage your account</span>
+                  <span className="nav-cell__subtitle">{isLoggedIn ? "View your account" : "Log in to your account"}</span>
                 </NavLink>
               </div>
             </div>

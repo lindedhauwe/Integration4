@@ -144,7 +144,7 @@ export default function Home() {
     if (rec.photo_url) photoUrls = [rec.photo_url];
   }
   const media = [...photoUrls, rec.video_url].filter(Boolean);
-  const isLiked = !!rec.cafe_id && liked.some((c) => c.cafe_id === rec.cafe_id);
+  const isLiked = !!rec.cafe_id && !!localStorage.getItem('user') && liked.some((c) => c.cafe_id === rec.cafe_id);
 
   function shuffle() {
     let newRec;
