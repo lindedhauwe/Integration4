@@ -127,10 +127,10 @@ export default function PhotoDropzone({ onUpload }) {
                     <video ref={videoRef} autoPlay playsInline className="camera-stream" />
                     <div className="camera-controls">
                         <button type="button" className="camera-btn camera-btn--capture" onClick={takePhoto}>
-                            Neem foto
+                            Take photo
                         </button>
                         <button type="button" className="camera-btn camera-btn--close" onClick={closeCamera}>
-                            Annuleer
+                            Cancel
                         </button>
                     </div>
                 </div>

@@ -121,8 +121,15 @@ export default function Home() {
   const cafeName = rec.location || cafeMap[rec.cafe_id]?.name || "Onbekend café";
   const cafeAddress = rec.city || "";
 
-  // build media array from photo_url and video_url
-  const media = [rec.photo_url, rec.video_url].filter(Boolean);
+  // parse photo_url: kan een JSON array zijn of een enkele URL string
+  let photoUrls = [];
+  try {
+    const parsed = JSON.parse(rec.photo_url);
+    photoUrls = Array.isArray(parsed) ? parsed : (rec.photo_url ? [rec.photo_url] : []);
+  } catch {
+    if (rec.photo_url) photoUrls = [rec.photo_url];
+  }
+  const media = [...photoUrls, rec.video_url].filter(Boolean);
   const isLiked = !!rec.cafe_id && liked.some((c) => c.cafe_id === rec.cafe_id);
 
   function shuffle() {
