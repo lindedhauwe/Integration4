@@ -111,6 +111,9 @@ const STORYTELLING_TEXT = [
     "Some keep it as a memory, others pass it on"
 ];
 
+// Progress (0–1) at which the caption fades out. Change this to taste.
+const TEXT_HIDE_AT = 0.80;
+
 const TEXT_STEPS = [
     { progress: 0.00, index: 0 },
     { progress: 0.10, index: 1 },
@@ -148,6 +151,7 @@ export default function Storytelling() {
     const [activeModal, setActiveModal] = useState(null);
     const [mariaVisited, setMariaVisited] = useState(false);
     const [storyTextIndex, setStoryTextIndex] = useState(0);
+    const [captionVisible, setCaptionVisible] = useState(true);
     const lastTextIndexRef = useRef(-1);
 
     // ── Horizontal scroll + gate enforcement ─────────────────────────────────
@@ -181,7 +185,8 @@ export default function Storytelling() {
                 align: beerPathRef.current,
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5],
-                end: 0.95,
+                start: 0.02,
+                end: 0.96,
             },
             duration: 1,
             ease: "none",
@@ -278,6 +283,7 @@ export default function Storytelling() {
                         lastTextIndexRef.current = newIdx;
                         setStoryTextIndex(newIdx);
                     }
+                    setCaptionVisible(self.progress < TEXT_HIDE_AT);
 
                     if (lockedScrollPos.current !== null) return;
 
@@ -479,7 +485,7 @@ export default function Storytelling() {
                         preserveAspectRatio="none"
                         aria-hidden="true"
                     >
-                        <path ref={beerPathRef} d="M0 160.718C140 160.885 431.7 162.718 478.5 168.718C537 176.218 903.689 181.439 1035.5 110.218C1221.5 9.71836 1505 -15.7828 1685.5 9.71717C1866 35.2172 2239 167.218 2439 156.218C2639 145.218 2889.83 156.218 3069.5 131.718C3245.5 107.718 3526.74 184.216 3660.5 131.718C3846.5 58.718 3905.5 132.218 4012.5 210.218C4119.5 288.218 4283 256.718 4387 222.218C4491 187.718 4507 211.718 4537.5 222.218C4568 232.718 4641.5 234.218 4676 210.218C4710.5 186.218 4778.5 198.218 4805.5 210.218C4832.5 222.218 4908 244.718 4959 210.218C5010 175.718 5060 198.218 5093 210.218C5126 222.218 5167 240.218 5213 215.718" />
+                        <path ref={beerPathRef} d="M0 160.718C140 160.885 431.7 162.718 478.5 168.718C537 176.218 903.689 181.438 1035.5 110.218C1221.5 9.71819 1505 -15.783 1685.5 9.71699C1866 35.217 2239 167.218 2439 156.218C2639 145.218 2889.83 156.218 3069.5 131.718C3245.5 107.718 3526.74 184.216 3660.5 131.718C3846.5 58.7179 3905.5 132.218 4012.5 210.218C4119.5 288.218 4283 223.052 4387 213.769C4491 204.486 4507 210.944 4537.5 213.769C4568 216.594 4641.5 216.998 4676 210.54C4710.5 204.083 4778.5 207.312 4805.5 210.54C4832.5 213.769 4908 219.823 4959 210.54C5010 201.258 5060 207.312 5093 210.54C5126 213.769 5167 240.218 5213 215.718" stroke="black" />
                     </svg>
 
                     {/* Beer bottle — follows path via MotionPath */}
@@ -497,7 +503,7 @@ export default function Storytelling() {
             </div>{/* end st-wrapper */}
 
             {/* ── Fixed storytelling caption ─────────────────────────────────────── */}
-            <div className="story-caption">
+            <div className={`story-caption${captionVisible ? "" : " story-caption--hidden"}`}>
                 <p key={storyTextIndex} className="story-caption__text">
                     {STORYTELLING_TEXT[storyTextIndex]}
                 </p>

@@ -21,6 +21,13 @@
 
     display: grid;
     place-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.story-caption--hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
 .story-caption__text {
