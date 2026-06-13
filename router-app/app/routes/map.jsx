@@ -9,6 +9,7 @@ import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
 import shareIcon from '../assets/icons/iconupload.svg';
 import fullHeart from '../assets/icons/fullheart.svg';
+import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
 import locationPin from '../assets/location-pink.svg';
@@ -77,6 +78,8 @@ function parsePhotos(raw) {
 export default function Map() {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
+    const markersRef = useRef({});
+    const leafletRef = useRef(null);
     const navigate = useNavigate();
 
     const [showIntro, setShowIntro] = useState(true);
@@ -88,10 +91,44 @@ export default function Map() {
     const [panel, setPanel] = useState(null);
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
     const setPanelRef = useRef(setPanel);
     setPanelRef.current = setPanel;
 
     useEffect(() => { setPanelView('story'); setPhotoIdx(0); }, [panel?.name, panel?.type]);
+
+    useEffect(() => {
+        if (!panel?.cafeId) { setIsLiked(false); return; }
+        const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
+        setIsLiked(liked.some((c) => String(c.cafe_id) === String(panel.cafeId)));
+    }, [panel?.cafeId]);
+
+    function togglePanelLike() {
+        if (!panel?.cafeId) return;
+        const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
+        const cafeIdStr = String(panel.cafeId);
+        const wasLiked = liked.some((c) => String(c.cafe_id) === cafeIdStr);
+
+        let newLiked;
+        if (wasLiked) {
+            newLiked = liked.filter((c) => String(c.cafe_id) !== cafeIdStr);
+        } else {
+            const latlng = markersRef.current[cafeIdStr]?.marker?.getLatLng();
+            newLiked = [...liked, { cafe_id: panel.cafeId, name: panel.name, adress: panel.adress, lat: latlng?.lat ?? null, lng: latlng?.lng ?? null }];
+        }
+        localStorage.setItem('liked_cafes', JSON.stringify(newLiked));
+        setIsLiked(!wasLiked);
+
+        const markerData = markersRef.current[cafeIdStr];
+        if (markerData && leafletRef.current) {
+            const L = leafletRef.current;
+            const LIKED_TYPE = { current: 'currentLiked', visited: 'visitedLiked', rec: 'recLiked' };
+            const BASE_TYPE = { currentLiked: 'current', visitedLiked: 'visited', recLiked: 'rec' };
+            const nextType = wasLiked ? (BASE_TYPE[markerData.type] || markerData.type) : (LIKED_TYPE[markerData.type] || markerData.type);
+            markerData.type = nextType;
+            markerData.marker.setIcon(L.icon({ iconUrl: ICON_MAP[nextType], iconSize: [56, 56], iconAnchor: [28, 56] }));
+        }
+    }
 
     // Fetch rec from DB when panel type is 'pending'
     useEffect(() => {
@@ -126,6 +163,7 @@ export default function Map() {
             const L = (await import('leaflet')).default;
             await import('leaflet/dist/leaflet.css');
             if (cancelled || !mapRef.current) return;
+            leafletRef.current = L;
 
             const antwerpenBounds = L.latLngBounds([51.15, 4.28], [51.31, 4.52]);
             const current = (() => { try { return JSON.parse(localStorage.getItem('current_cafe') || 'null'); } catch { return null; } })();
@@ -142,13 +180,14 @@ export default function Map() {
                 attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
             }).addTo(map);
 
+            const newMarkers = {};
             getMapSpots().forEach((spot) => {
                 const icon = L.icon({ iconUrl: ICON_MAP[spot.type], iconSize: [56, 56], iconAnchor: [28, 56] });
-                L.marker(spot.position, { icon }).on('click', () => {
+                const marker = L.marker(spot.position, { icon }).on('click', () => {
                     const t = spot.type;
 
                     if (t === 'current' || t === 'currentLiked') {
-                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress });
+                        setPanelRef.current({ type: 'current', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                         return;
                     }
 
@@ -156,9 +195,9 @@ export default function Map() {
                         try {
                             const homeRec = JSON.parse(sessionStorage.getItem('home_rec') || 'null');
                             const recCafe = JSON.parse(sessionStorage.getItem('rec_cafe') || 'null');
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: recCafe?.adress || spot.adress, rec: homeRec });
+                            setPanelRef.current({ type: 'rec', name: spot.name, adress: recCafe?.adress || spot.adress, rec: homeRec, cafeId: spot.cafeId });
                         } catch {
-                            setPanelRef.current({ type: 'rec', name: spot.name, adress: spot.adress, rec: null });
+                            setPanelRef.current({ type: 'rec', name: spot.name, adress: spot.adress, rec: null, cafeId: spot.cafeId });
                         }
                         return;
                     }
@@ -167,7 +206,9 @@ export default function Map() {
                         setPanelRef.current({ type: 'pending', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                     }
                 }).addTo(map);
+                newMarkers[String(spot.cafeId)] = { marker, type: spot.type };
             });
+            markersRef.current = newMarkers;
 
             setTimeout(() => map.invalidateSize(), 100);
         }
@@ -208,6 +249,7 @@ export default function Map() {
                     </div>
 
                     <div className="map-intro__body">
+                        {/* <h1 className="map-header__title">YOUR PUB CRAWL</h1> */}
                         <div className="map-intro__legend">
                             <div className="map-intro__item">
                                 <img src={coasterGrey} alt="" className="map-intro__coaster" />
@@ -282,29 +324,26 @@ export default function Map() {
             {/* ── FULL PANEL ── */}
             {!showIntro && isFullPanel && (
                 <div className="mpp">
-                    {/* Header — enkel titel */}
-                    <header className="mpp__header">
-                        <img src={rectTopMap} alt="" className="mpp__header-bg" />
-                        <img src={swirlMapPage} alt="" className="mpp__header-swirl" />
-                        <h1 className="mpp__header-title">YOUR PUB CRAWL</h1>
-                    </header>
-
                     {/* Body */}
                     <div className="mpp__body">
 
-                        {/* Bar info tab — donkergroene rechthoek boven de cirkel */}
+                        {/* Cafénaam — donkergroene rechthoek */}
                         <div className="mpp__bar-tab">
                             <div className="mpp__name-row">
                                 <h2 className="mpp__bar-name">{panel.name}</h2>
-                                <img src={fullHeartPink} alt="" className="mpp__heart" />
+                                <button className="mpp__heart-btn" onClick={togglePanelLike}>
+                                    <img src={isLiked ? fullHeartPink : emptyHeart} alt="like" className={`mpp__heart${isLiked ? ' mpp__heart--liked' : ''}`} />
+                                </button>
                             </div>
-                            {panel.adress && (
-                                <div className="mpp__location">
-                                    <img src={locationPin} alt="" />
-                                    <span>{panel.adress}</span>
-                                </div>
-                            )}
                         </div>
+
+                        {/* Locatie — roze balk los onder naam */}
+                        {panel.adress && (
+                            <div className="mpp__location">
+                                <img src={locationPin} alt="" />
+                                <span>{panel.adress}</span>
+                            </div>
+                        )}
 
                         {/* Grote beige cirkel */}
                         <div className="mpp__blob-wrap">
@@ -319,13 +358,10 @@ export default function Map() {
                                         <div className="mpp__story">
                                             <img src={aanhalingstekens} alt="" className="mpp__quotes" />
                                             <p className="mpp__desc">{panel.rec.description}</p>
-                                            {panel.rec.name && (
-                                                <p className="mpp__author">{panel.rec.name}{panel.rec.age ? `, ${panel.rec.age}` : ''}</p>
-                                            )}
                                         </div>
                                     ) : (
                                         hasPhotos
-                                            ? <img src={photos[photoIdx]} alt="" className="mpp__photo-full" />
+                                            ? <img src={photos[photoIdx]} alt="" className="mpp__photo-full" onClick={() => setPanelView('story')} style={{ cursor: 'pointer' }} />
                                             : <div className="mpp__no-photo" />
                                     )
                                 )}
@@ -338,19 +374,19 @@ export default function Map() {
                                         <button className="mpp__add-circle" onClick={() => navigate('/recommendations')}>+</button>
                                     </div>
                                 )}
-
-                                {/* Pijlen in photo view — BINNEN cirkel */}
-                                {panelView === 'photos' && photos.length > 1 && (
-                                    <>
-                                        <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
-                                            <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
-                                        </button>
-                                        <button className="mpp__arrow mpp__arrow--right" onClick={() => setPhotoIdx((i) => (i + 1) % photos.length)}>
-                                            <img src={arrowRight} alt="volgende" className="mpp__arrow-icon" />
-                                        </button>
-                                    </>
-                                )}
                             </div>
+
+                            {/* Pijlen in photo view — buiten cirkel zodat ze niet geclipped worden */}
+                            {panelView === 'photos' && hasPhotos && (
+                                <>
+                                    <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
+                                        <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
+                                    </button>
+                                    <button className="mpp__arrow mpp__arrow--right" onClick={() => setPhotoIdx((i) => (i + 1) % photos.length)}>
+                                        <img src={arrowRight} alt="volgende" className="mpp__arrow-icon" />
+                                    </button>
+                                </>
+                            )}
 
                             {/* Dots — buiten cirkel, centraal onderaan */}
                             {panelView === 'photos' && photos.length > 1 && (
