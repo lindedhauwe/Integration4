@@ -159,6 +159,7 @@ export default function Storytelling() {
                 align: beerPathRef.current,
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5],
+                end: 0.95,
             },
             duration: 1,
             ease: "none",
