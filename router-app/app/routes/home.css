@@ -1,10 +1,39 @@
 /* HOME PAGE */
+.home-wrapper {
+  background: var(--beige);
+}
+
+.home-wrapper > .footer {
+  background-color: transparent;
+}
+
 .home-page {
   background: var(--beige);
   min-height: 100vh;
   font-family: var(--font-interstate);
   padding-bottom: 48px;
   overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .home-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 0 0;
+  }
+
+  .home-page {
+    width: 100%;
+    max-width: 500px;
+    min-height: unset;
+  }
+
+  .home-wrapper > .footer {
+    width: 100%;
+    max-width: 500px;
+  }
 }
 
 .home-empty {

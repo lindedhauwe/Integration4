@@ -205,6 +205,7 @@ export default function Home() {
         </div>
       </div>
     )}
+    <div className="home-wrapper">
     <div className="home-page">
       {/* HERO */}
       <section className="home-hero">
@@ -296,6 +297,7 @@ export default function Home() {
 
     </div>
     <Footer />
+    </div>
     </>
   );
 }
