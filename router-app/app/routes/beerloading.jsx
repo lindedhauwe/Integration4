@@ -1,17 +1,13 @@
+import { useNavigate } from 'react-router';
 import Beer from '../components/Beer';
 
 export default function BeerLoading() {
-    return (
-    <>
-    <h1>Beer Loader</h1>
+  const navigate = useNavigate();
 
-    <p>Deze pagina heet "BeerLoading.jsx" in de map pages en component heet "Beer.jsx" in de map components</p>
-    <Beer />
+  const handleEmpty = () => {
+    // Brief pause so the user sees the empty glass before navigating
+    setTimeout(() => navigate('/'), 800);
+  };
 
-    <p>Succes Elisa!</p>
-    </>
-    );
-
-
-
+  return <Beer onEmpty={handleEmpty} />;
 }
