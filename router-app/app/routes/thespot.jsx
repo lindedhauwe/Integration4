@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import "./thespot.css";
 
 import arrowRight from "../assets/icons/arrow-right.svg";
+import walkIcon   from "../assets/icons/walk.svg";
 import locationPin from "../assets/location-pink.svg";
 import rectTop      from "../assets/images/rect-top-detailPage.png";
 import rectSide     from "../assets/images/rect-side-detailPage.png";
@@ -233,51 +234,56 @@ export default function TheSpot() {
                 ? <img src={currentSpot.photo_url} alt={currentSpot.name} className="thespot-neighbourhood__photo" />
                 : <div className="thespot-neighbourhood__photo-placeholder" />
               }
-            </div>
-
-            {/* META */}
-            <div className="thespot-neighbourhood__meta">
-              <span className="thespot-neighbourhood__walk">🚶 {currentSpot.walk_minutes} min</span>
-              <span className="thespot-neighbourhood__counter">
-                Spot {spotIndex + 1} out of {spots.length}
+              <span className="thespot-neighbourhood__walk">
+                <img src={walkIcon} alt="" className="thespot-neighbourhood__walk-icon" />
+                {currentSpot.walk_minutes} min
               </span>
             </div>
 
-            {/* SPOT INFO */}
-            <h3 className="thespot-neighbourhood__name">{currentSpot.name}</h3>
+            {/* INFO — beige bg */}
+            <div className="thespot-neighbourhood__info">
+              <img src={areaBeige} alt="" className="thespot-neighbourhood__info-bg" />
 
-            {currentSpot.address && (
-              <p className="thespot-neighbourhood__address">
-                <img src={locationPin} alt="" className="thespot-neighbourhood__pin" />
-                {currentSpot.address}
-              </p>
-            )}
+              <span className="thespot-neighbourhood__counter">
+                Spot {spotIndex + 1} out of {spots.length}
+              </span>
+              <h3 className="thespot-neighbourhood__name">{currentSpot.name}</h3>
 
-            {Array.isArray(currentSpot.tags) && currentSpot.tags.length > 0 && (
-              <div className="thespot-neighbourhood__tags">
-                {currentSpot.tags.map((t) => (
-                  <span key={t} className="thespot-neighbourhood__tag">#{t}</span>
-                ))}
-              </div>
-            )}
+              {currentSpot.address && (
+                <p className="thespot-neighbourhood__address">
+                  <img src={locationPin} alt="" className="thespot-neighbourhood__pin" />
+                  {currentSpot.address}
+                </p>
+              )}
 
-            {/* NAV ARROWS */}
-            {spots.length > 1 && (
-              <div className="thespot-neighbourhood__nav">
-                <button className="thespot-neighbourhood__arrow" onClick={prevSpot}>
-                  <img src={arrowRight} alt="prev" className="thespot-neighbourhood__arrow-icon thespot-neighbourhood__arrow-icon--flip" />
-                </button>
-                <button className="thespot-neighbourhood__arrow" onClick={nextSpot}>
-                  <img src={arrowRight} alt="next" className="thespot-neighbourhood__arrow-icon" />
-                </button>
-              </div>
-            )}
+              {Array.isArray(currentSpot.tags) && currentSpot.tags.length > 0 && (
+                <div className="thespot-neighbourhood__tags">
+                  {currentSpot.tags.map((t) => (
+                    <span key={t} className="thespot-neighbourhood__tag">#{t}</span>
+                  ))}
+                </div>
+              )}
+
+              {/* NAV ARROWS */}
+              {spots.length > 1 && (
+                <div className="thespot-neighbourhood__nav">
+                  <button className="thespot-neighbourhood__arrow" onClick={prevSpot}>
+                    <img src={arrowRight} alt="prev" className="thespot-neighbourhood__arrow-icon thespot-neighbourhood__arrow-icon--flip" />
+                  </button>
+                  <button className="thespot-neighbourhood__arrow" onClick={nextSpot}>
+                    <img src={arrowRight} alt="next" className="thespot-neighbourhood__arrow-icon" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
 
     </div>
-    <Footer />
+    <div className="thespot-footer">
+      <Footer />
+    </div>
     </>
   );
 }
