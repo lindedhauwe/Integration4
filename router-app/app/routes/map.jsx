@@ -13,6 +13,8 @@ import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
 import locationPin from '../assets/location-pink.svg';
+import currenttapbg from '../assets/icons/currenttapbg.svg';
+import locationpingreen from '../assets/icons/locationpingreen.svg';
 import bgNav from '../assets/bg-nav.svg';
 import closeIcon from '../assets/close.svg';
 import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
@@ -221,8 +223,8 @@ export default function Map() {
     const panelOpen = !!panel;
     const isFullPanel = panel?.type === 'pending' || panel?.type === 'rec' || panel?.type === 'add' || panel?.type === 'not-visited';
 
-    // Close button — geportald naar document.body zodat het ALTIJD boven de hamburger staat
-    const closeBtn = panelOpen ? createPortal(
+    // Close button — enkel bij full panel, niet bij de current toast
+    const closeBtn = isFullPanel ? createPortal(
         <button className="mpp__close" onClick={() => setPanel(null)}>
             <img src={bgNav} alt="" className="mpp__close-bg" />
             <img src={closeIcon} alt="sluit" className="mpp__close-icon" />
@@ -280,8 +282,8 @@ export default function Map() {
                 </div>
             )}
 
-            {/* ── NORMALE KAART ── */}
-            {!panelOpen && !showIntro && (
+            {/* ── HEADER + BOTTOM — altijd zichtbaar op de achtergrond ── */}
+            {!showIntro && (
                 <>
                     <header className="map-header">
                         <img src={rectTopMap} alt="" className="map-header__bg" />
@@ -307,24 +309,25 @@ export default function Map() {
             {/* ── CURRENT TOAST ── */}
             {!showIntro && panel?.type === 'current' && (
                 <>
-                    <header className="map-header">
-                        <img src={rectTopMap} alt="" className="map-header__bg" />
-                        <img src={swirlMapPage} alt="" className="map-header__swirl" />
-                        <h1 className="map-header__title">YOUR PUB CRAWL</h1>
-                    </header>
+                    <div className="map-toast__dismiss" onClick={() => setPanel(null)} />
                     <div className="map-toast">
-                        <p className="map-toast__label">You are now at:</p>
-                        <p className="map-toast__name">{panel.name}</p>
-                        {panel.adress && <p className="map-toast__adress">{panel.adress}</p>}
+                        <img src={currenttapbg} alt="" className="map-toast__bg" />
+                        <div className="map-toast__content">
+                            <p className="map-toast__label">Your latest tap:</p>
+                            <div className="map-toast__name-row">
+                                <img src={locationpingreen} alt="" className="map-toast__pin" />
+                                <p className="map-toast__name">{panel.name}</p>
+                            </div>
+                        </div>
                     </div>
                 </>
             )}
 
             {/* ── FULL PANEL ── */}
             {!showIntro && isFullPanel && (
-                <div className="mpp">
+                <div className="mpp" onClick={() => setPanel(null)}>
                     {/* Body */}
-                    <div className="mpp__body">
+                    <div className="mpp__body" onClick={(e) => e.stopPropagation()}>
 
                         {/* Cafénaam — donkergroene rechthoek */}
                         <div className="mpp__bar-header">
