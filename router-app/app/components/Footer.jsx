@@ -32,11 +32,9 @@ export default function Footer() {
         </div>
 
         <div className="footer__actions">
-          <a href="mailto:info@visitantwerpen.be" className="footer__btn">
+          <a href="mailto:info@visitantwerpen.be" className="footer__btn footer__btn--mail">
             <img src={mailIcon} alt="mail" />
-          </a>
-          <a href="tel:+3222113333" className="footer__btn">
-            <img src={phoneIcon} alt="phone" />
+            <span>info@visitantwerpen.be</span>
           </a>
           <button className="footer__btn" onClick={handleShare}>
             <img src={shareIcon} alt="share" />
