@@ -173,9 +173,7 @@ export default function Account() {
                     <div className="footer-contact">
                         <a href="mailto:info@antwerp.be" className="btn-contact">
                             <img src={mailIcon} alt="mail" />
-                        </a>
-                        <a href="tel:+3203221333" className="btn-contact">
-                            <img src={phoneIcon} alt="phone" />
+                            <span>info@antwerp.be</span>
                         </a>
                     </div>
                 </div>
