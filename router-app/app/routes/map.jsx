@@ -21,6 +21,8 @@ import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
 import handtap from '../assets/icons/handtap.svg';
 import addrecIcon from '../assets/icons/addrec.svg';
 
+import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
+
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
 import coasterBrown from '../assets/icons/coasterBrown.png';
@@ -88,6 +90,7 @@ export default function Map() {
     const leafletRef = useRef(null);
     const navigate = useNavigate();
 
+    const [showFinish, setShowFinish] = useState(false);
     const [showAuthGate, setShowAuthGate] = useState(() => {
         try { return !localStorage.getItem('user'); } catch { return true; }
     });
@@ -337,7 +340,7 @@ export default function Map() {
                     <div className="map-bottom">
                         <img src={rectBottomMap} alt="" className="map-bottom__deco" />
                         <div className="map-bottom__actions">
-                            <button className="map-bottom__finish">Finish Pub Crawl</button>
+                            <button className="map-bottom__finish" onClick={() => setShowFinish(true)}>Finish Pub Crawl</button>
                             <button className="map-bottom__share"><img src={shareIcon} alt="share" /></button>
                         </div>
                         <div className="map-bottom__legend">
@@ -480,6 +483,47 @@ export default function Map() {
                                 <img src={arrowRight} alt="" />
                             </button>
                         )}
+                    </div>
+                </div>
+            )}
+
+            {/* ── FINISH OVERLAY ── */}
+            {showFinish && createPortal(
+                <button className="mpp__close" onClick={() => setShowFinish(false)}>
+                    <img src={bgNav} alt="" className="mpp__close-bg" />
+                    <img src={closeIcon} alt="sluit" className="mpp__close-icon" />
+                </button>,
+                document.body
+            )}
+            {showFinish && (
+                <div className="map-finish">
+                    <div className="map-finish__content">
+                        <div className="map-finish__header">
+                            <div className="map-finish__card">
+                                <h2 className="map-finish__title">
+                                    {(() => { try { const u = JSON.parse(localStorage.getItem('user') || 'null'); return u?.name ? <><span className="map-finish__username">{u.name}</span>'s pub crawl in...</> : <>My pub crawl in...</>; } catch { return <>My pub crawl in...</>; } })()}
+                                </h2>
+                            </div>
+                            <div className="map-finish__location">
+                                <img src={locationPin} alt="" className="map-finish__location-pin" />
+                                <span>ANTWERP</span>
+                            </div>
+                        </div>
+
+                        <div className="map-finish__circle">
+                            <img src={pubcrawlVb} alt="pub crawl" className="map-finish__map-img" />
+                        </div>
+
+                        <button className="map-finish__share" onClick={async () => {
+                            if (navigator.share) {
+                                await navigator.share({ title: 'My Antwerp Pub Crawl', url: window.location.origin });
+                            } else {
+                                await navigator.clipboard.writeText(window.location.origin);
+                            }
+                        }}>
+                            Share your pub crawl
+                            <img src={shareIcon} alt="" className="map-finish__share-icon" />
+                        </button>
                     </div>
                 </div>
             )}
