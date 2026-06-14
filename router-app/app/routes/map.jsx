@@ -22,6 +22,7 @@ import handtap from '../assets/icons/handtap.svg';
 import addrecIcon from '../assets/icons/addrec.svg';
 
 import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
+import langeWapper from '../assets/images/lange-wapper.png';
 
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
@@ -91,6 +92,50 @@ export default function Map() {
     const navigate = useNavigate();
 
     const [showFinish, setShowFinish] = useState(false);
+    const [clock, setClock] = useState(() =>
+        new Date().toLocaleTimeString('nl-BE', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit' })
+    );
+
+    const getAntwerpHour = () => {
+        const h = new Date().toLocaleString('nl-BE', { timeZone: 'Europe/Brussels', hour: 'numeric', hour12: false });
+        return parseInt(h, 10);
+    };
+
+    const [isNight, setIsNight] = useState(() => {
+        const h = getAntwerpHour();
+        return h < 6 || h >= 21;
+    });
+
+    const [wapper, setWapper] = useState(null); // { side: 'left'|'right' }
+
+    useEffect(() => {
+        if (!isNight) return;
+        let timeout;
+        function scheduleWapper() {
+            const delay = 8000 + Math.random() * 20000; // 8-28s
+            timeout = setTimeout(() => {
+                const side = Math.random() < 0.5 ? 'left' : 'right';
+                const top = 35 + Math.random() * 35; // 35% - 70%
+                setWapper({ side, top });
+                setTimeout(() => {
+                    setWapper(null);
+                    scheduleWapper();
+                }, 2500 + Math.random() * 2000); // visible 2.5-4.5s
+            }, delay);
+        }
+        scheduleWapper();
+        return () => clearTimeout(timeout);
+    }, [isNight]);
+
+    useEffect(() => {
+        const tick = setInterval(() => {
+            const now = new Date().toLocaleTimeString('nl-BE', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit' });
+            setClock(now);
+            const h = getAntwerpHour();
+            setIsNight(h < 6 || h >= 21);
+        }, 1000);
+        return () => clearInterval(tick);
+    }, []);
     const [showAuthGate, setShowAuthGate] = useState(() => {
         try { return !localStorage.getItem('user'); } catch { return true; }
     });
@@ -98,6 +143,16 @@ export default function Map() {
 
     function dismissIntro() {
         setShowIntro(false);
+        setTimeout(() => {
+            Object.values(markersRef.current).forEach(({ marker }, idx) => {
+                const el = marker.getElement();
+                if (!el) return;
+                el.classList.remove('coaster-bounce');
+                void el.offsetWidth; // reflow om animatie te resetten
+                el.style.animationDelay = `${idx * 0.15}s`;
+                el.classList.add('coaster-bounce');
+            });
+        }, 100);
     }
 
     const [panel, setPanel] = useState(null);
@@ -205,12 +260,16 @@ export default function Map() {
             }).setView(center, 15);
             instanceRef.current = map;
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            const tileUrl = isNight
+                ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+            L.tileLayer(tileUrl, {
                 attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19,
             }).addTo(map);
 
             const newMarkers = {};
-            getMapSpots().forEach((spot) => {
+            getMapSpots().forEach((spot, idx) => {
                 const icon = L.icon({ iconUrl: ICON_MAP[spot.type], iconSize: [56, 56], iconAnchor: [28, 56] });
                 const marker = L.marker(spot.position, { icon }).on('click', () => {
                     const t = spot.type;
@@ -230,6 +289,7 @@ export default function Map() {
                         setPanelRef.current({ type: 'pending', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                     }
                 }).addTo(map);
+
                 newMarkers[String(spot.cafeId)] = { marker, type: spot.type };
             });
             markersRef.current = newMarkers;
@@ -256,8 +316,27 @@ export default function Map() {
     ) : null;
 
     return (
-        <div className="map-page">
+        <div className={`map-page${isNight ? ' map-page--night' : ''}`}>
             <div ref={mapRef} className="map-canvas" />
+
+            {/* ── WAPPER ── */}
+            {isNight && wapper && (
+                <img
+                    src={langeWapper}
+                    alt=""
+                    className={`map-wapper map-wapper--${wapper.side}`}
+                    style={{ top: `${wapper.top}%` }}
+                />
+            )}
+
+            {/* ── NIGHT LIGHTS ── */}
+            {isNight && (
+                <div className="map-night-lights" aria-hidden="true">
+                    {Array.from({ length: 30 }).map((_, i) => (
+                        <span key={i} className="map-night-lights__dot" />
+                    ))}
+                </div>
+            )}
 
             {/* Close button geportald naar body */}
             {closeBtn}
@@ -336,6 +415,10 @@ export default function Map() {
                         <img src={rectTopMap} alt="" className="map-header__bg" />
                         <img src={swirlMapPage} alt="" className="map-header__swirl" />
                         <h1 className="map-header__title">YOUR PUB CRAWL</h1>
+                        <div className="map-header__clock">
+                            <span className="map-header__clock-time">{clock}</span>
+                            <span className="map-header__clock-city">Antwerp</span>
+                        </div>
                     </header>
                     <div className="map-bottom">
                         <img src={rectBottomMap} alt="" className="map-bottom__deco" />
@@ -343,7 +426,7 @@ export default function Map() {
                             <button className="map-bottom__finish" onClick={() => setShowFinish(true)}>Finish Pub Crawl</button>
                             <button className="map-bottom__share"><img src={shareIcon} alt="share" /></button>
                         </div>
-                        <div className="map-bottom__legend">
+                        <div className="map-bottom__legend" onClick={() => setShowIntro(true)} style={{ cursor: 'pointer' }}>
                             <div className="map-legend-item"><img src={coasterBrown} alt="" /><span>visited</span></div>
                             <div className="map-legend-item"><img src={coasterPink} alt="" /><span>currently</span></div>
                             <div className="map-legend-item"><img src={coasterGrey} alt="" /><span>recommendation</span></div>

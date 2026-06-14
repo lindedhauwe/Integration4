@@ -4,6 +4,173 @@ body:has(.map-page) {
     height: 100%;
 }
 
+/* ── COASTER BOUNCE ── */
+.coaster-bounce {
+    animation: coaster-drop 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes coaster-drop {
+    0%   { opacity: 0; scale: 0; }
+    80%  { opacity: 1; scale: 1.05; }
+    100% { opacity: 1; scale: 1; }
+}
+
+/* ── NIGHT LIGHTS ── */
+.map-night-lights {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.map-night-lights__dot {
+    position: absolute;
+    background: rgba(255, 240, 180, 0.9);
+    box-shadow: 0 0 4px 2px rgba(255, 220, 100, 0.4);
+    animation: firefly-a 8s ease-in-out infinite;
+    image-rendering: pixelated;
+}
+
+.map-night-lights__dot:nth-child(odd)  { animation-name: firefly-b; }
+.map-night-lights__dot:nth-child(3n)   { animation-name: firefly-c; }
+.map-night-lights__dot:nth-child(5n)   { animation-name: firefly-d; }
+.map-night-lights__dot:nth-child(7n)   { animation-name: firefly-e; }
+
+/* Spread 30 dots across the screen with varied sizes/positions/delays */
+.map-night-lights__dot:nth-child(1)  { width: 6px; height: 6px; top:  8%; left: 12%; animation-delay: 0.0s;  animation-duration: 12s; }
+.map-night-lights__dot:nth-child(2)  { width: 5px; height: 5px; top: 15%; left: 78%; animation-delay: 2.0s;  animation-duration: 15s; }
+.map-night-lights__dot:nth-child(3)  { width: 8px; height: 8px; top: 22%; left: 45%; animation-delay: 4.5s;  animation-duration: 11s; }
+.map-night-lights__dot:nth-child(4)  { width: 5px; height: 5px; top: 30%; left: 20%; animation-delay: 1.0s;  animation-duration: 17s; }
+.map-night-lights__dot:nth-child(5)  { width: 6px; height: 6px; top: 35%; left: 88%; animation-delay: 3.0s;  animation-duration: 13s; }
+.map-night-lights__dot:nth-child(6)  { width: 5px; height: 5px; top: 42%; left: 60%; animation-delay: 6.0s;  animation-duration: 14s; }
+.map-night-lights__dot:nth-child(7)  { width: 6px; height: 6px; top: 50%; left: 5%;  animation-delay: 0.5s;  animation-duration: 16s; }
+.map-night-lights__dot:nth-child(8)  { width: 5px; height: 5px; top: 55%; left: 33%; animation-delay: 7.0s;  animation-duration: 12s; }
+.map-night-lights__dot:nth-child(9)  { width: 8px; height: 8px; top: 62%; left: 72%; animation-delay: 2.5s;  animation-duration: 18s; }
+.map-night-lights__dot:nth-child(10) { width: 5px; height: 5px; top: 70%; left: 15%; animation-delay: 5.0s;  animation-duration: 13s; }
+.map-night-lights__dot:nth-child(11) { width: 6px; height: 6px; top: 75%; left: 50%; animation-delay: 1.5s;  animation-duration: 15s; }
+.map-night-lights__dot:nth-child(12) { width: 5px; height: 5px; top: 80%; left: 90%; animation-delay: 8.0s;  animation-duration: 11s; }
+.map-night-lights__dot:nth-child(13) { width: 6px; height: 6px; top:  5%; left: 55%; animation-delay: 3.5s;  animation-duration: 14s; }
+.map-night-lights__dot:nth-child(14) { width: 5px; height: 5px; top: 18%; left: 30%; animation-delay: 5.5s;  animation-duration: 16s; }
+.map-night-lights__dot:nth-child(15) { width: 8px; height: 8px; top: 28%; left: 68%; animation-delay: 0.2s;  animation-duration: 19s; }
+.map-night-lights__dot:nth-child(16) { width: 5px; height: 5px; top: 38%; left: 10%; animation-delay: 6.5s;  animation-duration: 12s; }
+.map-night-lights__dot:nth-child(17) { width: 6px; height: 6px; top: 45%; left: 82%; animation-delay: 4.0s;  animation-duration: 17s; }
+.map-night-lights__dot:nth-child(18) { width: 5px; height: 5px; top: 58%; left: 42%; animation-delay: 9.0s;  animation-duration: 13s; }
+.map-night-lights__dot:nth-child(19) { width: 6px; height: 6px; top: 65%; left: 25%; animation-delay: 1.2s;  animation-duration: 15s; }
+.map-night-lights__dot:nth-child(20) { width: 5px; height: 5px; top: 72%; left: 65%; animation-delay: 7.5s;  animation-duration: 11s; }
+.map-night-lights__dot:nth-child(21) { width: 8px; height: 8px; top: 85%; left: 38%; animation-delay: 2.0s;  animation-duration: 18s; }
+.map-night-lights__dot:nth-child(22) { width: 5px; height: 5px; top: 90%; left: 75%; animation-delay: 4.5s;  animation-duration: 14s; }
+.map-night-lights__dot:nth-child(23) { width: 6px; height: 6px; top: 12%; left: 92%; animation-delay: 2.8s;  animation-duration: 16s; }
+.map-night-lights__dot:nth-child(24) { width: 5px; height: 5px; top: 25%; left: 3%;  animation-delay: 5.8s;  animation-duration: 12s; }
+.map-night-lights__dot:nth-child(25) { width: 6px; height: 6px; top: 48%; left: 52%; animation-delay: 0.8s;  animation-duration: 20s; }
+.map-night-lights__dot:nth-child(26) { width: 5px; height: 5px; top: 60%; left: 95%; animation-delay: 7.2s;  animation-duration: 13s; }
+.map-night-lights__dot:nth-child(27) { width: 8px; height: 8px; top: 78%; left: 8%;  animation-delay: 3.2s;  animation-duration: 17s; }
+.map-night-lights__dot:nth-child(28) { width: 5px; height: 5px; top: 88%; left: 55%; animation-delay: 5.2s;  animation-duration: 14s; }
+.map-night-lights__dot:nth-child(29) { width: 6px; height: 6px; top: 95%; left: 22%; animation-delay: 1.8s;  animation-duration: 16s; }
+.map-night-lights__dot:nth-child(30) { width: 5px; height: 5px; top:  3%; left: 40%; animation-delay: 4.2s;  animation-duration: 19s; }
+
+@keyframes firefly-a {
+    0%   { opacity: 0;   transform: translate(0px, 0px) scale(0.8); }
+    15%  { opacity: 0.9; transform: translate(18px, -22px) scale(1.2); }
+    30%  { opacity: 0.4; transform: translate(35px, -10px) scale(1); }
+    45%  { opacity: 0;   transform: translate(30px, 15px) scale(0.7); }
+    60%  { opacity: 0.8; transform: translate(10px, 25px) scale(1.3); }
+    75%  { opacity: 0.3; transform: translate(-15px, 10px) scale(1); }
+    90%  { opacity: 0;   transform: translate(-20px, -5px) scale(0.8); }
+    100% { opacity: 0;   transform: translate(0px, 0px) scale(0.8); }
+}
+
+@keyframes firefly-b {
+    0%   { opacity: 0;   transform: translate(0px, 0px) scale(1); }
+    20%  { opacity: 1;   transform: translate(-25px, 15px) scale(1.3); }
+    40%  { opacity: 0;   transform: translate(-40px, -8px) scale(0.8); }
+    55%  { opacity: 0.7; transform: translate(-20px, -30px) scale(1.1); }
+    70%  { opacity: 0;   transform: translate(5px, -25px) scale(0.9); }
+    85%  { opacity: 0.5; transform: translate(20px, -5px) scale(1.2); }
+    100% { opacity: 0;   transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes firefly-c {
+    0%   { opacity: 0.6; transform: translate(0px, 0px) scale(1); }
+    25%  { opacity: 0;   transform: translate(30px, 30px) scale(0.7); }
+    50%  { opacity: 0.9; transform: translate(-10px, 40px) scale(1.4); }
+    75%  { opacity: 0;   transform: translate(-30px, 10px) scale(0.8); }
+    100% { opacity: 0.6; transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes firefly-d {
+    0%   { opacity: 0;   transform: translate(0px, 0px); }
+    10%  { opacity: 0.8; transform: translate(-20px, -15px); }
+    35%  { opacity: 0;   transform: translate(-35px, 10px); }
+    60%  { opacity: 1;   transform: translate(-10px, 30px); }
+    80%  { opacity: 0;   transform: translate(15px, 20px); }
+    100% { opacity: 0;   transform: translate(0px, 0px); }
+}
+
+@keyframes firefly-e {
+    0%   { opacity: 0.5; transform: translate(0px, 0px) scale(1.1); }
+    30%  { opacity: 0;   transform: translate(20px, -35px) scale(0.8); }
+    50%  { opacity: 0;   transform: translate(40px, -20px) scale(0.7); }
+    70%  { opacity: 1;   transform: translate(15px, 20px) scale(1.3); }
+    100% { opacity: 0.5; transform: translate(0px, 0px) scale(1.1); }
+}
+
+/* ── WAPPER ── */
+.map-wapper {
+    position: absolute;
+    height: 30%;
+    width: auto;
+    z-index: 6;
+    pointer-events: none;
+}
+
+.map-wapper--left {
+    left: 0;
+    transform-origin: bottom left;
+    filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.3));
+    animation: wapper-in-left 0.7s ease-out forwards, wapper-out-left 0.7s ease-in 1.8s forwards;
+}
+
+.map-wapper--right {
+    right: 0;
+    transform-origin: bottom right;
+    filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.3));
+    animation: wapper-in-right 0.7s ease-out forwards, wapper-out-right 0.7s ease-in 1.8s forwards;
+}
+
+@keyframes wapper-in-left {
+    from { opacity: 0; transform: translateX(-85%) rotate(25deg); }
+    to   { opacity: 1; transform: translateX(-60%) rotate(20deg); }
+}
+
+@keyframes wapper-out-left {
+    from { opacity: 1; transform: translateX(-60%) rotate(20deg); }
+    to   { opacity: 0; transform: translateX(-85%) rotate(25deg); }
+}
+
+@keyframes wapper-in-right {
+    from { opacity: 0; transform: scaleX(-1) translateX(-85%) rotate(25deg); }
+    to   { opacity: 1; transform: scaleX(-1) translateX(-60%) rotate(20deg); }
+}
+
+@keyframes wapper-out-right {
+    from { opacity: 1; transform: scaleX(-1) translateX(-60%) rotate(20deg); }
+    to   { opacity: 0; transform: scaleX(-1) translateX(-85%) rotate(25deg); }
+}
+
+/* ── NIGHT MODE ── */
+.map-page--night .map-canvas .leaflet-tile-pane {
+    filter: hue-rotate(100deg) saturate(2) brightness(1.5);
+}
+
+.map-page--night .map-header__clock-time {
+    color: var(--beige);
+}
+
+.map-page--night .map-header__clock-city {
+    color: var(--light-green);
+}
+
 .map-page {
     position: fixed;
     inset: 0;
@@ -66,6 +233,35 @@ body:has(.map-page) {
     margin: 0;
     line-height: 1;
     white-space: nowrap;
+}
+
+.map-header__clock {
+    position: absolute;
+    left: 1.25rem;
+    top: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+.map-header__clock-time {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 2.5rem;
+    color: var(--dark-green);
+    line-height: 1;
+    text-shadow: 0 1px 4px rgba(255,255,255,0.4);
+}
+
+.map-header__clock-city {
+    font-family: var(--font-interstate);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 0 1px 3px rgba(255,255,255,0.5);
 }
 
 .map-bottom {
@@ -780,6 +976,7 @@ body:has(.map-page) {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 6;
+    line-clamp: 6;
     -webkit-box-orient: vertical;
 }
 
