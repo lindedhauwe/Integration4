@@ -126,7 +126,59 @@
 
 .nav-cell--recommendation {
     border: 2px solid var(--light-green);
-    min-height: 120px;
+    min-height: 140px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-cell--locked {
+    border-color: var(--light-green);
+    cursor: default;
+}
+
+.nav-cell__locked-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+}
+
+.nav-cell__rec-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+}
+
+.nav-cell__lock-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.nav-cell__lock-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.nav-cell--recommendation .nav-cell__subtitle {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-cell--locked .nav-cell__subtitle {
+    color: var(--light-green);
 }
 
 .nav-cell--active {
