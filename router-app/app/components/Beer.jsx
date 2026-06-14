@@ -618,9 +618,12 @@ export default function Beer({ onEmpty }) {
           >
             Enable
           </button>
-          <p className="beer-overlay__sub">
+          <button
+            className="beer-overlay__sub"
+            onClick={() => setNeedsPermission(false)}
+          >
             Or hold your finger down as an alternative.
-          </p>
+          </button>
         </div>
       )}
 
