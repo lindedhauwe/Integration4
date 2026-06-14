@@ -99,13 +99,13 @@
 .beer-hint__or {
   color: var(--bar-brown);
   font-size: 1rem;
-  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
+  font-family: var(--font-sunantwerpen-regular);
 }
 
 .beer-hint__sub {
   color: var(--bar-brown);
   font-size: 1.2rem; 
-  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
+  font-family: var(--font-sunantwerpen-regular);
   display: flex;
   flex-direction: column;
 }
@@ -113,5 +113,5 @@
 .beer-hint__sub-Hold {
   color: var(--bar-brown);
   font-size: 2rem;
-  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
+  font-family: var(--font-sunantwerpen-regular);
 }
