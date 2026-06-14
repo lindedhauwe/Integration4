@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import './Beer.css';
+import drinkIcon from "../assets/beer/drinkIcon.svg";
 
 // ─── Geometry helpers ────────────────────────────────────────────────────────
 
@@ -603,9 +604,9 @@ export default function Beer({ onEmpty }) {
 
       {needsPermission && (
         <div className="beer-overlay">
-          <p className="beer-overlay__title">🍺 iBeer</p>
+          <p className="beer-overlay__title">Antwerp on tap</p>
           <p className="beer-overlay__text">
-            Sta bewegingssensoren toe om te drinken via de gyroscoop
+            Enable motion controls via gyroscope.
           </p>
           <button
             className="beer-btn"
@@ -615,18 +616,18 @@ export default function Beer({ onEmpty }) {
               setNeedsPermission(false);
             }}
           >
-            Sta toe
+            Enable
           </button>
           <p className="beer-overlay__sub">
-            Of houd je vinger ingedrukt als alternatief
+            Or hold your finger down as an alternative.
           </p>
         </div>
       )}
 
       {!needsPermission && showHint && (
         <div className="beer-hint">
-          <span className="beer-hint__main">Kantel je gsm om te drinken</span>
-          <span className="beer-hint__sub">of houd je vinger ingedrukt</span>
+          <span className="beer-hint__main"> <img src={drinkIcon} alt="Drinken" /></span>
+          <span className="beer-hint__sub">or hold to drink</span>
         </div>
       )}
     </div>
