@@ -16,6 +16,9 @@ import seefImg      from "../assets/images/seef.png";
 import bollekaImg   from "../assets/images/bolleke-de-konink-detail.png";
 import titleCafeLine from "../assets/images/title-cafe-line-detailPage.png";
 import greenLine     from "../assets/images/greenLine-detailPage.png";
+import popupBg       from "../assets/images/bg-popup-detail.png";
+import popupLine     from "../assets/images/line-popup-detail.png";
+import closeIcon     from "../assets/icons/close.svg";
 
 function getOpenStatus(opening_hours) {
   if (!opening_hours || Object.keys(opening_hours).length === 0) return null;
@@ -53,7 +56,19 @@ export default function TheSpot() {
   const navigate = useNavigate();
   const [recIndex, setRecIndex] = useState(0);
   const [spotIndex, setSpotIndex] = useState(0);
+  const [showHoursPopup, setShowHoursPopup] = useState(false);
+  const [chartDay, setChartDay] = useState(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date().getDay()]);
   const touchStartX = useRef(null);
+
+  const busynessData = {
+    Mon: [10, 20, 35, 40, 50, 45, 55, 50, 30],
+    Tue: [15, 25, 40, 45, 55, 50, 60, 55, 35],
+    Wed: [10, 20, 30, 40, 45, 40, 50, 45, 25],
+    Thu: [20, 35, 50, 55, 65, 60, 70, 65, 40],
+    Fri: [20, 35, 55, 50, 70, 65, 60, 70, 45],
+    Sat: [30, 50, 65, 70, 80, 75, 85, 80, 55],
+    Sun: [25, 40, 55, 60, 65, 55, 60, 50, 30],
+  };
 
   if (!cafe) {
     return (
@@ -121,11 +136,11 @@ export default function TheSpot() {
         </div>
         <div className="thespot-info__status-row">
           <div className="thespot-info__status">
-            <span className={`thespot-status ${status && !status.isOpen ? "thespot-status--closed" : "thespot-status--open"}`}>
+            <span className={`thespot-status ${status && !status.isOpen ? "thespot-status--closed" : "thespot-status--open"}`} onClick={() => setShowHoursPopup(true)}>
               {status ? (status.isOpen ? "Open" : "Closed") : "Open"}
             </span>
             <span className="thespot-status__square" />
-            <span className="thespot-status thespot-status--open">Not busy</span>
+            <span className="thespot-status thespot-status--open" onClick={() => setShowHoursPopup(true)}>Not busy</span>
           </div>
           {cafe.adress && (
             <a
@@ -287,6 +302,76 @@ export default function TheSpot() {
       )}
 
     </div>
+
+    {/* HOURS POPUP */}
+    {showHoursPopup && (
+      <div className="hours-overlay" onClick={() => setShowHoursPopup(false)}>
+        <div className="hours-popup" onClick={(e) => e.stopPropagation()}>
+          <img src={popupBg} alt="" className="hours-popup__bg" />
+          <button className="hours-popup__close" onClick={() => setShowHoursPopup(false)}>
+            <img src={closeIcon} alt="close" className="hours-popup__close-icon" />
+          </button>
+
+          <div className="hours-popup__content">
+            <h2 className="hours-popup__title">When it's <span>brewing</span></h2>
+
+            <div className="hours-popup__schedule">
+              <img src={popupLine} alt="" className="hours-popup__line" />
+              <div className="hours-popup__days">
+                {["mon","tue","wed","thu","fri","sat","sun"].map((day) => {
+                  const label = day.charAt(0).toUpperCase() + day.slice(1);
+                  const range = cafe.opening_hours?.[day];
+                  const formatTime = (t) => {
+                    const [h, m] = t.split(":").map(Number);
+                    const period = h >= 12 ? "AM" : "PM";
+                    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+                    return `${h12}:${m.toString().padStart(2,"0")}${period}`;
+                  };
+                  const displayRange = range
+                    ? (() => {
+                        const [open, close] = range.split("-");
+                        return `${formatTime(open)} – ${formatTime(close)}`;
+                      })()
+                    : "Closed";
+                  return (
+                    <div key={day} className="hours-popup__day-row">
+                      <span className="hours-popup__day-name">{label}</span>
+                      <span className="hours-popup__day-hours">{displayRange}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="hours-popup__busy">
+              <h3 className="hours-popup__busy-title"><span>Unpopular</span> times</h3>
+              <div className="hours-popup__chart">
+                <div className="hours-popup__chart-days">
+                  {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d) => (
+                    <span
+                      key={d}
+                      className={`hours-popup__chart-day${d === chartDay ? " hours-popup__chart-day--active" : ""}`}
+                      onClick={() => setChartDay(d)}
+                    >{d}</span>
+                  ))}
+                </div>
+                <div className="hours-popup__bars">
+                  {(busynessData[chartDay] || busynessData.Mon).map((h, i) => (
+                    <div key={i} className="hours-popup__bar" style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+                <div className="hours-popup__chart-times">
+                  {["10am","1pm","4pm","7pm","10pm"].map((t) => (
+                    <span key={t}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
     <div className="thespot-footer">
       <Footer />
     </div>
