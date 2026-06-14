@@ -70,6 +70,22 @@ export default function TheSpot() {
     Sun: [25, 40, 55, 60, 65, 55, 60, 50, 30],
   };
 
+  // 9 bars evenly from 10am to 10pm (every 1.5h)
+  const barTimes = [10, 11.5, 13, 14.5, 16, 17.5, 19, 20.5, 22];
+
+  const getAdjustedBars = () => {
+    const dayKey = chartDay.toLowerCase();
+    const range = cafe.opening_hours?.[dayKey];
+    const bars = busynessData[chartDay] || busynessData.Mon;
+    if (!range) return bars.map(() => 0);
+    const toHour = (t) => { const [h, m] = t.split(":").map(Number); return h + m / 60; };
+    const [openStr, closeStr] = range.split("-");
+    let openHour = toHour(openStr);
+    let closeHour = toHour(closeStr);
+    if (closeHour <= openHour) closeHour += 24;
+    return bars.map((h, i) => (barTimes[i] >= openHour && barTimes[i] < closeHour) ? h : 0);
+  };
+
   if (!cafe) {
     return (
       <div className="thespot-page">
@@ -356,7 +372,7 @@ export default function TheSpot() {
                   ))}
                 </div>
                 <div className="hours-popup__bars">
-                  {(busynessData[chartDay] || busynessData.Mon).map((h, i) => (
+                  {getAdjustedBars().map((h, i) => (
                     <div key={i} className="hours-popup__bar" style={{ height: `${h}%` }} />
                   ))}
                 </div>
