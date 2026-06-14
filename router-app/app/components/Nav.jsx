@@ -13,7 +13,7 @@ import "./Nav.css";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
-  const [isRecLocked, setIsRecLocked] = useState(true);
+  const [isRecLocked, setIsRecLocked] = useState(false);
   const { pathname } = useLocation();
   const isLoggedIn = (() => { try { return !!localStorage.getItem('user'); } catch { return false; } })();
   const hamburgerBg = pathname === "/" ? bgNavOrange : bgNav;

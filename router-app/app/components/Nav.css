@@ -144,7 +144,11 @@
     object-fit: cover;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.9;
+}
+
+.nav-cell--locked.nav-cell--active {
+    background: none;
+    border: 2px solid var(--light-green);
 }
 
 .nav-cell__rec-header {
