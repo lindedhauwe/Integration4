@@ -627,7 +627,8 @@ export default function Beer({ onEmpty }) {
       {!needsPermission && showHint && (
         <div className="beer-hint">
           <span className="beer-hint__main"> <img src={drinkIcon} alt="Drinken" /></span>
-          <span className="beer-hint__sub">or hold to drink</span>
+          <span className="beer-hint__or">or</span>
+          <span className="beer-hint__sub"><span className='beer-hint__sub-Hold'>Hold</span>To Drink</span>
         </div>
       )}
     </div>

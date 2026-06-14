@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: bottom;
   gap: 1rem;
   background: rgba(11, 11, 13, 0.6);
   backdrop-filter: blur(8px);
@@ -59,7 +59,7 @@
 /* CTA button */
 .beer-btn {
   background: var(--orange);
-  color: var(--barBrown);
+  color: var(--bar-brown);
   border: none;
   padding: 0.85rem 2.8rem;
   font-size: 18px;
@@ -80,12 +80,11 @@
 .beer-hint {
   position: absolute;
   bottom: 2.5rem;
-  left: 0;
-  right: 0;
+  left: 25%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
+  gap: 1.2rem;
   pointer-events: none;
   z-index: 5;
 }
@@ -94,7 +93,22 @@
   width: 4rem;
 }
 
+.beer-hint__or {
+  color: var(--bar-brown);
+  font-size: 1rem;
+  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
+}
+
 .beer-hint__sub {
-  color: var(--beige);
-  font-size: 1rem; 
+  color: var(--bar-brown);
+  font-size: 1.2rem; 
+  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
+  display: flex;
+  flex-direction: column;
+}
+
+.beer-hint__sub-Hold {
+  color: var(--bar-brown);
+  font-size: 2rem;
+  font-family: var(--text-body-Sun-Antwerpen, SunAntwerpen);
 }
