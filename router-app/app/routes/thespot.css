@@ -132,18 +132,20 @@
   color: var(--beige);
   margin: 0;
   text-transform: uppercase;
-  white-space: nowrap;
-  flex-shrink: 0;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .thespot-info__name-line {
   flex: 1;
   height: 0.625rem;
   object-fit: fill;
-  min-width: 0;
+  min-width: 2rem;
+  max-width: 4rem;
   margin-right: -1.5rem;
   align-self: flex-end;
   margin-bottom: 0.25rem;
+  flex-shrink: 1;
 }
 
 .thespot-info__status-row {

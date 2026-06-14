@@ -102,9 +102,15 @@ export default function TheSpot() {
   const currentRec = recs[recIndex] || null;
   const currentSpot = spots[spotIndex] || null;
 
-  const vibeTags = Array.isArray(cafe.vibe_tags)
-    ? cafe.vibe_tags
-    : (cafe.vibe_tags ? String(cafe.vibe_tags).split(",").map((t) => t.trim()) : []);
+  const vibeTags = (() => {
+    if (!cafe.vibe_tags) return [];
+    if (Array.isArray(cafe.vibe_tags)) return cafe.vibe_tags;
+    const s = String(cafe.vibe_tags).trim();
+    try { const p = JSON.parse(s); if (Array.isArray(p)) return p; } catch {}
+    // PostgreSQL array format: {tag1,tag2}
+    if (s.startsWith("{") && s.endsWith("}")) return s.slice(1, -1).split(",").map((t) => t.trim().replace(/^"|"$/g, ""));
+    return s.split(",").map((t) => t.trim());
+  })();
 
   function shortAddress(adress) {
     if (!adress) return adress;
