@@ -7,7 +7,7 @@ import './map.css';
 import swirlMapPage from '../assets/images/swirlMapPage.png';
 import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
-import shareIcon from '../assets/icons/iconupload.svg';
+import shareIcon from '../assets/icons/share.svg';
 import fullHeart from '../assets/icons/fullheart.svg';
 import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';

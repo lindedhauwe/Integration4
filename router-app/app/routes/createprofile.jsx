@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { supabase } from "../supabase";
 import "./createprofile.css";
+import "./login.css";
 import typewriterImg from "../assets/typewriter.png";
 import loginVierkant from "../assets/square-login-top.svg";
 import arrowRight from "../assets/arrow-right.svg";
@@ -66,6 +67,10 @@ export default function CreateProfile() {
             <div className="createprofile-deco">
                 <img src={loginVierkant} alt="" className="createprofile-vierkant" />
                 <img src={typewriterImg} alt="" className="createprofile-typewriter" />
+                <button className="login-back" onClick={() => navigate(-1)}>
+                    <img src={arrowRight} alt="" className="login-back__icon" />
+                    Go back
+                </button>
             </div>
 
             <h1 className="createprofile-title">Create Profile</h1>

@@ -3,7 +3,7 @@ import footerBg from "../assets/images/footerbg.png";
 import footerImg from "../assets/images/footerimg.png";
 import mailIcon from "../assets/mail.svg";
 import phoneIcon from "../assets/phone.svg";
-import shareIcon from "../assets/icons/iconupload.svg";
+import shareIcon from "../assets/icons/share.svg";
 
 async function handleShare() {
   if (navigator.share) {
