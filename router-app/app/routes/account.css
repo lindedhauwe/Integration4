@@ -163,6 +163,13 @@
     gap: 12px;
 }
 
+.bar-item--empty p {
+    font-family: var(--font-interstate);
+    font-size: 14px;
+    color: #999;
+    margin: 0;
+}
+
 .bar-name {
     font-family: var(--font-interstate);
     font-size: 18px;
@@ -291,9 +298,9 @@
 .btn-contact {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
+    gap: 10px;
     height: 44px;
+    padding: 0 16px;
     background: var(--orange);
     text-decoration: none;
     flex-shrink: 0;
@@ -303,6 +310,14 @@
     width: 20px;
     height: 20px;
     filter: brightness(0) invert(1);
+    flex-shrink: 0;
+}
+
+.btn-contact span {
+    font-family: var(--font-interstate);
+    font-size: 13px;
+    color: var(--white);
+    font-weight: 700;
 }
 
 .footer-hand {

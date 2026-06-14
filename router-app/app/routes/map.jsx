@@ -8,7 +8,7 @@ import swirlMapPage from '../assets/images/swirlMapPage.png';
 import rectTopMap from '../assets/images/rectTopMap.png';
 import rectBottomMap from '../assets/images/rectBottomMap.png';
 import shareIcon from '../assets/icons/share.svg';
-import fullHeart from '../assets/icons/fullheart.svg';
+import fullHeart from '../assets/icons/fullheartbeige.svg';
 import emptyHeart from '../assets/icons/emptyheart.svg';
 import fullHeartPink from '../assets/full-heart-pink.svg';
 import arrowRight from '../assets/icons/arrow-right.svg';
@@ -343,7 +343,7 @@ export default function Map() {
                         <div className="map-bottom__legend">
                             <div className="map-legend-item"><img src={coasterBrown} alt="" /><span>visited</span></div>
                             <div className="map-legend-item"><img src={coasterPink} alt="" /><span>currently</span></div>
-                            <div className="map-legend-item"><img src={coasterGrey} alt="" /><span>your rec</span></div>
+                            <div className="map-legend-item"><img src={coasterGrey} alt="" /><span>recommendation</span></div>
                             <div className="map-legend-item"><img src={fullHeart} alt="" className="map-legend-item__heart" /><span>liked</span></div>
                         </div>
                     </div>
