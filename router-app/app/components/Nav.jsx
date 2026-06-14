@@ -6,10 +6,14 @@ import bgNav from "~/assets/bg-nav.svg";
 import bgNavOrange from "~/assets/bg-nav-orange.svg";
 import closeIcon from "~/assets/close.svg";
 import playIcon from "~/assets/play-icon.svg";
+import lockIcon from "~/assets/icons/lock.svg";
+import lockOpenIcon from "~/assets/icons/lockopen.svg";
+import lockedNavBg from "~/assets/icons/locked-nav.svg";
 import "./Nav.css";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [isRecLocked, setIsRecLocked] = useState(true);
   const { pathname } = useLocation();
   const isLoggedIn = (() => { try { return !!localStorage.getItem('user'); } catch { return false; } })();
   const hamburgerBg = pathname === "/" ? bgNavOrange : bgNav;
@@ -65,11 +69,24 @@ export default function Nav() {
 
             <NavLink
               to="/recommendations"
-              className={({ isActive }) => `nav-cell nav-cell--recommendation${isActive ? " nav-cell--active" : ""}`}
-              onClick={() => setOpen(false)}
+              className={({ isActive }) => `nav-cell nav-cell--recommendation${isActive ? " nav-cell--active" : ""}${isRecLocked ? " nav-cell--locked" : ""}`}
+              onClick={(e) => { if (isRecLocked) { e.preventDefault(); return; } setOpen(false); }}
             >
-              <span className="nav-cell__title">Write a<br />Recommendation</span>
-              <span className="nav-cell__subtitle">Pass on your Antwerp bar story</span>
+              {isRecLocked && <img src={lockedNavBg} alt="" className="nav-cell__locked-bg" />}
+              <div className="nav-cell__rec-header">
+                <span className="nav-cell__title">Write a<br />Recommendation</span>
+                <button
+                  className="nav-cell__lock-btn"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsRecLocked((v) => !v); }}
+                >
+                  <img src={isRecLocked ? lockIcon : lockOpenIcon} alt="" />
+                </button>
+              </div>
+              <span className="nav-cell__subtitle">
+                {isRecLocked
+                  ? "You can unlock this feature once you're in Antwerp. See you there!"
+                  : "Pass on your Antwerp bar story"}
+              </span>
             </NavLink>
           </div>
 
