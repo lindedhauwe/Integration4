@@ -156,6 +156,115 @@ body:has(.map-page) {
     color: var(--beige);
 }
 
+/* ── FINISH OVERLAY ── */
+.map-finish {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(49, 44, 28, 0.96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 40px;
+    overflow-y: auto;
+}
+
+
+.map-finish__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.map-finish__header {
+    align-self: flex-start;
+    margin-left: 8px;
+}
+
+.map-finish__card {
+    background: var(--dark-green);
+    padding: 16px 20px 14px;
+    transform: rotate(-2deg);
+    display: inline-block;
+}
+
+.map-finish__title {
+    font-family: var(--font-antwerpen-regular);
+    font-size: 20px;
+    color: var(--light-green);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.map-finish__username {
+    color: var(--pink);
+}
+
+.map-finish__location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--pink);
+    padding: 5px 12px 5px 8px;
+    margin-top: -4px;
+    transform: rotate(2deg);
+    margin-left: 8px;
+}
+
+.map-finish__location-pin {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) invert(1);
+    flex-shrink: 0;
+}
+
+.map-finish__location span {
+    font-family: var(--font-interstate);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+}
+
+.map-finish__circle {
+    width: 120vw;
+    height: 120vw;
+    border-radius: 50%;
+    border: 10px solid var(--dark-green);
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-top: -60px;
+}
+
+.map-finish__map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.map-finish__share {
+    background: var(--orange);
+    color: var(--white);
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.map-finish__share-icon {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+}
+
 /* ── AUTH GATE ── */
 .map-auth-gate {
     position: fixed;
@@ -610,10 +719,10 @@ body:has(.map-page) {
 
 .mpp__blob-wrap {
     position: relative;
-    width: 120vw;
-    height: 120vw;
-    /* max-width: 370px;
-    max-height: 370px; */
+    width: 90vw;
+    height: 90vw;
+    max-width: 360px;
+    max-height: 360px;
     flex-shrink: 0;
 }
 
@@ -750,11 +859,11 @@ body:has(.map-page) {
 }
 
 .mpp__arrow--left {
-    left: calc(10vw - 12px);
+    left: 0;
 }
 
 .mpp__arrow--right {
-    right: calc(10vw - 12px);
+    right: 0;
 }
 
 .mpp__arrow-icon {
