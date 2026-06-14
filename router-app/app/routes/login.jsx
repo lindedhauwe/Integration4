@@ -64,6 +64,10 @@ export default function Login() {
             <div className="login-deco">
                 <img src={loginVierkant} alt="" className="login-vierkant" />
                 <img src={keysImg} alt="" className="login-keys" />
+                <button className="login-back" onClick={() => navigate(-1)}>
+                    <img src={arrowRight} alt="" className="login-back__icon" />
+                    Go back
+                </button>
             </div>
 
             <h1 className="login-title">Log In</h1>
