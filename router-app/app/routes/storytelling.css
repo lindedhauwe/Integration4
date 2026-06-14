@@ -822,6 +822,22 @@
     }
 }
 
+/* ── Exit transition overlay ────────────────────────────────────────────── */
+.st-exit-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--dark-green);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+    transition: opacity 0.8s ease;
+}
+
+.st-exit-overlay--active {
+    opacity: 1;
+    pointer-events: all;
+}
+
 .modal--maria {
     background-image: url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/kaart.png");
     background-position: right -200% top -70%,

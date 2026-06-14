@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
@@ -125,10 +126,13 @@ const TEXT_STEPS = [
 ];
 
 export default function Storytelling() {
+    const navigate = useNavigate();
     const wrapperRef = useRef(null);
     const trackRef = useRef(null);
     const lockedScrollPos = useRef(null);
     const unlockedGates = useRef(new Set());
+    const exitTriggered = useRef(false);
+    const [exitActive, setExitActive] = useState(false);
 
     const langeWapperBarrelRef = useRef(null);
     const langeWapperAnimated = useRef(false);
@@ -140,6 +144,8 @@ export default function Storytelling() {
 
     const beerBottleRef = useRef(null);
     const beerPathRef = useRef(null);
+    const mainTweenRef = useRef(null);
+    const bottleTweenRef = useRef(null);
 
     const mariaGlowRef1 = useRef(null);
     const mariaGlowRef2 = useRef(null);
@@ -179,7 +185,7 @@ export default function Storytelling() {
 
         gsap.set([mariaGlowRef1.current, mariaGlowRef2.current, mariaGlowRef3.current], { opacity: 0 });
 
-        const bottleTween = gsap.to(beerBottleRef.current, {
+        bottleTweenRef.current = gsap.to(beerBottleRef.current, {
             motionPath: {
                 path: beerPathRef.current,
                 align: beerPathRef.current,
@@ -193,7 +199,7 @@ export default function Storytelling() {
             paused: true,
         });
 
-        const tween = gsap.to(track, {
+        mainTweenRef.current = gsap.to(track, {
             x: -totalTravel,
             ease: "none",
             scrollTrigger: {
@@ -276,7 +282,7 @@ export default function Storytelling() {
                         });
                     }
 
-                    bottleTween.progress(self.progress);
+                    bottleTweenRef.current?.progress(self.progress);
 
                     const newIdx = [...TEXT_STEPS].reverse().find(s => self.progress >= s.progress)?.index ?? 0;
                     if (newIdx !== lastTextIndexRef.current) {
@@ -284,6 +290,17 @@ export default function Storytelling() {
                         setStoryTextIndex(newIdx);
                     }
                     setCaptionVisible(self.progress < TEXT_HIDE_AT);
+
+                    if (!exitTriggered.current && self.progress >= 0.98) {
+                        exitTriggered.current = true;
+                        setExitActive(true);
+                        setTimeout(() => {
+                            ScrollTrigger.getAll().forEach(st => st.kill());
+                            mainTweenRef.current?.kill();
+                            bottleTweenRef.current?.kill();
+                            navigate("/loadingrecommendation");
+                        }, 1000);
+                    }
 
                     if (lockedScrollPos.current !== null) return;
 
@@ -309,9 +326,9 @@ export default function Storytelling() {
         window.addEventListener("scroll", onScroll);
 
         return () => {
-            tween.scrollTrigger?.kill();
-            tween.kill();
-            bottleTween.kill();
+            mainTweenRef.current?.scrollTrigger?.kill();
+            mainTweenRef.current?.kill();
+            bottleTweenRef.current?.kill();
             window.removeEventListener("scroll", onScroll);
             langeWapperSway.current?.kill();
             langeWapperTableSway.current?.kill();
@@ -508,6 +525,9 @@ export default function Storytelling() {
                     {STORYTELLING_TEXT[storyTextIndex]}
                 </p>
             </div>
+
+            {/* ── Exit transition overlay ───────────────────────────────────────── */}
+            <div className={`st-exit-overlay${exitActive ? " st-exit-overlay--active" : ""}`} />
 
             {/* ── Modal overlay ─────────────────────────────────────────────────── */}
             {modal && (
