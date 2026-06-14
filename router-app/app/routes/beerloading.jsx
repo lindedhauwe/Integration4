@@ -6,7 +6,7 @@ export default function BeerLoading() {
 
   const handleEmpty = () => {
     // Brief pause so the user sees the empty glass before navigating
-    setTimeout(() => navigate('/'), 800);
+    setTimeout(() => navigate('/storytelling'), 800);
   };
 
   return <Beer onEmpty={handleEmpty} />;
