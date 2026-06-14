@@ -1,6 +1,7 @@
 import "./loadingrecommendation.css";
 import gsap from "gsap";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 
 import greenCapImg from "../assets/loading-recommendation/green-bottle-cap.svg";
 import orangeCapImg from "../assets/loading-recommendation/orange-bottle-cap.svg";
@@ -14,6 +15,8 @@ import person07Img from "../assets/loading-recommendation/person07.avif";
 import person08Img from "../assets/loading-recommendation/person08.avif";
 
 export default function loadingRecommendation() {
+    const navigate = useNavigate();
+    const [visible, setVisible] = useState(false);
 
     const photos = [
         person01Img,
@@ -43,6 +46,18 @@ export default function loadingRecommendation() {
     const imgBRef = useRef(null);
     const orangeCapRef = useRef(null);
     const greenCapRef = useRef(null);
+
+    useEffect(() => {
+        const showTimer = setTimeout(() => setVisible(true), 50);
+        const hideTimer = setTimeout(() => {
+            setVisible(false);
+            setTimeout(() => navigate("/"), 600);
+        }, 8000);
+        return () => {
+            clearTimeout(showTimer);
+            clearTimeout(hideTimer);
+        };
+    }, []);
 
     useEffect(() => {
         gsap.set(orangeCapRef.current, { zIndex: 2 });
@@ -118,7 +133,7 @@ export default function loadingRecommendation() {
 
     return (
         <>
-            <div className="loading-recommendation">
+            <div className={`loading-recommendation${visible ? " loading-recommendation--visible" : ""}`}>
                 <div className="loading-animation">
                     <div ref={orangeCapRef} className="cap cap--orange">
                         <img className="background" src={orangeCapImg} alt="" />
