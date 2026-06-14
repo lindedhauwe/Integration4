@@ -143,6 +143,16 @@ export default function Map() {
 
     function dismissIntro() {
         setShowIntro(false);
+        setTimeout(() => {
+            Object.values(markersRef.current).forEach(({ marker }, idx) => {
+                const el = marker.getElement();
+                if (!el) return;
+                el.classList.remove('coaster-bounce');
+                void el.offsetWidth; // reflow om animatie te resetten
+                el.style.animationDelay = `${idx * 0.15}s`;
+                el.classList.add('coaster-bounce');
+            });
+        }, 100);
     }
 
     const [panel, setPanel] = useState(null);
@@ -259,7 +269,7 @@ export default function Map() {
             }).addTo(map);
 
             const newMarkers = {};
-            getMapSpots().forEach((spot) => {
+            getMapSpots().forEach((spot, idx) => {
                 const icon = L.icon({ iconUrl: ICON_MAP[spot.type], iconSize: [56, 56], iconAnchor: [28, 56] });
                 const marker = L.marker(spot.position, { icon }).on('click', () => {
                     const t = spot.type;
@@ -279,6 +289,7 @@ export default function Map() {
                         setPanelRef.current({ type: 'pending', name: spot.name, adress: spot.adress, cafeId: spot.cafeId });
                     }
                 }).addTo(map);
+
                 newMarkers[String(spot.cafeId)] = { marker, type: spot.type };
             });
             markersRef.current = newMarkers;
@@ -415,7 +426,7 @@ export default function Map() {
                             <button className="map-bottom__finish" onClick={() => setShowFinish(true)}>Finish Pub Crawl</button>
                             <button className="map-bottom__share"><img src={shareIcon} alt="share" /></button>
                         </div>
-                        <div className="map-bottom__legend">
+                        <div className="map-bottom__legend" onClick={() => setShowIntro(true)} style={{ cursor: 'pointer' }}>
                             <div className="map-legend-item"><img src={coasterBrown} alt="" /><span>visited</span></div>
                             <div className="map-legend-item"><img src={coasterPink} alt="" /><span>currently</span></div>
                             <div className="map-legend-item"><img src={coasterGrey} alt="" /><span>recommendation</span></div>

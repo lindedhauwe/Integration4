@@ -4,6 +4,17 @@ body:has(.map-page) {
     height: 100%;
 }
 
+/* ── COASTER BOUNCE ── */
+.coaster-bounce {
+    animation: coaster-drop 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes coaster-drop {
+    0%   { opacity: 0; scale: 0; }
+    80%  { opacity: 1; scale: 1.05; }
+    100% { opacity: 1; scale: 1; }
+}
+
 /* ── NIGHT LIGHTS ── */
 .map-night-lights {
     position: absolute;
