@@ -1,0 +1,102 @@
+.loading-recommendation {
+    height: 100vh;
+    width: 100vw;
+
+    background-color: var(--dark-green);
+
+    padding: 0 1.5rem;
+
+    display: grid;
+    place-items: center;
+
+    grid-template-rows: auto auto;
+    gap: 6rem;
+
+    background-image:
+        url("../assets/loading-recommendation/swirl.svg"),
+        url("../assets/loading-recommendation/green-rect.svg"),
+        url("../assets/loading-recommendation/green-rect02.svg");
+    background-repeat: no-repeat;
+    background-size:
+        50%,
+        110%,
+        80%;
+    background-position:
+        left -2rem top -2rem,
+        right -5rem bottom -21rem,
+        left -6rem top -16rem;
+}
+
+.loading-recommendation__title {
+    color: var(--light-green);
+
+    font-family: var(--font-interstate);
+    font-weight: 600;
+    font-size: 2.2rem;
+    line-height: 1.1;
+    text-align: center;
+
+    align-self: start;
+}
+
+.loading-recommendation__title span {
+    color: var(--orange);
+}
+
+.loading-animation {
+    align-self: end;
+
+    display: grid;
+
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+}
+
+.cap {
+    grid-row: 1;
+    grid-column: 1;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    position: relative;
+
+    width: 240px;
+    aspect-ratio: 1 / 1;
+}
+
+.cap--green {
+    transform: translate(-2.5rem, 3.5rem);
+}
+
+.cap--orange {
+    transform: translate(2.5rem, -3.5rem);
+}
+
+.cap .background,
+.cap .photo {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.cap
+
+.background {
+    width: 100%;
+    height: 100%;
+}
+
+.photo {
+    position: absolute;
+    inset: 1.75rem;
+
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

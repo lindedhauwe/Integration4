@@ -55,6 +55,7 @@ export default function App() {
   const hiddenNavRoutes = [
     "/storytelling",
     "/beerloading",
+    "/loadingrecommendation"
   ];
 
   return (

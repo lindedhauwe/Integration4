@@ -36,4 +36,7 @@ export default [
 
   // STORYTELLING
   route("/storytelling", "./routes/storytelling.jsx"),
+
+  // LOADING RECOMMENDATION
+  route("/loadingrecommendation", "./routes/loadingrecommendation.jsx"),
 ];
