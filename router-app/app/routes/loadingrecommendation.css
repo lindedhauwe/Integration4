@@ -1,0 +1,39 @@
+.loading-recommendation {
+    height: 100vh;
+    width: 100vw;
+
+    background-color: var(--dark-green);
+
+    padding: 0 1.5rem;
+
+    display: grid;
+    place-items: center;
+
+    background-image:
+        url("../assets/loading-recommendation/swirl.svg"),
+        url("../assets/loading-recommendation/green-rect.svg"),
+        url("../assets/loading-recommendation/green-rect02.svg");
+    background-repeat: no-repeat;
+    background-size:
+        50%,
+        110%,
+        80%;
+    background-position:
+        left -2rem top -2rem,
+        right -5rem bottom -21rem,
+        left -6rem top -16rem;
+}
+
+.loading-recommendation__title {
+    color: var(--light-green);
+
+    font-family: var(--font-interstate);
+    font-weight: 600;
+    font-size: 2.2rem;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.loading-recommendation__title span {
+    color: var(--orange);
+}
