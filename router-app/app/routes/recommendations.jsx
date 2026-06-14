@@ -91,6 +91,19 @@ export default function Recommendations() {
 
   useEffect(() => {
     if (actionData?.success) {
+      if (mode === "current" && currentCafe?.id) {
+        try {
+          const myRecs = JSON.parse(localStorage.getItem("my_recommendations") || "[]");
+          myRecs.push({
+            cafe_id: currentCafe.id,
+            name,
+            age,
+            description,
+            photo_url: JSON.stringify(uploadedMedia),
+          });
+          localStorage.setItem("my_recommendations", JSON.stringify(myRecs));
+        } catch {}
+      }
       resetForm();
       setShowSuccessModal(true);
     }
@@ -287,11 +300,13 @@ export default function Recommendations() {
                   <button
                     type="button"
                     key={tag}
-                    className="tag blue"
+                    className={`tag blue${vibe.includes(tag) ? " tag--selected" : ""}`}
                     onClick={() => toggleTag(tag, vibe, setVibe)}
                   >
-                    #{tag}
-                    {vibe.includes(tag) && <span className="tag__remove">✕</span>}
+                    <span className="tag__fill">
+                      #{tag}
+                      {vibe.includes(tag) && <span className="tag__remove">✕</span>}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -304,18 +319,20 @@ export default function Recommendations() {
                   <button
                     type="button"
                     key={tag}
-                    className="tag green"
+                    className={`tag green${type.includes(tag) ? " tag--selected" : ""}`}
                     onClick={() => toggleTag(tag, type, setType)}
                   >
-                    #{tag}
-                    {type.includes(tag) && <span className="tag__remove">✕</span>}
+                    <span className="tag__fill">
+                      #{tag}
+                      {type.includes(tag) && <span className="tag__remove">✕</span>}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* ⭐ HIDDEN INPUTS VOOR SERVER */}
+          {/* HIDDEN INPUTS */}
           <input type="hidden" name="vibe" value={JSON.stringify(vibe)} />
           <input type="hidden" name="type" value={JSON.stringify(type)} />
           <input type="hidden" name="photo_url" value={JSON.stringify(uploadedMedia)} />
