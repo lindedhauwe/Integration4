@@ -22,15 +22,16 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: bottom;
-  padding-bottom: 2rem;
-  gap: 1rem;
+  align-items: center;
+  /* horizontaal centreren */
   background: rgba(11, 11, 13, 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 10;
   padding: 2rem;
   text-align: center;
+  justify-content: center;
+  padding-top: 80px;
 }
 
 .beer-overlay__title {
@@ -48,10 +49,21 @@
   max-width: 280px;
   margin: 0 0 16px;
   line-height: 1.65;
+  text-align: center;
+}
+
+.beer-overlay__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  /* kleine afstand tussen titel en tekst */
+  margin-bottom: 1rem;
 }
 
 .beer-overlay__sub {
-  background-color: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
   border: none;
   color: var(--bar-brown);
   font-size: 16px;

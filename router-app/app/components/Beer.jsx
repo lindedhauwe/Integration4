@@ -604,10 +604,12 @@ export default function Beer({ onEmpty }) {
 
       {needsPermission && (
         <div className="beer-overlay">
-          <p className="beer-overlay__title">Antwerp on tap</p>
-          <p className="beer-overlay__text">
-            Enable motion controls via gyroscope.
-          </p>
+          <div className="beer-overlay__header">
+            <p className="beer-overlay__title">Antwerp on tap</p>
+            <p className="beer-overlay__text">
+              Enable motion controls via gyroscope.
+            </p>
+          </div>
           <button
             className="beer-btn"
             onClick={async () => {
