@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import './Beer.css';
-import drinkIcon from "../assets/beer/icons/drinkIcon.svg";
+import drinkIcon from "../assets/icons/drinkIcon.svg";
 
 // ─── Geometry helpers ────────────────────────────────────────────────────────
 
