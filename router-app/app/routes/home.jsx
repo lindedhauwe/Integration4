@@ -1,9 +1,12 @@
 import { useLoaderData, useNavigate } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
+
+import beerImg from "../assets/images/beer-animation.png";
+import coasterImg from "../assets/images/coaster-animation.png";
 
 import locationPin from "../assets/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";
@@ -58,7 +61,7 @@ export async function clientLoader({ request }) {
     sessionStorage.setItem("current_cafe", JSON.stringify({ id: c.id, name: c.name, adress: c.adress }));
   }
 
-  return { filtered, all: allRecs, cafeMap };
+  return { filtered, all: allRecs, cafeMap, scannedCafeId: cafeId };
 }
 clientLoader.hydrate = true;
 
@@ -84,8 +87,23 @@ function removeLikedCafe(cafeId) {
 }
 
 export default function Home() {
-  const { filtered, all, cafeMap } = useLoaderData();
+  const { filtered, all, cafeMap, scannedCafeId } = useLoaderData();
   const navigate = useNavigate();
+  const scannedCafeName = scannedCafeId ? (cafeMap[scannedCafeId]?.name || "") : "";
+
+  const [overlayPhase, setOverlayPhase] = useState(0);
+
+  useEffect(() => {
+    if (!scannedCafeId) return;
+    const key = `added_overlay_${scannedCafeId}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    setOverlayPhase(1);
+    const t1 = setTimeout(() => setOverlayPhase(2), 900);
+    const t2 = setTimeout(() => setOverlayPhase(4), 1800);
+    const t3 = setTimeout(() => setOverlayPhase(0), 2700);
+    return () => [t1, t2, t3].forEach(clearTimeout);
+  }, [scannedCafeId]);
 
   const [rec, setRec] = useState(() => {
     // Als de cafe param veranderd (nieuwe NFC scan), reset opgeslagen rec
@@ -204,6 +222,26 @@ export default function Home() {
 
   return (
     <>
+    {overlayPhase > 0 && (
+      <div className="added-overlay" aria-hidden="true">
+        {overlayPhase <= 2 && (
+          <img
+            src={beerImg}
+            alt=""
+            className={`added-overlay__beer${overlayPhase === 2 ? " added-overlay__beer--exit" : " added-overlay__beer--enter"}`}
+          />
+        )}
+        <div
+          className={
+            "added-overlay__coaster-group" +
+            (overlayPhase === 1 ? " added-overlay__coaster-group--enter" : "") +
+            (overlayPhase === 4 ? " added-overlay__coaster-group--exit" : "")
+          }
+        >
+          <img src={coasterImg} alt="" className="added-overlay__coaster-img" />
+        </div>
+      </div>
+    )}
     {showLoginModal && (
       <div className="home-login-overlay" onClick={() => setShowLoginModal(false)}>
         <div className="home-login-modal" onClick={(e) => e.stopPropagation()}>

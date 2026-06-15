@@ -289,6 +289,93 @@
   flex-shrink: 0;
 }
 
+/* ADDED TO MAP OVERLAY */
+.added-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.added-overlay__beer {
+  position: absolute;
+  right: calc(-25vw - 550px);
+  top: calc(28vh - 360px);
+  width: 280vw;
+  max-width: 1600px;
+  z-index: 2;
+}
+
+.added-overlay__beer--enter {
+  animation: beer-enter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.added-overlay__beer--exit {
+  animation: beer-exit 0.7s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+@keyframes beer-enter {
+  from { transform: translateX(120vw); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes beer-exit {
+  from { transform: translateX(0); }
+  to   { transform: translateX(80vw) translateY(50vh); }
+}
+
+.added-overlay__coaster-group {
+  position: absolute;
+  left: 50%;
+  top: 28vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.added-overlay__coaster-group--enter {
+  animation: coaster-enter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+.added-overlay__coaster-group--exit {
+  animation: coaster-exit 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}
+
+@keyframes coaster-enter {
+  from { transform: translateX(calc(-50% + 120vw)); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes coaster-exit {
+  from { transform: translateX(-50%) translateY(0); }
+  to   { transform: translateX(-50%) translateY(-130vh); }
+}
+
+.added-overlay__coaster-img {
+  width: 85vw;
+  max-width: 420px;
+}
+
+.added-overlay__msg {
+  font-family: var(--font-antwerpen-regular);
+  font-size: 1.25rem;
+  color: var(--dark-green);
+  background: var(--beige);
+  padding: 0.5rem 1.25rem;
+  margin-top: 0.75rem;
+  text-align: center;
+  animation: msg-appear 0.4s ease-out forwards;
+}
+
+@keyframes msg-appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* LOGIN MODAL */
 .home-login-overlay {
   position: fixed;
