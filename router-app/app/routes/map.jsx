@@ -63,9 +63,6 @@ function getMapSpots() {
             addedIds.add(String(c.cafe_id));
         });
 
-        // Demo pin — geen rec ingevuld (bruine pin zonder hartje)
-        spots.push({ id: 'demo-empty', cafeId: 9999, name: 'De Vagant', adress: 'Reyndersstraat 25, Antwerp', position: [51.2210, 4.4038], type: 'visited' });
-
         return spots;
     } catch { return []; }
 }

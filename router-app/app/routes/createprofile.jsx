@@ -60,6 +60,15 @@ export default function CreateProfile() {
 
         const user = data.user;
         localStorage.setItem("user", JSON.stringify({ uid: user.id, name: username, email: user.email }));
+
+        const { data: cafes } = await supabase.from("cafés").select("id, name, adress, gps_lat, gps_lng");
+        if (cafes && cafes.length > 0) {
+            const randomCafe = cafes[Math.floor(Math.random() * cafes.length)];
+            const cafeData = { id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng };
+            localStorage.setItem("current_cafe", JSON.stringify(cafeData));
+            sessionStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress }));
+        }
+
         navigate("/account");
     }
 
