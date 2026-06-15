@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { supabase } from "../supabase";
 
 import "./account.css";
 
@@ -67,7 +68,8 @@ export default function Account() {
 
     if (!user) return null;
 
-    function handleLogout() {
+    async function handleLogout() {
+        await supabase.auth.signOut();
         localStorage.removeItem("user");
         navigate("/login");
     }

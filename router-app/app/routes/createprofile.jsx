@@ -47,18 +47,19 @@ export default function CreateProfile() {
         if (password.length < 8) return;
         if (password !== confirm) return;
 
-        const { data, error } = await supabase
-            .from("users")
-            .insert([{ name: username, email, password }])
-            .select()
-            .single();
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { name: username } },
+        });
 
         if (error) {
             setServerError("Er ging iets mis: " + error.message);
             return;
         }
 
-        localStorage.setItem("user", JSON.stringify(data));
+        const user = data.user;
+        localStorage.setItem("user", JSON.stringify({ uid: user.id, name: username, email: user.email }));
         navigate("/account");
     }
 

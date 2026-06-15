@@ -18,7 +18,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const errors = submitted ? {
-        identifier: !identifier.trim() ? "Please fill in your email or username" : null,
+        identifier: !identifier.trim() ? "Please fill in your email" : null,
         password: !password.trim() ? "Please fill in your password" : null,
     } : {};
 
@@ -39,23 +39,19 @@ export default function Login() {
 
         if (!identifier.trim() || !password.trim()) return;
 
-        const { data, error } = await supabase
-            .from("users")
-            .select("*")
-            .or(`email.eq.${identifier},name.eq.${identifier}`)
-            .single();
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: identifier.trim(),
+            password,
+        });
 
-        if (error || !data) {
-            setServerError("No account found with this email or username.");
+        if (error || !data.user) {
+            setServerError("Incorrect email or password. Try again.");
             return;
         }
 
-        if (data.password !== password) {
-            setServerError("Incorrect password. Try again.");
-            return;
-        }
-
-        localStorage.setItem("user", JSON.stringify(data));
+        const user = data.user;
+        const name = user.user_metadata?.name || user.email;
+        localStorage.setItem("user", JSON.stringify({ uid: user.id, name, email: user.email }));
         navigate("/account");
     }
 
@@ -82,7 +78,7 @@ export default function Login() {
                     )}
 
                     <div className="form-group">
-                        <label className="form-label">Email or Username</label>
+                        <label className="form-label">Email</label>
                         <input
                             className={`form-input ${errors.identifier ? "input-error" : ""}`}
                             type="text"
