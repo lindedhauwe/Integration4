@@ -67,7 +67,7 @@
   right: -0.5rem;
   width: 1.375rem;
   height: 1.375rem;
-  background: #ff6ee5;
+  background: var(--pink);
   color: white;
   border: none;
   border-radius: 50%;

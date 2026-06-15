@@ -67,7 +67,7 @@
   right: -8px;
   width: 22px;
   height: 22px;
-  background: #ff6ee5;
+  background: var(--pink);
   color: white;
   border: none;
   border-radius: 50%;
