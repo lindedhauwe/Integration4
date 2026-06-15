@@ -639,15 +639,25 @@
     position: relative;
     background: var(--beige);
     overflow: hidden;
-    padding: 52px 48px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 36px;
     align-items: center;
+
     animation: modal-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 
     height: 85%;
     width: 85%;
+
+    grid-template-columns: 1fr;
+    padding: 30px 24px;
+
+    background-image: url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/green-square.svg");
+    background-position: right -200% top -70%,
+        left -100% bottom -70%;
+    background-repeat: no-repeat;
 }
 
 @keyframes modal-in {
@@ -689,36 +699,40 @@
 /* Media column */
 .modal__media {
     position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
 .modal__img {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
+    max-height: 100%;
     display: block;
+
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .modal__img--coaster {
-    margin-top: -4.5rem;
-    margin-left: -3.5rem;
-
-    width: 135%;
+    transform: translate(-50%, -10%);
+    max-width: 100%;
 }
 
 .modal__img--polaroids {
-    width: 165%;
-    margin-left: -4.5rem;
-    margin-bottom: -3rem;
+    max-width: 140%;
 }
 
 .modal__img--map {
-    width: 90%;
+    max-width: 90%;
 }
 
 .modal__phones {
     position: absolute;
     width: 230%;
-    top: -6.7rem;
-    left: -25rem;
+    top: -40%;
+    left: -144%;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -807,18 +821,6 @@
     text-align: center;
 
     margin-bottom: 3rem;
-}
-
-@media (max-width: 580px) {
-    .modal {
-        grid-template-columns: 1fr;
-        padding: 30px 24px;
-
-        background-image: url("../assets/scrollytelling/pop-ups/green-square.svg"), url("../assets/scrollytelling/pop-ups/green-square.svg");
-        background-position: right -200% top -70%,
-            left -100% bottom -70%;
-        background-repeat: no-repeat;
-    }
 }
 
 /* ── Exit transition overlay ────────────────────────────────────────────── */
