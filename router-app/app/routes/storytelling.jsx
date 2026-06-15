@@ -323,11 +323,22 @@ export default function Storytelling() {
         };
         window.addEventListener("scroll", onScroll);
 
+        let resizeTimer;
+        const onResize = () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                bottleTweenRef.current?.invalidate();
+            }, 150);
+        };
+        window.addEventListener("resize", onResize);
+
         return () => {
             mainTweenRef.current?.scrollTrigger?.kill();
             mainTweenRef.current?.kill();
             bottleTweenRef.current?.kill();
             window.removeEventListener("scroll", onScroll);
+            window.removeEventListener("resize", onResize);
+            clearTimeout(resizeTimer);
             langeWapperSway.current?.kill();
             langeWapperTableSway.current?.kill();
         };
