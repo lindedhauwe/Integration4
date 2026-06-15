@@ -9,10 +9,14 @@ import {
 
 import type { Route } from "./+types/root";
 import "./styles/index.css";
+import "./routes/home.css";
 import Nav from "~/components/Nav";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { seedDevData } from "./devSeed";
+
+import beerImg from "./assets/images/beer-animation.png";
+import coasterImg from "./assets/images/coaster-animation.png";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -47,10 +51,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const location = useLocation();
+  const [overlayPhase, setOverlayPhase] = useState(0);
 
   useEffect(() => {
     if (import.meta.env.DEV) seedDevData();
   }, []);
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const skip = sessionStorage.getItem("skip_home_animation");
+    const alreadyVisited = sessionStorage.getItem("home_visited");
+    sessionStorage.removeItem("skip_home_animation");
+    sessionStorage.setItem("home_visited", "1");
+    if (skip || alreadyVisited) return;
+    setOverlayPhase(1);
+    const t1 = setTimeout(() => setOverlayPhase(2), 900);
+    const t2 = setTimeout(() => setOverlayPhase(4), 1800);
+    const t3 = setTimeout(() => setOverlayPhase(0), 2700);
+    return () => [t1, t2, t3].forEach(clearTimeout);
+  }, [location.pathname]);
 
   const hiddenNavRoutes = [
     "/storytelling",
@@ -60,6 +79,26 @@ export default function App() {
 
   return (
     <>
+      {overlayPhase > 0 && (
+        <div className="added-overlay" aria-hidden="true">
+          {overlayPhase <= 2 && (
+            <img
+              src={beerImg}
+              alt=""
+              className={`added-overlay__beer${overlayPhase === 2 ? " added-overlay__beer--exit" : " added-overlay__beer--enter"}`}
+            />
+          )}
+          <div
+            className={
+              "added-overlay__coaster-group" +
+              (overlayPhase === 1 ? " added-overlay__coaster-group--enter" : "") +
+              (overlayPhase === 4 ? " added-overlay__coaster-group--exit" : "")
+            }
+          >
+            <img src={coasterImg} alt="" className="added-overlay__coaster-img" />
+          </div>
+        </div>
+      )}
       {!hiddenNavRoutes.includes(location.pathname) && <Nav />}
       <Outlet />
     </>
