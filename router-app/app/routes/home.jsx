@@ -5,7 +5,7 @@ import "./home.css";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
 
-import locationPin from "../assets/location-pink.svg";
+import locationPin from "../assets/icons/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";
 import emptyHeart from "../assets/icons/emptyheart.svg";
 import shuffleIcon from "../assets/icons/shuffle.svg";

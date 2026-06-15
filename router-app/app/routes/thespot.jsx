@@ -7,7 +7,7 @@ import "./thespot.css";
 
 import arrowRight from "../assets/icons/arrow-right.svg";
 import walkIcon   from "../assets/icons/walk.svg";
-import locationPin from "../assets/location-pink.svg";
+import locationPin from "../assets/icons/location-pink.svg";
 import rectTop      from "../assets/images/rect-top-detailPage.png";
 import rectSide     from "../assets/images/rect-side-detailPage.png";
 import areaBeige    from "../assets/images/area-beige-detailPage.png";
