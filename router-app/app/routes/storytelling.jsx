@@ -298,8 +298,12 @@ export default function Storytelling() {
                             ScrollTrigger.getAll().forEach(st => st.kill());
                             mainTweenRef.current?.kill();
                             bottleTweenRef.current?.kill();
-                            navigate("/loadingrecommendation");
-                        }, 1000);
+                            // Double RAF: geeft GSAP twee frames om de DOM te herstellen
+                            // voordat React de component unmount (production race condition fix)
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => navigate("/loadingrecommendation"));
+                            });
+                        }, 800);
                     }
 
                     if (lockedScrollPos.current !== null) return;
