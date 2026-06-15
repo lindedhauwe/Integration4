@@ -63,8 +63,7 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 // ── Total track width ───────────────────────────────────────────────────────
 const TRACK_WIDTH = 4300;
 
-// ── Gate positions (x = pixels along the horizontal track where scroll locks)
-// Adjust these values to match the visual position of each interactive object.
+// ── Gate positions
 const GATES = [
     { id: "beer", x: 930 },
     { id: "maria", x: 2500 },
@@ -72,7 +71,6 @@ const GATES = [
 ];
 
 // ── Modal content per gate ──────────────────────────────────────────────────
-// Replace body text and images with final copy.
 const MODAL_CONTENT = {
     beer: {
         title:
@@ -112,7 +110,6 @@ const STORYTELLING_TEXT = [
     "Some keep it as a memory, others pass it on"
 ];
 
-// Progress (0–1) at which the caption fades out. Change this to taste.
 const TEXT_HIDE_AT = 0.80;
 
 const TEXT_STEPS = [
@@ -185,21 +182,10 @@ export default function Storytelling() {
 
         gsap.set([mariaGlowRef1.current, mariaGlowRef2.current, mariaGlowRef3.current], { opacity: 0 });
 
-        // Android: getBoundingClientRect() on SVG elements inside a will-change:transform
-        // container returns coordinates in the wrong space, causing align to invert both axes.
-        // Fix: skip align and manually pre-position the bottle at the SVG's top edge so that
-        // the raw MotionPath SVG coordinates still place it on the visual path.
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        if (isAndroid) {
-            const trackHeight = track.getBoundingClientRect().height;
-            // SVG path element: bottom:100px, height:213px → top = trackHeight - 313
-            beerBottleRef.current.style.top = `${trackHeight - 313}px`;
-        }
-
         bottleTweenRef.current = gsap.to(beerBottleRef.current, {
             motionPath: {
                 path: beerPathRef.current,
-                ...(isAndroid ? {} : { align: beerPathRef.current }),
+                align: beerPathRef.current,
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5],
                 start: 0.02,
@@ -309,8 +295,6 @@ export default function Storytelling() {
                             ScrollTrigger.getAll().forEach(st => st.kill());
                             mainTweenRef.current?.kill();
                             bottleTweenRef.current?.kill();
-                            // Double RAF: geeft GSAP twee frames om de DOM te herstellen
-                            // voordat React de component unmount (production race condition fix)
                             requestAnimationFrame(() => {
                                 requestAnimationFrame(() => navigate("/loadingrecommendation"));
                             });
@@ -332,7 +316,6 @@ export default function Storytelling() {
             },
         });
 
-        // Enforce the lock on every scroll event
         const onScroll = () => {
             if (lockedScrollPos.current !== null) {
                 window.scrollTo(0, lockedScrollPos.current);
