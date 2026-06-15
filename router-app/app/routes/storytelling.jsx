@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import "./storytelling.css";
-import closeIcon from "~/assets/icons/close.svg";
 
 // ── Story layer assets ──────────────────────────────────────────────────────
 import steenImg from "../assets/scrollytelling/story/steen.png"
@@ -164,6 +163,7 @@ export default function Storytelling() {
         const langeWapperBarrel = langeWapperBarrelRef.current;
         const langeWapperTable = langeWapperTableRef.current;
         const totalTravel = TRACK_WIDTH - window.innerWidth;
+        console.log("travel", totalTravel);
 
         gsap.set(langeWapperBarrel, {
             x: 30,
@@ -207,6 +207,7 @@ export default function Storytelling() {
                 scrub: 0.9,
                 anticipatePin: 1,
                 onUpdate(self) {
+                    console.log(self.progress);
                     if (!langeWapperAnimated.current && self.progress >= 0.09) {
                         langeWapperAnimated.current = true;
                         gsap.to(langeWapperBarrel, {
@@ -323,22 +324,11 @@ export default function Storytelling() {
         };
         window.addEventListener("scroll", onScroll);
 
-        let resizeTimer;
-        const onResize = () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                bottleTweenRef.current?.invalidate();
-            }, 150);
-        };
-        window.addEventListener("resize", onResize);
-
         return () => {
             mainTweenRef.current?.scrollTrigger?.kill();
             mainTweenRef.current?.kill();
             bottleTweenRef.current?.kill();
             window.removeEventListener("scroll", onScroll);
-            window.removeEventListener("resize", onResize);
-            clearTimeout(resizeTimer);
             langeWapperSway.current?.kill();
             langeWapperTableSway.current?.kill();
         };
