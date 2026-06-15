@@ -339,7 +339,7 @@ export default function TheSpot() {
                   const range = cafe.opening_hours?.[day];
                   const formatTime = (t) => {
                     const [h, m] = t.split(":").map(Number);
-                    const period = h >= 12 ? "AM" : "PM";
+                    const period = h >= 12 ? "PM" : "AM";
                     const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
                     return `${h12}:${m.toString().padStart(2,"0")}${period}`;
                   };

@@ -14,7 +14,7 @@ import person06Img from "../assets/loading-recommendation/person06.avif";
 import person07Img from "../assets/loading-recommendation/person07.avif";
 import person08Img from "../assets/loading-recommendation/person08.avif";
 
-export default function loadingRecommendation() {
+export default function LoadingRecommendation() {
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
 
