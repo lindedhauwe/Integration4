@@ -4,7 +4,7 @@ import hamburger from "~/assets/icons/hamburgermenu.svg";
 import hamburgerBeige from "~/assets/icons/hamburgermenu-beige.svg";
 import bgNav from "~/assets/icons/bg-nav.svg";
 import bgNavOrange from "~/assets/icons/bg-nav-orange.svg";
-import closeIcon from "~/assets/icons/close.svg";
+import closeIcon from "~/assets/icons/close-orange.svg";
 import playIcon from "~/assets/icons/play-icon.svg";
 import lockIcon from "~/assets/icons/lock.svg";
 import lockOpenIcon from "~/assets/icons/lockopen.svg";

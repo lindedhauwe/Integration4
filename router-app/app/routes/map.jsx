@@ -16,7 +16,7 @@ import locationPin from '../assets/icons/location-pink.svg';
 import currenttapbg from '../assets/icons/currenttapbg.svg';
 import locationpingreen from '../assets/icons/locationpingreen.svg';
 import bgNav from '../assets/icons/bg-nav.svg';
-import closeIcon from '../assets/icons/close.svg';
+import closeIcon from '../assets/icons/close-orange.svg';
 import aanhalingstekens from '../assets/icons/aanhalingstekens.svg';
 import handtap from '../assets/icons/handtap.svg';
 import addrecIcon from '../assets/icons/addrec.svg';

@@ -16,7 +16,7 @@ import beigeVierkantBottom from "../assets/icons/square-account-bottom.svg";
 
 import locationPink from "../assets/icons/location-pink.svg";
 import fullHeartPink from "../assets/icons/full-heart-pink.svg";
-import arrowRight from "../assets/icons/arrow-right.svg";
+import arrowRight from "../assets/icons/arrow-right-root.svg";
 import antwerpLogo from "../assets/images/Antwerpen.svg.png";
 
 function getVisitedBars() {
