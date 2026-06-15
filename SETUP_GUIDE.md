@@ -144,7 +144,7 @@ Replace `<cafe_uuid>` with a valid UUID from the `cafés` table in Supabase.
 
 ## Live Deployment
 
-The app is deployed on **Netlify** at:
-**https://thespot.netlify.app**
+The app is deployed on **Vercel** at:
+**https://integration4.vercel.app**
 
 Deployment is automatic on every push to the `main` branch.
