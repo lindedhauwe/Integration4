@@ -1,8 +1,8 @@
 .footer {
   position: relative;
-  margin-top: -20px;
+  margin-top: -1.25rem;
   overflow: hidden;
-  padding-bottom: 32px;
+  padding-bottom: 2rem;
   background-color: var(--dark-green);
 }
 
@@ -21,7 +21,7 @@
   right: 0;
   bottom: 0;
   width: 55%;
-  max-width: 240px;
+  max-width: 15rem;
   pointer-events: none;
   z-index: 1;
 }
@@ -29,12 +29,12 @@
 .footer__content {
   position: relative;
   z-index: 2;
-  padding: 100px 24px 0;
+  padding: 6.25rem 1.5rem 0;
 }
 
 .footer__antwerp {
   font-family: var(--font-antwerpen-regular);
-  font-size: 36px;
+  font-size: 2.25rem;
   line-height: 1;
   color: var(--light-green);
   margin: 0;
@@ -42,28 +42,28 @@
 
 .footer__ontap {
   font-family: var(--font-antwerpen-regular);
-  font-size: 26px;
+  font-size: 1.625rem;
   line-height: 1;
   color: var(--light-green);
-  margin: 0 0 12px;
+  margin: 0 0 0.75rem;
 }
 
 .footer__sub {
   font-family: var(--font-interstate);
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--beige);
-  margin: 0 0 28px;
+  margin: 0 0 1.75rem;
   line-height: 1.4;
 }
 
 .footer__actions {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .footer__btn {
-  height: 52px;
-  width: 52px;
+  height: 3.25rem;
+  width: 3.25rem;
   background: var(--orange);
   border: none;
   cursor: pointer;
@@ -76,21 +76,21 @@
 
 .footer__btn--mail {
   width: auto;
-  gap: 10px;
-  padding: 0 18px;
+  gap: 0.625rem;
+  padding: 0 1.125rem;
 }
 
 .footer__btn--mail span {
   font-family: var(--font-interstate);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--beige);
   white-space: nowrap;
 }
 
 .footer__btn img {
-  width: 22px;
-  height: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
   filter: brightness(0) invert(1);
 }
 
@@ -102,6 +102,6 @@
 
 .footer__btn--antwerp img {
   width: auto;
-  height: 52px;
+  height: 3.25rem;
   filter: none;
 }

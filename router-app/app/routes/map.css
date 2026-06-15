@@ -193,17 +193,17 @@ body:has(.map-page) {
     left: 0;
     right: 0;
     z-index: 10;
-    height: 130px;
+    height: 8.125rem;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 1.25rem;
     pointer-events: none;
 }
 
 .map-header__bg {
     position: absolute;
     top: 0;
-    left: -40px;
+    left: -2.5rem;
     width: 120%;
     height: 120%;
     object-fit: fill;
@@ -228,7 +228,7 @@ body:has(.map-page) {
     transform: translate(-50%, -50%);
     z-index: 2;
     font-family: var(--font-antwerpen-regular);
-    font-size: 32px;
+    font-size: 2rem;
     color: var(--beige);
     margin: 0;
     line-height: 1;
@@ -270,12 +270,12 @@ body:has(.map-page) {
     left: 0;
     right: 0;
     z-index: 10;
-    padding: 0 20px 24px;
+    padding: 0 1.25rem 1.5rem;
 }
 
 .map-bottom__deco {
     position: absolute;
-    top: 20px;
+    top: 1.25rem;
     left: 0;
     width: 100%;
     height: 100%;
@@ -286,26 +286,26 @@ body:has(.map-page) {
 .map-bottom__actions {
     position: relative;
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
     align-items: center;
     justify-content: center;
-    padding: 14px 0 10px;
+    padding: 0.875rem 0 0.625rem;
 }
 
 .map-bottom__finish {
-    width: 152px;
-    height: 40px;
+    width: 9.5rem;
+    height: 2.5rem;
     background: var(--orange);
     color: var(--white);
     border: none;
     cursor: pointer;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .map-bottom__share {
-    width: 48px;
-    height: 40px;
+    width: 3rem;
+    height: 2.5rem;
     background: var(--orange);
     border: none;
     cursor: pointer;
@@ -316,8 +316,8 @@ body:has(.map-page) {
 }
 
 .map-bottom__share img {
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
     filter: brightness(0) invert(1);
 }
 
@@ -325,30 +325,30 @@ body:has(.map-page) {
     position: relative;
     display: flex;
     justify-content: space-around;
-    padding-top: 6px;
+    padding-top: 0.375rem;
 }
 
 .map-legend-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 0.25rem;
 }
 
 .map-legend-item img {
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     object-fit: contain;
 }
 
 .map-legend-item__heart {
-    width: 30px !important;
-    height: 30px !important;
+    width: 1.875rem !important;
+    height: 1.875rem !important;
 }
 
 .map-legend-item span {
     font-family: var(--font-interstate);
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: var(--beige);
 }
 
@@ -362,7 +362,7 @@ body:has(.map-page) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 24px 40px;
+    padding: 5rem 1.5rem 2.5rem;
     overflow-y: auto;
 }
 
@@ -371,26 +371,26 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 1.5rem;
     width: 100%;
-    max-width: 360px;
+    max-width: 22.5rem;
 }
 
 .map-finish__header {
     align-self: flex-start;
-    margin-left: 8px;
+    margin-left: 0.5rem;
 }
 
 .map-finish__card {
     background: var(--dark-green);
-    padding: 16px 20px 14px;
+    padding: 1rem 1.25rem 0.875rem;
     transform: rotate(-2deg);
     display: inline-block;
 }
 
 .map-finish__title {
     font-family: var(--font-antwerpen-regular);
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--light-green);
     margin: 0;
     line-height: 1.1;
@@ -403,24 +403,24 @@ body:has(.map-page) {
 .map-finish__location {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
     background: var(--pink);
-    padding: 5px 12px 5px 8px;
-    margin-top: -4px;
+    padding: 0.3125rem 0.75rem 0.3125rem 0.5rem;
+    margin-top: -0.25rem;
     transform: rotate(2deg);
-    margin-left: 8px;
+    margin-left: 0.5rem;
 }
 
 .map-finish__location-pin {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
     filter: brightness(0) invert(1);
     flex-shrink: 0;
 }
 
 .map-finish__location span {
     font-family: var(--font-interstate);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
     color: var(--white);
     letter-spacing: 0.05em;
@@ -433,7 +433,7 @@ body:has(.map-page) {
     border: 10px solid var(--dark-green);
     overflow: hidden;
     flex-shrink: 0;
-    margin-top: -60px;
+    margin-top: -3.75rem;
 }
 
 .map-finish__map-img {
@@ -446,18 +446,18 @@ body:has(.map-page) {
     background: var(--orange);
     color: var(--white);
     border: none;
-    padding: 14px 28px;
+    padding: 0.875rem 1.75rem;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .map-finish__share-icon {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     filter: brightness(0) invert(1);
 }
 
@@ -475,7 +475,7 @@ body:has(.map-page) {
 .map-auth-gate__topbar {
     display: flex;
     align-items: center;
-    padding: 16px;
+    padding: 1rem;
     flex-shrink: 0;
 }
 
@@ -483,30 +483,30 @@ body:has(.map-page) {
     background: var(--orange);
     color: var(--white);
     border: none;
-    padding: 8px 14px 8px 10px;
+    padding: 0.5rem 0.875rem 0.5rem 0.625rem;
     font-family: var(--font-interstate);
-    font-size: 14px;
+    font-size: 0.875rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
 }
 
 .map-auth-gate__back-icon {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     filter: brightness(0) invert(1);
     transform: rotate(180deg);
 }
 
 .map-auth-gate__bg-title {
     font-family: var(--font-antwerpen-regular);
-    font-size: 52px;
+    font-size: 3.25rem;
     color: var(--beige);
     opacity: 0.07;
     text-align: center;
     margin: 0;
-    padding: 0 16px;
+    padding: 0 1rem;
     line-height: 1;
     flex-shrink: 0;
     pointer-events: none;
@@ -517,57 +517,57 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 6rem 32px 48px;
+    padding: 6rem 2rem 3rem;
     text-align: center;
 }
 
 .map-auth-gate__title {
     font-family: var(--font-antwerpen-regular);
-    font-size: 40px;
+    font-size: 2.5rem;
     color: var(--light-green);
     line-height: 1.1;
-    margin: 0 0 28px;
+    margin: 0 0 1.75rem;
 }
 
 .map-auth-gate__text {
     font-family: var(--font-interstate);
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--beige);
     line-height: 1.65;
-    margin: 0 0 16px;
-    max-width: 340px;
+    margin: 0 0 1rem;
+    max-width: 21.25rem;
 }
 
 .map-auth-gate__actions {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 0.875rem;
     width: 100%;
-    max-width: 300px;
-    margin-top: 32px;
+    max-width: 18.75rem;
+    margin-top: 2rem;
 }
 
 .map-auth-gate__login {
     width: 100%;
-    height: 52px;
+    height: 3.25rem;
     background: var(--orange);
     color: var(--white);
     border: none;
     cursor: pointer;
     font-family: var(--font-interstate);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
 }
 
 .map-auth-gate__register {
     width: 100%;
-    height: 52px;
+    height: 3.25rem;
     background: transparent;
     color: var(--orange);
     border: 3px solid var(--orange);
     cursor: pointer;
     font-family: var(--font-interstate);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
 }
 
@@ -585,7 +585,7 @@ body:has(.map-page) {
 .map-intro__topbar {
     display: flex;
     align-items: center;
-    padding: 16px 16px;
+    padding: 1rem;
     flex-shrink: 0;
 }
 
@@ -593,18 +593,18 @@ body:has(.map-page) {
     background: var(--orange);
     color: var(--white);
     border: none;
-    padding: 8px 14px 8px 10px;
+    padding: 0.5rem 0.875rem 0.5rem 0.625rem;
     font-family: var(--font-interstate);
-    font-size: 14px;
+    font-size: 0.875rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
 }
 
 .map-intro__back-arrow {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     filter: brightness(0) invert(1);
     transform: rotate(180deg);
 }
@@ -614,7 +614,7 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 32px 40px;
+    padding: 0.5rem 2rem 2.5rem;
     margin-top: 5rem;
 }
 
@@ -622,7 +622,7 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     width: 100%;
 }
 
@@ -630,43 +630,43 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
     color: var(--beige);
     font-family: var(--font-interstate);
-    font-size: 13px;
+    font-size: 0.8125rem;
     text-align: center;
 }
 
 .map-intro__coaster {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
     object-fit: contain;
 }
 
 .map-intro__heart {
-    width: 26px;
-    height: 26px;
+    width: 1.625rem;
+    height: 1.625rem;
     object-fit: contain;
 }
 
 .map-intro__text {
     font-family: var(--font-interstate);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--beige);
     text-align: center;
     line-height: 1.65;
-    margin-top: 36px;
+    margin-top: 2.25rem;
     opacity: 0.85;
 }
 
 .map-intro__start {
-    margin-top: 40px;
+    margin-top: 2.5rem;
     background: var(--orange);
     color: var(--white);
     border: none;
-    padding: 14px 48px;
+    padding: 0.875rem 3rem;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
 }
 
@@ -681,7 +681,7 @@ body:has(.map-page) {
     position: absolute;
     z-index: 1100;
     width: 55vw;
-    max-width: 240px;
+    max-width: 15rem;
     aspect-ratio: 149 / 66;
 }
 
@@ -698,7 +698,7 @@ body:has(.map-page) {
     position: absolute;
     inset: 0;
     z-index: 1;
-    padding: 12px 24px 12px 18px;
+    padding: 0.75rem 1.5rem 0.75rem 1.125rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -707,7 +707,7 @@ body:has(.map-page) {
 
 .map-toast__label {
     font-family: var(--font-interstate);
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: var(--white);
     opacity: 0.85;
     margin: 0;
@@ -716,18 +716,18 @@ body:has(.map-page) {
 .map-toast__name-row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
 }
 
 .map-toast__pin {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     flex-shrink: 0;
 }
 
 .map-toast__name {
     font-family: var(--font-antwerpen-regular);
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--light-green);
     line-height: 1;
     margin: 0;
@@ -737,8 +737,8 @@ body:has(.map-page) {
     position: fixed;
     top: -1px;
     right: -1px;
-    width: 72px;
-    height: 72px;
+    width: 4.5rem;
+    height: 4.5rem;
     z-index: 9999;
     background: none;
     border: none;
@@ -760,8 +760,8 @@ body:has(.map-page) {
 .mpp__close-icon {
     position: relative;
     z-index: 1;
-    width: 35px;
-    height: 35px;
+    width: 2.1875rem;
+    height: 2.1875rem;
 }
 
 .mpp {
@@ -776,7 +776,7 @@ body:has(.map-page) {
 
 .mpp__header {
     position: relative;
-    height: 120px;
+    height: 7.5rem;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -810,7 +810,7 @@ body:has(.map-page) {
     transform: translate(-50%, -50%);
     z-index: 2;
     font-family: var(--font-antwerpen-regular);
-    font-size: 32px;
+    font-size: 2rem;
     color: var(--beige);
     white-space: nowrap;
     margin: 0;
@@ -824,25 +824,25 @@ body:has(.map-page) {
 /* Bar info tab — donkergroene rechthoek */
 .mpp__bar-tab {
     background: var(--dark-green);
-    padding: 12px 18px 14px;
+    padding: 0.75rem 1.125rem 0.875rem;
     align-self: flex-start;
     position: relative;
     z-index: 5;
     /* max-width: 100%; */
     transform: rotate(-2deg);
-    margin-left: 20px;
+    margin-left: 1.25rem;
 }
 
 .mpp__name-row {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 0.5rem;
 
 }
 
 .mpp__bar-name {
     font-family: var(--font-antwerpen-regular);
-    font-size: 26px;
+    font-size: 1.625rem;
     color: var(--light-green);
     line-height: 1.1;
     margin: 0;
@@ -852,7 +852,7 @@ body:has(.map-page) {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -860,8 +860,8 @@ body:has(.map-page) {
 }
 
 .mpp__heart {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     object-fit: contain;
     filter: brightness(0) invert(1);
 }
@@ -874,24 +874,24 @@ body:has(.map-page) {
 .mpp__location {
     background: var(--pink);
     color: var(--white);
-    padding: 6px 16px 6px 12px;
+    padding: 0.375rem 1rem 0.375rem 0.75rem;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
     align-self: flex-start;
-    margin-top: -6px;
+    margin-top: -0.375rem;
     position: relative;
     z-index: 10;
     font-family: var(--font-interstate);
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: bold;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
         transform: rotate(3deg);
 }
 
 .mpp__location img {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     filter: brightness(0) invert(1);
     flex-shrink: 0;
 }
@@ -906,7 +906,7 @@ body:has(.map-page) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 100px 20px 100px;
+    padding: 6.25rem 1.25rem 6.25rem;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -915,8 +915,8 @@ body:has(.map-page) {
     position: relative;
     width: 90vw;
     height: 120vw;
-    max-width: 360px;
-    max-height: 480px;
+    max-width: 22.5rem;
+    max-height: 30rem;
     flex-shrink: 0;
 }
 
@@ -938,8 +938,8 @@ body:has(.map-page) {
 }
 
 .mpp__spinner {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
     border: 4px solid rgba(255, 103, 0, 0.25);
     border-top-color: var(--orange);
     border-radius: 50%;
@@ -955,7 +955,7 @@ body:has(.map-page) {
 .mpp__story {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 0.625rem;
     padding: 0 10%;
     /* width: 100%;
     height: 100%; */
@@ -963,15 +963,15 @@ body:has(.map-page) {
 }
 
 .mpp__quotes {
-    width: 20px;
-    height: 18px;
+    width: 1.25rem;
+    height: 1.125rem;
     flex-shrink: 0;
     align-self: flex-start;
 }
 
 .mpp__desc {
     font-family: var(--font-interstate);
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--bar-brown);
     line-height: 1.55;
     overflow: hidden;
@@ -983,10 +983,10 @@ body:has(.map-page) {
 
 .mpp__author {
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--dark-green);
     margin-top: auto;
-    padding-top: 4px;
+    padding-top: 0.25rem;
 }
 
 .mpp__thumb-wrap {
@@ -994,8 +994,8 @@ body:has(.map-page) {
     bottom: 4%;
     left: 50%;
     transform: translateX(-50%);
-    width: 130px;
-    height: 130px;
+    width: 8.125rem;
+    height: 8.125rem;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid var(--dark-green);
@@ -1017,10 +1017,10 @@ body:has(.map-page) {
 
 .mpp__handtap {
     position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 22px;
-    height: 22px;
+    bottom: 0.25rem;
+    right: 0.25rem;
+    width: 1.375rem;
+    height: 1.375rem;
     object-fit: contain;
     pointer-events: none;
 }
@@ -1044,8 +1044,8 @@ body:has(.map-page) {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 34px;
-    height: 48px;
+    width: 2.125rem;
+    height: 3rem;
     background: var(--light-green);
     border: none;
     cursor: pointer;
@@ -1065,8 +1065,8 @@ body:has(.map-page) {
 }
 
 .mpp__arrow-icon {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
     filter: brightness(0);
 }
 
@@ -1076,17 +1076,17 @@ body:has(.map-page) {
 
 .mpp__dots {
     position: absolute;
-    bottom: -28px;
+    bottom: -1.75rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
+    gap: 0.375rem;
     z-index: 10;
 }
 
 .mpp__dot {
-    width: 9px;
-    height: 9px;
+    width: 0.5625rem;
+    height: 0.5625rem;
     background: var(--beige);
     opacity: 0.4;
     border: none;
@@ -1113,7 +1113,7 @@ body:has(.map-page) {
 
 .mpp__empty-text {
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--orange);
     line-height: 1.5;
 }
@@ -1123,8 +1123,8 @@ body:has(.map-page) {
     bottom: 4%;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -1136,32 +1136,32 @@ body:has(.map-page) {
 }
 
 .mpp__addrec-icon {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     object-fit: contain;
         /* border: solid 10px var(--dark-green); */
     
 }
 
 .mpp__flip {
-    margin-top: 36px;
+    margin-top: 2.25rem;
     flex-shrink: 0;
     background: var(--orange);
     color: var(--white);
     border: none;
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     white-space: nowrap;
     align-self: center;
 }
 
 .mpp__flip img {
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
     filter: brightness(0) invert(1);
 }

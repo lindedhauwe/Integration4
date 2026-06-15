@@ -163,8 +163,6 @@ export default function Storytelling() {
         const langeWapperBarrel = langeWapperBarrelRef.current;
         const langeWapperTable = langeWapperTableRef.current;
         const totalTravel = TRACK_WIDTH - window.innerWidth;
-        console.log("travel", totalTravel);
-
         gsap.set(langeWapperBarrel, {
             x: 30,
             y: 0,
@@ -207,7 +205,6 @@ export default function Storytelling() {
                 scrub: 0.9,
                 anticipatePin: 1,
                 onUpdate(self) {
-                    console.log(self.progress);
                     if (!langeWapperAnimated.current && self.progress >= 0.09) {
                         langeWapperAnimated.current = true;
                         gsap.to(langeWapperBarrel, {
