@@ -262,21 +262,21 @@
     bottom: 18.5rem;
     left: 1250px;
     width: 170px;
-    z-index: 7;
+    z-index: 4;
 }
 
 .barrel-guys {
     bottom: 7.5rem;
     left: 1320px;
     width: 350px;
-    z-index: 7;
+    z-index: 5;
 }
 
 .banjo-player {
     bottom: 12rem;
     left: 2790px;
     width: 85px;
-    z-index: 7;
+    z-index: 5;
 
     animation: hoppingBanjoPlayer 0.9s infinite ease-in-out;
 }
