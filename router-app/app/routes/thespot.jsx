@@ -1,7 +1,8 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { useLoaderData } from "react-router";
 import { useState, useRef } from "react";
 import { supabase } from "../supabase";
 import Footer from "../components/Footer";
+import HomeButton from "../components/HomeButton";
 import "./thespot.css";
 
 import arrowRight from "../assets/icons/arrow-right.svg";
@@ -53,7 +54,6 @@ clientLoader.hydrate = true;
 
 export default function TheSpot() {
   const { cafe, recs, spots } = useLoaderData();
-  const navigate = useNavigate();
   const [recIndex, setRecIndex] = useState(0);
   const [spotIndex, setSpotIndex] = useState(0);
   const [showHoursPopup, setShowHoursPopup] = useState(false);
@@ -89,10 +89,7 @@ export default function TheSpot() {
   if (!cafe) {
     return (
       <div className="thespot-page">
-        <button className="thespot-back" onClick={() => navigate(-1)}>
-          <img src={arrowRight} alt="" className="thespot-back__icon" />
-          Go back
-        </button>
+        <HomeButton />
         <p className="thespot-notfound">Café not found.</p>
       </div>
     );
@@ -143,10 +140,7 @@ export default function TheSpot() {
           ? <img src={cafe.photo_url} alt={cafe.name} className="thespot-hero__img" />
           : <div className="thespot-hero__placeholder" />
         }
-        <button className="thespot-back" onClick={() => navigate(-1)}>
-          <img src={arrowRight} alt="" className="thespot-back__icon" />
-          Go back
-        </button>
+        <HomeButton />
         <img src={rectTop} alt="" className="thespot-hero__rect-top" />
       </div>
 

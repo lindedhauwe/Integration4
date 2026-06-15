@@ -3,6 +3,7 @@ import { useState } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
 import Footer from "../components/Footer";
+import HomeButton from "../components/HomeButton";
 
 import locationPin from "../assets/location-pink.svg";
 import fullHeart from "../assets/icons/fullheart.svg";

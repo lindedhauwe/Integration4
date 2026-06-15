@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import { supabase } from "../supabase";
+import HomeButton from "../components/HomeButton";
 
 export default function EditAccount() {
     const [user, setUser] = useState(null);
@@ -46,9 +47,9 @@ export default function EditAccount() {
 
     return (
         <>
-            <header>
+            <header style={{ position: "relative" }}>
+                <HomeButton />
                 <h1>Edit profile</h1>
-                <Link to="/account">Go back</Link>
             </header>
 
             <main className="account-page">

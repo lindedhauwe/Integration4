@@ -9,6 +9,7 @@ import arrowRight from "../assets/arrow-right.svg";
 import eyeOpen from "../assets/eyeopen.svg";
 import eyeClosed from "../assets/eyeclosed.svg";
 import errorIcon from "../assets/icons/error.svg";
+import HomeButton from "../components/HomeButton";
 
 export default function CreateProfile() {
     const [username, setUsername] = useState("");
@@ -68,10 +69,7 @@ export default function CreateProfile() {
             <div className="createprofile-deco">
                 <img src={loginVierkant} alt="" className="createprofile-vierkant" />
                 <img src={typewriterImg} alt="" className="createprofile-typewriter" />
-                <button className="login-back" onClick={() => navigate(-1)}>
-                    <img src={arrowRight} alt="" className="login-back__icon" />
-                    Go back
-                </button>
+                <HomeButton />
             </div>
 
             <h1 className="createprofile-title">Create Profile</h1>

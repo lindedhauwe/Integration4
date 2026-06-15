@@ -1,0 +1,25 @@
+.home-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  padding: 8px 14px 8px 10px;
+  font-family: var(--font-interstate);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.home-btn__icon {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+  transform: rotate(180deg);
+}
