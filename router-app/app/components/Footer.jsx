@@ -4,6 +4,7 @@ import footerImg from "../assets/images/footerimg.png";
 import mailIcon from "../assets/icons/mail.svg";
 import phoneIcon from "../assets/icons/phone.svg";
 import shareIcon from "../assets/icons/share.svg";
+import antwerpLogo from "../assets/images/Antwerpen.svg.png";
 
 async function handleShare() {
   if (navigator.share) {
@@ -18,7 +19,7 @@ async function handleShare() {
   }
 }
 
-export default function Footer() {
+export default function Footer({ hideShare = false }) {
   return (
     <footer className="footer">
       <img src={footerBg} alt="" className="footer__bg" />
@@ -36,9 +37,14 @@ export default function Footer() {
             <img src={mailIcon} alt="mail" />
             <span>info@visitantwerpen.be</span>
           </a>
-          <button className="footer__btn" onClick={handleShare}>
-            <img src={shareIcon} alt="share" />
-          </button>
+          <a href="https://www.antwerpen.be" target="_blank" rel="noopener noreferrer" className="footer__btn footer__btn--antwerp">
+            <img src={antwerpLogo} alt="Stad Antwerpen" />
+          </a>
+          {!hideShare && (
+            <button className="footer__btn" onClick={handleShare}>
+              <img src={shareIcon} alt="share" />
+            </button>
+          )}
         </div>
       </div>
     </footer>
