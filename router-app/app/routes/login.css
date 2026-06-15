@@ -6,7 +6,7 @@
 
 .login-deco {
     position: relative;
-    height: 280px;
+    height: 17.5rem;
     overflow: hidden;
 }
 
@@ -14,57 +14,57 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 220px;
+    width: 13.75rem;
     pointer-events: none;
     z-index: 1;
 }
 
 .login-keys {
     position: absolute;
-    top: 30px;
+    top: 1.875rem;
     left: 50%;
     transform: translateX(-30%);
-    width: 220px;
+    width: 13.75rem;
     z-index: 2;
     pointer-events: none;
 }
 
 .login-title {
     font-family: var(--font-antwerpen-regular);
-    font-size: 40px;
+    font-size: 2.5rem;
     color: var(--light-green);
     text-align: center;
-    margin: -5rem 0 32px;
+    margin: -5rem 0 2rem;
 }
 
 .login-main {
-    padding: 0 24px 48px;
+    padding: 0 1.5rem 3rem;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.25rem;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.375rem;
 }
 
 .form-label {
     font-family: var(--font-interstate);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--beige);
 }
 
 .form-input {
     background: var(--beige);
     border: none;
-    padding: 14px 16px;
+    padding: 0.875rem 1rem;
     font-family: var(--font-interstate);
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--black);
     width: 100%;
     outline: none;
@@ -77,23 +77,23 @@
 }
 
 .input-wrapper .form-input {
-    padding-right: 48px;
+    padding-right: 3rem;
 }
 
 .toggle-pw {
     position: absolute;
-    right: 12px;
+    right: 0.75rem;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.125rem;
     color: var(--black);
     line-height: 1;
 }
 
 .forgot-pw {
     font-family: var(--font-interstate);
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--light-green);
     text-decoration: underline;
     align-self: flex-start;
@@ -104,22 +104,22 @@
     background: var(--orange);
     color: var(--beige);
     border: none;
-    padding: 16px 48px;
+    padding: 1rem 3rem;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
     align-self: center;
-    margin-top: 12px;
+    margin-top: 0.75rem;
 }
 
 .signup-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-top: 28px;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
     font-family: var(--font-sunantwerpen-regular);
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: var(--light-green);
     text-decoration: none;
 }
@@ -131,27 +131,27 @@
 .field-error {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 4px;
-    font-size: 13px;
+    gap: 0.375rem;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
     font-style: italic;
     color: var(--orange);
     font-family: var(--font-interstate);
 }
 
 .field-error--server {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
 }
 
 .field-error__icon {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
     flex-shrink: 0;
 }
 
 .signup-arrow {
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
     transform: rotate(180deg);
     filter: brightness(0) saturate(100%) invert(91%) sepia(38%) saturate(700%) hue-rotate(31deg) brightness(108%);
 }
