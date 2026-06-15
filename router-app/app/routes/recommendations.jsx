@@ -52,7 +52,10 @@ export default function Recommendations() {
   const navigate = useNavigate();
 
   const currentCafe = (() => {
-    try { return JSON.parse(sessionStorage.getItem("current_cafe") || "null"); }
+    try {
+      return JSON.parse(sessionStorage.getItem("current_cafe") || "null")
+        || JSON.parse(localStorage.getItem("current_cafe") || "null");
+    }
     catch { return null; }
   })();
 
