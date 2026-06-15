@@ -185,21 +185,10 @@ export default function Storytelling() {
 
         gsap.set([mariaGlowRef1.current, mariaGlowRef2.current, mariaGlowRef3.current], { opacity: 0 });
 
-        // Android: getBoundingClientRect() on SVG elements inside a will-change:transform
-        // container returns coordinates in the wrong space, causing align to invert both axes.
-        // Fix: skip align and manually pre-position the bottle at the SVG's top edge so that
-        // the raw MotionPath SVG coordinates still place it on the visual path.
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        if (isAndroid) {
-            const trackHeight = track.getBoundingClientRect().height;
-            // SVG path element: bottom:100px, height:213px → top = trackHeight - 313
-            beerBottleRef.current.style.top = `${trackHeight - 313}px`;
-        }
-
         bottleTweenRef.current = gsap.to(beerBottleRef.current, {
             motionPath: {
                 path: beerPathRef.current,
-                ...(isAndroid ? {} : { align: beerPathRef.current }),
+                align: beerPathRef.current,
                 autoRotate: true,
                 alignOrigin: [0.5, 0.5],
                 start: 0.02,
