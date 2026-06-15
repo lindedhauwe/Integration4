@@ -50,12 +50,15 @@ type Pages = {
   "/loadingrecommendation": {
     params: {};
   };
+  "/test-overlay": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/recommendations" | "/api/recommendations" | "/thespot" | "/map" | "/account" | "/account/edit" | "/create-profile" | "/login" | "/otherbar" | "/beerloading" | "/storytelling" | "/loadingrecommendation";
+    page: "/" | "/recommendations" | "/api/recommendations" | "/thespot" | "/map" | "/account" | "/account/edit" | "/create-profile" | "/login" | "/otherbar" | "/beerloading" | "/storytelling" | "/loadingrecommendation" | "/test-overlay";
   };
   "./routes/home.jsx": {
     id: "routes/home";
@@ -109,6 +112,10 @@ type RouteFiles = {
     id: "routes/loadingrecommendation";
     page: "/loadingrecommendation";
   };
+  "./routes/test-overlay.jsx": {
+    id: "routes/test-overlay";
+    page: "/test-overlay";
+  };
 };
 
 type RouteModules = {
@@ -126,4 +133,5 @@ type RouteModules = {
   "routes/beerloading": typeof import("./app/./routes/beerloading.jsx");
   "routes/storytelling": typeof import("./app/./routes/storytelling.jsx");
   "routes/loadingrecommendation": typeof import("./app/./routes/loadingrecommendation.jsx");
+  "routes/test-overlay": typeof import("./app/./routes/test-overlay.jsx");
 };
