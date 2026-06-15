@@ -51,6 +51,7 @@ export default function loadingRecommendation() {
         const showTimer = setTimeout(() => setVisible(true), 50);
         const hideTimer = setTimeout(() => {
             setVisible(false);
+            sessionStorage.setItem("play_map_animation", "1");
             setTimeout(() => navigate("/"), 600);
         }, 8000);
         return () => {

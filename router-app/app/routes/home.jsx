@@ -94,10 +94,9 @@ export default function Home() {
   const [overlayPhase, setOverlayPhase] = useState(0);
 
   useEffect(() => {
-    if (!scannedCafeId) return;
-    const key = `added_overlay_${scannedCafeId}`;
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
+    const fromNfc = sessionStorage.getItem("play_map_animation");
+    if (!scannedCafeId && !fromNfc) return;
+    sessionStorage.removeItem("play_map_animation");
     setOverlayPhase(1);
     const t1 = setTimeout(() => setOverlayPhase(2), 900);
     const t2 = setTimeout(() => setOverlayPhase(4), 1800);
