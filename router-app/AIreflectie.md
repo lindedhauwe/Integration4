@@ -73,3 +73,8 @@ I also used Claude AI to help create a loading animation where two images had to
 Besides that, I used Claude AI whenever I got stuck on CSS problems, like when I couldn’t get the positioning of an element right after trying for a long time.
 
 I always made sure I understood the code the AI gave me, so I could still work with it properly and know where to change things if needed.
+
+
+----
+
+Thank you Claude <3
