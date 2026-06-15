@@ -68,7 +68,6 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    height: 100dvh;
     overflow: hidden;
 }
 
@@ -109,7 +108,7 @@
 .st-track {
     position: relative;
     width: 4300px;
-    height: 100dvh;
+    height: 100svh;
     will-change: transform;
 
     background-image:
