@@ -11,6 +11,21 @@ import type { Route } from "./+types/root";
 import "./styles/index.css";
 import "./routes/home.css";
 import Nav from "~/components/Nav";
+
+export function meta() {
+  return [
+    { title: "Antwerp on Tap" },
+    { name: "description", content: "Discover the best bars in Antwerp with personal recommendations tailored just for you." },
+    { property: "og:title", content: "Antwerp on Tap" },
+    { property: "og:description", content: "Discover the best bars in Antwerp with personal recommendations tailored just for you." },
+    { property: "og:image", content: "/og-image.png" },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Antwerp on Tap" },
+    { name: "twitter:description", content: "Discover the best bars in Antwerp with personal recommendations tailored just for you." },
+    { name: "twitter:image", content: "/og-image.png" },
+  ];
+}
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { seedDevData } from "./devSeed";
@@ -19,6 +34,7 @@ import beerImg from "./assets/images/beer-animation.png";
 import coasterImg from "./assets/images/coaster-animation.png";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
