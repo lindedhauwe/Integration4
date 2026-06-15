@@ -26,3 +26,31 @@ Wat normaal meerdere dagen werk zou zijn geweest — met veel kans op het breken
 ### Reflectie
 
 Het inzetten van AI voor deze migratie was een bewuste en doordachte keuze, geen gemakzucht. We begrepen wat er moest gebeuren en waarom, maar de tijdsinvestering om het volledig manueel te doen woog niet op tegen de meerwaarde. Claude fungeerde hierin als een efficiënte assistent die de structuur kende en het zware werk overnam, terwijl wij de inhoudelijke keuzes en de kwaliteitscontrole in handen hielden.
+
+
+## Persoonlijke reflecties
+
+### Femke De Latter
+
+Bij het opstellen van de code in React was ik vrij snel door mijn Copilot-tokens heen. Ik gebruikte deze voornamelijk om de basisstructuur van mijn code correct op te zetten. Zodra die basis klaar was, kon ik beginnen met het aanmaken van bestanden, componenten, routes, enzovoort. De basis van HTML en een beperkte hoeveelheid CSS kwamen hierbij al aan bod, maar er was nog geen sprake van uitgebreide vormgeving.
+
+Met Copilot ben ik vervolgens aan de slag gegaan om de eerste JavaScript-functionaliteiten op te zetten. Veel verder geraakten we echter niet voordat we te horen kregen dat het beter zou zijn om over te schakelen naar React Router. Daarom besloten we om Claude AI aan te schaffen om deze overgang vlotter te laten verlopen. Die overstap verliep relatief soepel en binnen enkele uren waren we erin geslaagd om alles correct om te zetten naar React Router.
+
+Sindsdien maken we actief gebruik van Claude AI om efficiënter te werken. Zo gebruik ik het bijvoorbeeld bij het stylen van pagina’s. Door het ontwerp of design te delen met Claude kan het al een goede basis genereren met de nodige stijlelementen, waarop vervolgens eenvoudig verder gebouwd kan worden met eigen CSS. Ook bij het gebruik van Supabase en Cloudinary bleek het een handige tool, aangezien het vaak al inzicht heeft in de aanbevolen werkwijze en implementatie.
+
+Daarnaast gebruik ik Claude AI vooral voor snelle en efficiënte taken, zoals het oplossen van foutmeldingen, het genereren van basisfunctionaliteiten en het versnellen van repetitieve ontwikkeltaken.
+
+
+----
+
+### Elisa Wastyn
+
+
+----
+
+### Linde D'Hauwe
+
+
+----
+
+### Naomi Desmet
