@@ -8,6 +8,7 @@
 }
 
 .home-page {
+  position: relative;
   background: var(--beige);
   min-height: 100vh;
   font-family: var(--font-interstate);

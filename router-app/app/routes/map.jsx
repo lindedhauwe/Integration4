@@ -344,7 +344,7 @@ export default function Map() {
                     <div className="map-auth-gate__topbar">
                         <button className="map-auth-gate__back" onClick={() => navigate(-1)}>
                             <img src={arrowRight} alt="" className="map-auth-gate__back-icon" />
-                            Go back
+                            home
                         </button>
                     </div>
 <div className="map-auth-gate__content">
@@ -369,7 +369,7 @@ export default function Map() {
                     <div className="map-intro__topbar">
                         <button className="map-intro__back" onClick={() => navigate(-1)}>
                             <img src={arrowRight} alt="" className="map-intro__back-arrow" />
-                            Go back
+                            home
                         </button>
                     </div>
 

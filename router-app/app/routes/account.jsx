@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
 import "./account.css";
+import HomeButton from "../components/HomeButton";
 
 import footerHandImg from "../assets/handphone.png";
 import editIcon from "../assets/edit.svg";
@@ -77,6 +78,7 @@ export default function Account() {
     return (
         <div className="account-page">
             <section className="account-hero">
+                <HomeButton />
                 <img src={beigeVierkantTop} alt="" className="deco-vierkant deco-vierkant--top" />
                 <img src={keysImg} alt="" className="deco-keys" />
                 <h1 className="account-username">{user.name}</h1>

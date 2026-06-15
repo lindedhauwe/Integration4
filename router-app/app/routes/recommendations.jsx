@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useActionData, useSubmit, useNavigate } from "react-router";
 import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
+import HomeButton from "~/components/HomeButton";
+import arrowRight from "~/assets/icons/arrow-right.svg";
 
 import checkIcon from "~/assets/images/check.png";
 import closeIcon from "~/assets/icons/close.svg";
@@ -162,10 +164,15 @@ export default function Recommendations() {
   return (
     <>
     <div className="recommendations-page">
+      <HomeButton />
       <img src={recommendationBeigeRect} className="bg-shape bg-shape--bottom-left" />
       <img src={recommendationRectSmall} className="bg-shape bg-shape--top-left" />
 
       <div className="recommendations-content">
+        <button className="rec-back-btn" onClick={() => navigate(-1)}>
+          <img src={arrowRight} alt="" className="rec-back-btn__icon" />
+          go back
+        </button>
         <div className={`mode-switch ${mode === "another" ? "another" : ""}`} role="tablist">
           <button className={mode === "current" ? "active" : ""} onClick={() => { setMode("current"); resetForm(); }}>
             Current bar

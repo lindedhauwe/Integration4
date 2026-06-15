@@ -4,6 +4,7 @@
 }
 
 .thespot-page {
+  position: relative;
   background: var(--dark-green);
   min-height: 100vh;
   overflow-x: hidden;
@@ -44,31 +45,6 @@
   display: none;
 }
 
-/* ── GO BACK ── */
-.thespot-back {
-  position: absolute;
-  top: 1.875rem;
-  left: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  background: var(--orange);
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 0.875rem;
-  font-family: var(--font-interstate);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--beige);
-  z-index: 10;
-}
-
-.thespot-back__icon {
-  width: 0.875rem;
-  height: 0.875rem;
-  transform: scaleX(-1);
-  filter: brightness(0) invert(1);
-}
 
 /* ── HERO ── */
 .thespot-hero {
