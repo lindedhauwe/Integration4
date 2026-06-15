@@ -27,21 +27,18 @@ export default function EditAccount() {
     async function handleSave(e) {
         e.preventDefault();
 
-        const { data, error } = await supabase
-            .from("users")
-            .update({ name, email })
-            .eq("uid", user.uid)
-            .select()
-            .single();
+        const { data, error } = await supabase.auth.updateUser({
+            email,
+            data: { name },
+        });
 
         if (error) {
             alert("Er ging iets mis: " + error.message);
             return;
         }
 
-        // update localStorage zodat Account.jsx de nieuwe data toont
-        localStorage.setItem("user", JSON.stringify(data));
-
+        const updated = { uid: data.user.id, name, email: data.user.email };
+        localStorage.setItem("user", JSON.stringify(updated));
         navigate("/account");
     }
 
