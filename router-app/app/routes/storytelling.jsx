@@ -63,8 +63,7 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 // ── Total track width ───────────────────────────────────────────────────────
 const TRACK_WIDTH = 4300;
 
-// ── Gate positions (x = pixels along the horizontal track where scroll locks)
-// Adjust these values to match the visual position of each interactive object.
+// ── Gate positions
 const GATES = [
     { id: "beer", x: 930 },
     { id: "maria", x: 2500 },
@@ -72,7 +71,6 @@ const GATES = [
 ];
 
 // ── Modal content per gate ──────────────────────────────────────────────────
-// Replace body text and images with final copy.
 const MODAL_CONTENT = {
     beer: {
         title:
@@ -112,7 +110,6 @@ const STORYTELLING_TEXT = [
     "Some keep it as a memory, others pass it on"
 ];
 
-// Progress (0–1) at which the caption fades out. Change this to taste.
 const TEXT_HIDE_AT = 0.80;
 
 const TEXT_STEPS = [
@@ -298,8 +295,6 @@ export default function Storytelling() {
                             ScrollTrigger.getAll().forEach(st => st.kill());
                             mainTweenRef.current?.kill();
                             bottleTweenRef.current?.kill();
-                            // Double RAF: geeft GSAP twee frames om de DOM te herstellen
-                            // voordat React de component unmount (production race condition fix)
                             requestAnimationFrame(() => {
                                 requestAnimationFrame(() => navigate("/loadingrecommendation"));
                             });
@@ -321,7 +316,6 @@ export default function Storytelling() {
             },
         });
 
-        // Enforce the lock on every scroll event
         const onScroll = () => {
             if (lockedScrollPos.current !== null) {
                 window.scrollTo(0, lockedScrollPos.current);
