@@ -111,7 +111,10 @@ async function lockPortrait() {
 function useTilt() {
   const gdirRef = useRef({ x: 0, y: -1 });
   const filtRef = useRef({ x: 0, y: -1 });
-  const invertRef = useRef({ x: true, y: true });
+  // iOS reports accelerationIncludingGravity with opposite sign from Android/W3C spec
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const invertRef = useRef({ x: isIOS, y: isIOS });
   const orientRef = useRef(0);
   const shakeCountRef = useRef(0);
   const shakeEnergyRef = useRef(0);
