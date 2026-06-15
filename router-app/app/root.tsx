@@ -35,6 +35,7 @@ import coasterImg from "./assets/images/coaster-animation.png";
 
 export const links: Route.LinksFunction = () => [
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+  { rel: "stylesheet", href: "https://use.typekit.net/bcf1ohy.css" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
