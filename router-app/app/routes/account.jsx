@@ -17,6 +17,7 @@ import beigeVierkantBottom from "../assets/icons/square-account-bottom.svg";
 import locationPink from "../assets/icons/location-pink.svg";
 import fullHeartPink from "../assets/icons/full-heart-pink.svg";
 import arrowRight from "../assets/icons/arrow-right.svg";
+import antwerpLogo from "../assets/images/Antwerpen.svg.png";
 
 function getVisitedBars() {
     try {
@@ -178,6 +179,9 @@ export default function Account() {
                         <a href="mailto:info@antwerp.be" className="btn-contact">
                             <img src={mailIcon} alt="mail" />
                             <span>info@antwerp.be</span>
+                        </a>
+                        <a href="https://www.antwerpen.be" target="_blank" rel="noopener noreferrer" className="btn-contact btn-contact--antwerp">
+                            <img src={antwerpLogo} alt="Stad Antwerpen" />
                         </a>
                     </div>
                 </div>
