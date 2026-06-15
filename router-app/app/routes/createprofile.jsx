@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router";
 import { supabase } from "../supabase";
 import "./createprofile.css";
 import "./login.css";
-import typewriterImg from "../assets/typewriter.png";
-import loginVierkant from "../assets/square-login-top.svg";
-import arrowRight from "../assets/arrow-right.svg";
-import eyeOpen from "../assets/eyeopen.svg";
-import eyeClosed from "../assets/eyeclosed.svg";
+import typewriterImg from "../assets/images/typewriter.png";
+import loginVierkant from "../assets/icons/square-login-top.svg";
+import arrowRight from "../assets/icons/arrow-right.svg";
+import eyeOpen from "../assets/icons/eyeopen.svg";
+import eyeClosed from "../assets/icons/eyeclosed.svg";
 import errorIcon from "../assets/icons/error.svg";
 import HomeButton from "../components/HomeButton";
 

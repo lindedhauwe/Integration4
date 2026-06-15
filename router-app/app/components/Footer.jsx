@@ -1,8 +1,8 @@
 import "./Footer.css";
 import footerBg from "../assets/images/footerbg.png";
 import footerImg from "../assets/images/footerimg.png";
-import mailIcon from "../assets/mail.svg";
-import phoneIcon from "../assets/phone.svg";
+import mailIcon from "../assets/icons/mail.svg";
+import phoneIcon from "../assets/icons/phone.svg";
 import shareIcon from "../assets/icons/share.svg";
 
 async function handleShare() {

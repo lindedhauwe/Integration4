@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router";
-import hamburger from "~/assets/hamburgermenu.svg";
-import hamburgerBeige from "~/assets/hamburgermenu-beige.svg";
-import bgNav from "~/assets/bg-nav.svg";
-import bgNavOrange from "~/assets/bg-nav-orange.svg";
-import closeIcon from "~/assets/close.svg";
-import playIcon from "~/assets/play-icon.svg";
+import hamburger from "~/assets/icons/hamburgermenu.svg";
+import hamburgerBeige from "~/assets/icons/hamburgermenu-beige.svg";
+import bgNav from "~/assets/icons/bg-nav.svg";
+import bgNavOrange from "~/assets/icons/bg-nav-orange.svg";
+import closeIcon from "~/assets/icons/close.svg";
+import playIcon from "~/assets/icons/play-icon.svg";
 import lockIcon from "~/assets/icons/lock.svg";
 import lockOpenIcon from "~/assets/icons/lockopen.svg";
 import lockedNavBg from "~/assets/icons/locked-nav.svg";

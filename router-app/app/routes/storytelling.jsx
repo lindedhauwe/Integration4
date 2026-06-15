@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import "./storytelling.css";
-import closeIcon from "~/assets/close.svg";
+import closeIcon from "~/assets/icons/close.svg";
 
 // ── Story layer assets ──────────────────────────────────────────────────────
 import steenImg from "../assets/scrollytelling/story/steen.png"

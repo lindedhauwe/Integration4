@@ -5,18 +5,18 @@ import { supabase } from "../supabase";
 import "./account.css";
 import HomeButton from "../components/HomeButton";
 
-import footerHandImg from "../assets/handphone.png";
-import editIcon from "../assets/edit.svg";
-import phoneIcon from "../assets/phone.svg";
-import mailIcon from "../assets/mail.svg";
-import leaveIcon from "../assets/leave.svg";
-import keysImg from "../assets/keys.png";
-import beigeVierkantTop from "../assets/square-account-top.svg";
-import beigeVierkantBottom from "../assets/square-account-bottom.svg";
+import footerHandImg from "../assets/images/handphone.png";
+import editIcon from "../assets/icons/edit.svg";
+import phoneIcon from "../assets/icons/phone.svg";
+import mailIcon from "../assets/icons/mail.svg";
+import leaveIcon from "../assets/icons/leave.svg";
+import keysImg from "../assets/images/keys.png";
+import beigeVierkantTop from "../assets/icons/square-account-top.svg";
+import beigeVierkantBottom from "../assets/icons/square-account-bottom.svg";
 
-import locationPink from "../assets/location-pink.svg";
-import fullHeartPink from "../assets/full-heart-pink.svg";
-import arrowRight from "../assets/arrow-right.svg";
+import locationPink from "../assets/icons/location-pink.svg";
+import fullHeartPink from "../assets/icons/full-heart-pink.svg";
+import arrowRight from "../assets/icons/arrow-right.svg";
 
 function getVisitedBars() {
     try {
