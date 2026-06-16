@@ -10,9 +10,8 @@
 .home-page {
   position: relative;
   background: var(--beige);
-  min-height: 100vh;
+  min-height: 90vh;
   font-family: var(--font-interstate);
-  padding-bottom: 3rem;
   overflow-x: hidden;
 }
 

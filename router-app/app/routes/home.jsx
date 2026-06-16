@@ -1,5 +1,5 @@
 import { useLoaderData, useNavigate } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "../supabase";
 import "./home.css";
 import Footer from "../components/Footer";
@@ -166,6 +166,21 @@ export default function Home() {
     setMediaIndex((i) => (i + 1) % media.length);
   }
 
+  const touchStartX = useRef(null);
+
+  function handleTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e) {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? nextMedia() : prevMedia();
+    }
+    touchStartX.current = null;
+  }
+
   async function toggleLike() {
     if (!localStorage.getItem("user")) {
       setShowLoginModal(true);
@@ -254,7 +269,7 @@ export default function Home() {
       <div className="home-card">
 
         {/* media carousel */}
-        <div className="home-card__photo-wrap">
+        <div className="home-card__photo-wrap" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           {media.length > 0 ? (
             media[mediaIndex]?.match(/\.(mp4|webm|mov)$/i) ? (
               <video
