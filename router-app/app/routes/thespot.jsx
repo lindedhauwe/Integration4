@@ -130,6 +130,21 @@ export default function TheSpot() {
   function prevSpot() { setSpotIndex((i) => (i - 1 + spots.length) % spots.length); }
   function nextSpot() { setSpotIndex((i) => (i + 1) % spots.length); }
 
+  const neighbourhoodTouchX = useRef(null);
+
+  function handleNeighbourhoodTouchStart(e) {
+    neighbourhoodTouchX.current = e.touches[0].clientX;
+  }
+
+  function handleNeighbourhoodTouchEnd(e) {
+    if (neighbourhoodTouchX.current === null) return;
+    const diff = neighbourhoodTouchX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? nextSpot() : prevSpot();
+    }
+    neighbourhoodTouchX.current = null;
+  }
+
   return (
     <div className="thespot-wrapper">
     <div className="thespot-page">
@@ -259,7 +274,7 @@ export default function TheSpot() {
             Discover the<br /><span>neighbourhood.</span>
           </h2>
 
-          <div className="thespot-neighbourhood__card">
+          <div className="thespot-neighbourhood__card" onTouchStart={handleNeighbourhoodTouchStart} onTouchEnd={handleNeighbourhoodTouchEnd}>
             {/* PHOTO */}
             <div className="thespot-neighbourhood__photo-wrap">
               {currentSpot.photo_url && currentSpot.photo_url !== "placeholder.jpg"
@@ -389,7 +404,7 @@ export default function TheSpot() {
     )}
 
     <div className="thespot-footer">
-      <Footer />
+      <Footer hideShare />
     </div>
     </div>
   );
