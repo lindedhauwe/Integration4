@@ -519,7 +519,7 @@ export default function Map() {
                                 )}
 
                                 {/* Pijlen BINNEN de blob — circular clip geeft halve-button look op de rand */}
-                                {panelView === 'photos' && hasPhotos && (
+                                {panelView === 'photos' && photos.length > 1 && (
                                     <>
                                         <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
                                             <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />

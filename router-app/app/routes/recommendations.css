@@ -12,32 +12,10 @@ html, body {
   background: var(--dark-green);
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0 3rem;
+  padding: 3rem 0 3rem;
   overflow-x: clip;
 }
 
-.rec-back-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 1.5rem;
-  font-family: var(--font-interstate);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--beige);
-  text-transform: lowercase;
-}
-
-.rec-back-btn__icon {
-  width: 0.875rem;
-  height: 0.875rem;
-  transform: scaleX(-1);
-  filter: brightness(0) invert(1);
-}
 
 /* CONTENT */
 .recommendations-content {
@@ -76,7 +54,6 @@ html, body {
   display: flex;
   width: 100%;
   max-width: 23.75rem;
-  height: 2.5rem;
   box-sizing: border-box;
 
   margin: 5rem auto 2.5rem;
@@ -90,11 +67,12 @@ html, body {
   flex: 1;
   border: none;
   background: transparent;
-
   color: var(--pink);
   font-family: var(--font-interstate);
   font-size: 1rem;
   cursor: pointer;
+
+  padding: 0.5rem 0;
 }
 
 .mode-switch button.active {
@@ -107,7 +85,7 @@ html, body {
 .hero {
   position: relative;
   padding-top: 1.75rem;
-  margin-bottom: 6.875rem;
+  margin-bottom: 6rem;
   z-index: 3;
 }
 
@@ -130,14 +108,22 @@ html, body {
 .location {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1.875rem;
   padding-left: 3.125rem;
   margin-left: -2rem;
   background: var(--pink);
-  margin-top: 2.1875rem;
+  margin-top: 2rem;
   font-size: 1rem;
   font-weight: 700;
   color: var(--white);
+}
+
+.location .location-icon {
+  width: 1rem;
+  height: 1rem;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
 }
 
 /* DARK SHAPE (FIXED) */
@@ -249,7 +235,7 @@ html, body {
 }
 
 .char-count {
-  align-self: flex-end;
+  align-self: flex-start;
   font-size: 0.8125rem;
   color: var(--light-green);
   margin-top: 0.375rem;
@@ -328,12 +314,14 @@ html, body {
 /* TAGS */
 .tags-wrapper {
   position: relative;
+  margin-top: 3rem;
 }
 
 .tags-wrapper > p {
   font-family: var(--font-antwerpen-tall);
   font-size: 1.5rem;
   color: var(--light-green);
+  margin-bottom: 1.25rem;
 }
 
 .tag-label {
@@ -418,9 +406,11 @@ html, body {
 }
 
 .tag__remove {
-  font-size: 0.75rem;
-  line-height: 1;
+  width: 0.75rem;
+  height: 0.75rem;
   opacity: 0.8;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
 }
 
 /* BUTTON */

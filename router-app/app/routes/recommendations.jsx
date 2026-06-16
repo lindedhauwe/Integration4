@@ -3,7 +3,6 @@ import { useActionData, useSubmit, useNavigate } from "react-router";
 import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
 import HomeButton from "~/components/HomeButton";
-import arrowRight from "~/assets/icons/arrow-right.svg";
 
 import checkIcon from "~/assets/images/check.png";
 import closeIcon from "~/assets/icons/close.svg";
@@ -14,6 +13,7 @@ import recommendationBeigeRect from "~/assets/images/recommendationBeigeRect.png
 import recommendationRectSmall from "~/assets/images/RecommendationRectSmall.png";
 import uploadIcon from "~/assets/icons/iconupload.svg";
 import errorIcon from "~/assets/icons/error.svg";
+import locationIcon from "~/assets/icons/location-pink.svg";
 
 export async function clientAction({ request }) {
   const { supabase } = await import("../supabase");
@@ -169,11 +169,7 @@ export default function Recommendations() {
       <img src={recommendationRectSmall} className="bg-shape bg-shape--top-left" />
 
       <div className="recommendations-content">
-        <button className="rec-back-btn" onClick={() => navigate(-1)}>
-          <img src={arrowRight} alt="" className="rec-back-btn__icon" />
-          go back
-        </button>
-        <div className={`mode-switch ${mode === "another" ? "another" : ""}`} role="tablist">
+<div className={`mode-switch ${mode === "another" ? "another" : ""}`} role="tablist">
           <button className={mode === "current" ? "active" : ""} onClick={() => { setMode("current"); resetForm(); }}>
             Current bar
           </button>
@@ -188,7 +184,7 @@ export default function Recommendations() {
             <div className="hero">
               <p className="small">You're currently at...</p>
               <h1>{currentCafe?.name || "Onbekend café"}</h1>
-              <div className="location">📍 {currentCafe?.adress || ""}</div>
+              <div className="location"><img src={locationIcon} alt="" className="location-icon" />{currentCafe?.adress || ""}</div>
             </div>
             <div className="intro">
               <h2>Capture the moment</h2>
@@ -315,7 +311,7 @@ export default function Recommendations() {
                   >
                     <span className="tag__fill">
                       #{tag}
-                      {vibe.includes(tag) && <span className="tag__remove">✕</span>}
+                      {vibe.includes(tag) && <img src={closeIcon} alt="" className="tag__remove" />}
                     </span>
                   </button>
                 ))}
@@ -334,7 +330,7 @@ export default function Recommendations() {
                   >
                     <span className="tag__fill">
                       #{tag}
-                      {type.includes(tag) && <span className="tag__remove">✕</span>}
+                      {type.includes(tag) && <img src={closeIcon} alt="" className="tag__remove" />}
                     </span>
                   </button>
                 ))}
