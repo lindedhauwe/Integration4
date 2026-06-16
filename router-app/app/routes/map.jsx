@@ -106,7 +106,7 @@ export default function Map() {
     const [wapper, setWapper] = useState(null); // { side: 'left'|'right' }
 
     useEffect(() => {
-        if (!isNight) return;
+        if (isNight) return;
         let timeout;
         function scheduleWapper() {
             const delay = 8000 + Math.random() * 20000; // 8-28s
@@ -317,7 +317,7 @@ export default function Map() {
             <div ref={mapRef} className="map-canvas" />
 
             {/* ── WAPPER ── */}
-            {isNight && wapper && (
+            {!isNight && wapper && (
                 <img
                     src={langeWapper}
                     alt=""
@@ -519,7 +519,7 @@ export default function Map() {
                                 )}
 
                                 {/* Pijlen BINNEN de blob — circular clip geeft halve-button look op de rand */}
-                                {panelView === 'photos' && hasPhotos && (
+                                {panelView === 'photos' && photos.length > 1 && (
                                     <>
                                         <button className="mpp__arrow mpp__arrow--left" onClick={() => setPhotoIdx((i) => (i - 1 + photos.length) % photos.length)}>
                                             <img src={arrowRight} alt="vorige" className="mpp__arrow-icon mpp__arrow-icon--flip" />
