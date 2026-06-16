@@ -1,0 +1,171 @@
+.edit-account-page {
+    height: 100vh;
+    background: var(--dark-green);
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 1.5rem 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.edit-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--orange);
+    color: var(--beige);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 1rem;
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 6rem;
+}
+
+.edit-back-btn__icon {
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(180deg);
+    filter: brightness(0) saturate(100%) invert(96%) sepia(9%) saturate(549%) hue-rotate(325deg) brightness(104%) contrast(92%);
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.edit-label {
+    font-family: var(--font-interstate);
+    font-size: 1rem;
+    color: var(--beige);
+}
+
+.edit-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.edit-input {
+    width: 100%;
+    background: var(--beige);
+    border: 2px solid var(--light-green);
+    border-radius: 0;
+    padding: 1rem 1rem;
+    font-family: var(--font-interstate);
+    font-size: 1rem;
+    color: var(--black);
+    outline: none;
+    box-sizing: border-box;
+}
+
+.edit-input::placeholder {
+    color: #aaa;
+}
+
+.edit-input:focus {
+    border-color: var(--light-green);
+    outline: none;
+}
+
+.edit-input-wrapper .edit-input {
+    padding-right: 3rem;
+}
+
+.edit-eye-btn {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.edit-eye-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0.6;
+}
+
+.edit-error {
+    font-family: var(--font-interstate);
+    font-size: 0.875rem;
+    color: #ff6b6b;
+    margin: 0;
+}
+
+.edit-save-btn {
+    align-self: center;
+    background: var(--orange);
+    color: var(--beige);
+    border: none;
+    padding: 1rem 3rem;
+    font-family: var(--font-sunantwerpen-regular);
+    font-size: 1.25rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.edit-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.edit-deco {
+    position: relative;
+    margin-top: auto;
+    width: 100%;
+    height: 18rem;
+    flex-shrink: 0;
+}
+
+.edit-deco__rect {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    max-width: 36rem;
+}
+
+.edit-deco__person {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    max-width: 28rem;
+    object-fit: contain;
+    object-position: bottom;
+    height: 100%;
+
+    animation: peekaboo 4s ease-in-out infinite;
+}
+
+@keyframes peekaboo {
+    0%, 100% {
+        transform: translateX(-50%) translateY(80px);
+    }
+
+    25% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    65% {
+        transform: translateX(-50%) translateY(80px);
+    }
+}
