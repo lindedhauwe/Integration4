@@ -86,7 +86,7 @@ export default function Account() {
                 <p className="account-email">{user.email}</p>
 
                 <div className="account-actions">
-                    <a href="/edit" className="btn-edit">
+                    <a href="/account/edit" className="btn-edit">
                         <img src={editIcon} alt="" className="btn-icon" />
                         Edit Profile
                     </a>
