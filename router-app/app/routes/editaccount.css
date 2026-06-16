@@ -68,7 +68,7 @@
 }
 
 .edit-input::placeholder {
-    color: #aaa;
+    color: var(--grey-light);
 }
 
 .edit-input:focus {
@@ -100,7 +100,7 @@
 .edit-error {
     font-family: var(--font-interstate);
     font-size: 0.875rem;
-    color: #ff6b6b;
+    color: var(--error);
     margin: 0;
 }
 
@@ -154,18 +154,18 @@
 
 @keyframes peekaboo {
     0%, 100% {
-        transform: translateX(-50%) translateY(80px);
+        transform: translateX(-50%) translateY(5rem);
     }
 
     25% {
-        transform: translateX(-50%) translateY(-10px);
+        transform: translateX(-50%) translateY(-0.625rem);
     }
 
     50% {
-        transform: translateX(-50%) translateY(-10px);
+        transform: translateX(-50%) translateY(-0.625rem);
     }
 
     65% {
-        transform: translateX(-50%) translateY(80px);
+        transform: translateX(-50%) translateY(5rem);
     }
 }
