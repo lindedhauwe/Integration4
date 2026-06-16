@@ -23,6 +23,7 @@ import addrecIcon from '../assets/icons/addrec.svg';
 
 import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
 import arrowsShareSvg from '../assets/images/arrows_share.svg';
+import antwerpLogo from '../assets/images/Antwerpen.svg.png';
 import langeWapper from '../assets/images/lange-wapper.png';
 
 import coasterPink from '../assets/icons/coasterPink.png';
@@ -189,10 +190,11 @@ async function generateShareImage(spots, userName) {
     const cr = Math.round(W * 0.58); // > W/2 → left & right edges overflow/clip
     const bw = 22;
 
-    const [mapCanvas, arrowsImg, whitePinImg] = await Promise.all([
+    const [mapCanvas, arrowsImg, whitePinImg, logoImg] = await Promise.all([
         buildMapCanvas(spots, cr * 2),
         loadImg(arrowsShareSvg),
         loadSvgRecolored(locationPin, '#FF6EE5', '#FFFFFB'),
+        loadImg(antwerpLogo),
     ]);
 
     await document.fonts.ready;
@@ -308,6 +310,14 @@ async function generateShareImage(spots, userName) {
 
     ctx.restore();
 
+    // Antwerpen logo klein linksonder
+    if (logoImg) {
+        const logoW = W * 0.14;
+        const logoH = logoW * (logoImg.naturalHeight / logoImg.naturalWidth);
+        const logoPad = W * 0.045;
+        ctx.drawImage(logoImg, logoPad, H - logoPad - logoH, logoW, logoH);
+    }
+
     return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
 
@@ -319,6 +329,7 @@ export default function Map() {
     const navigate = useNavigate();
 
     const [showFinish, setShowFinish] = useState(false);
+    const [finishMapUrl, setFinishMapUrl] = useState(null);
     const [isSharing, setIsSharing] = useState(false);
     const [clock, setClock] = useState(() =>
         new Date().toLocaleTimeString('nl-BE', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit' })
@@ -528,6 +539,15 @@ export default function Map() {
         init();
         return () => { cancelled = true; if (instanceRef.current) { instanceRef.current.remove(); instanceRef.current = null; } };
     }, []);
+
+    useEffect(() => {
+        if (!showFinish) return;
+        let cancelled = false;
+        buildMapCanvas(getMapSpots(), 800).then(canvas => {
+            if (!cancelled) setFinishMapUrl(canvas.toDataURL('image/png'));
+        });
+        return () => { cancelled = true; };
+    }, [showFinish]);
 
     const photos = panel?.rec ? parsePhotos(panel.rec.photo_url) : [];
     const hasPhotos = photos.length > 0;
@@ -812,7 +832,7 @@ export default function Map() {
                         <div className="map-finish__header">
                             <div className="map-finish__card">
                                 <h2 className="map-finish__title">
-                                    {(() => { try { const u = JSON.parse(localStorage.getItem('user') || 'null'); return u?.name ? <><span className="map-finish__username">{u.name}</span>'s pub crawl in...</> : <>My pub crawl in...</>; } catch { return <>My pub crawl in...</>; } })()}
+                                    {(() => { try { const u = JSON.parse(localStorage.getItem('user') || 'null'); return u?.name ? <><span className="map-finish__username">{u.name}'s</span> pub crawl in...</> : <>My pub crawl in...</>; } catch { return <>My pub crawl in...</>; } })()}
                                 </h2>
                             </div>
                             <div className="map-finish__location">
@@ -822,7 +842,7 @@ export default function Map() {
                         </div>
 
                         <div className="map-finish__circle">
-                            <img src={pubcrawlVb} alt="pub crawl" className="map-finish__map-img" />
+                            <img src={finishMapUrl || pubcrawlVb} alt="pub crawl" className="map-finish__map-img" />
                         </div>
 
                         <button className="map-finish__share" disabled={isSharing} onClick={async () => {
