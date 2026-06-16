@@ -201,7 +201,7 @@ async function generateShareImage(spots, userName) {
     ctx.fillRect(0, 0, W, H);
 
     // Top-left dark green angular shape
-    ctx.fillStyle = DARK_GREEN;
+    ctx.fillStyle = LIGHT_GREEN;
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(W * 0.78, 0);
