@@ -183,8 +183,14 @@ async function generateShareImage(spots, userName) {
     const PINK = '#FF6EE5';
     const WHITE = '#FFFFFB';
 
+    // Circle dims defined early so map canvas is built at the right size
+    const cx = W * 0.50;
+    const cy = H * 0.535;
+    const cr = Math.round(W * 0.58); // > W/2 → left & right edges overflow/clip
+    const bw = 22;
+
     const [mapCanvas, arrowsImg, whitePinImg] = await Promise.all([
-        buildMapCanvas(spots, W),
+        buildMapCanvas(spots, cr * 2),
         loadImg(arrowsShareSvg),
         loadSvgRecolored(locationPin, '#FF6EE5', '#FFFFFB'),
     ]);
@@ -200,7 +206,7 @@ async function generateShareImage(spots, userName) {
     ctx.fillStyle = BEIGE;
     ctx.fillRect(0, 0, W, H);
 
-    // Top-left dark green angular shape
+    // Top-left light green angular shape
     ctx.fillStyle = LIGHT_GREEN;
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -220,19 +226,7 @@ async function generateShareImage(spots, userName) {
     ctx.closePath();
     ctx.fill();
 
-    // arrows_share.svg at bottom (386:225 aspect ratio)
-    if (arrowsImg) {
-        const arrowW = W * 0.44;
-        const arrowH = arrowW * (225 / 386);
-        ctx.drawImage(arrowsImg, W * 0.33, H * 0.852, arrowW, arrowH);
-    }
-
-    // Circle with real map
-    const cx = W * 0.50;
-    const cy = H * 0.535;
-    const cr = W * 0.435;
-    const bw = 22;
-
+    // Circle with real map (drawn before arrows so arrows sit on top)
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, cr - bw / 2, 0, Math.PI * 2);
@@ -245,6 +239,13 @@ async function generateShareImage(spots, userName) {
     ctx.beginPath();
     ctx.arc(cx, cy, cr - bw / 2, 0, Math.PI * 2);
     ctx.stroke();
+
+    // arrows_share.svg on top of the circle (386:225 aspect ratio)
+    if (arrowsImg) {
+        const arrowW = W * 0.44;
+        const arrowH = arrowW * (225 / 386);
+        ctx.drawImage(arrowsImg, W * 0.33, H * 0.852, arrowW, arrowH);
+    }
 
     // Title card (rotated dark green rectangle)
     const titleSize = 68;
