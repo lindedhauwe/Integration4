@@ -71,7 +71,7 @@ export default function App() {
   const [overlayPhase, setOverlayPhase] = useState(0);
 
   useEffect(() => {
-    if (import.meta.env.DEV) seedDevData();
+    seedDevData();
   }, []);
 
   useEffect(() => {
