@@ -397,7 +397,9 @@ export default function Map() {
     const [panel, setPanel] = useState(null);
     const [panelView, setPanelView] = useState('story');
     const [photoIdx, setPhotoIdx] = useState(0);
-    const [isLiked, setIsLiked] = useState(false);
+    const isLiked = panel?.cafeId
+        ? (() => { try { return JSON.parse(localStorage.getItem('liked_cafes') || '[]').some((c) => String(c.cafe_id) === String(panel.cafeId)); } catch { return false; } })()
+        : false;
     const [toastPos, setToastPos] = useState(null);
     const setPanelRef = useRef(setPanel);
     setPanelRef.current = setPanel;
@@ -420,12 +422,6 @@ export default function Map() {
         return () => { map.off('move zoom viewreset', updatePos); };
     }, [panel?.type, panel?.position]);
 
-    useEffect(() => {
-        if (!panel?.cafeId) { setIsLiked(false); return; }
-        const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
-        setIsLiked(liked.some((c) => String(c.cafe_id) === String(panel.cafeId)));
-    }, [panel?.cafeId]);
-
     function togglePanelLike() {
         if (!panel?.cafeId) return;
         const liked = JSON.parse(localStorage.getItem('liked_cafes') || '[]');
@@ -440,7 +436,7 @@ export default function Map() {
             newLiked = [...liked, { cafe_id: panel.cafeId, name: panel.name, adress: panel.adress, lat: latlng?.lat ?? null, lng: latlng?.lng ?? null }];
         }
         localStorage.setItem('liked_cafes', JSON.stringify(newLiked));
-        setIsLiked(!wasLiked);
+        setPanel(p => p ? { ...p } : p);
 
         const markerData = markersRef.current[cafeIdStr];
         if (markerData && leafletRef.current) {

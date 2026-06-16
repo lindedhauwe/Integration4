@@ -164,7 +164,7 @@
 .home-card__photo-placeholder {
   width: 100%;
   height: 100%;
-  background: #3a5e4e;
+  background: var(--dark-green-hover);
   display: flex;
   align-items: center;
   justify-content: center;

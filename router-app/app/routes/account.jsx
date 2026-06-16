@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { Link, useNavigate, useLoaderData, redirect } from "react-router";
+import { useState } from "react";
 import { supabase } from "../supabase";
 
 import "./account.css";
@@ -36,12 +36,22 @@ function getLikedBarsFromStorage() {
     catch { return []; }
 }
 
+export function clientLoader() {
+    const stored = localStorage.getItem("user");
+    if (!stored) return redirect("/login");
+    return {
+        user: JSON.parse(stored),
+        visitedBars: getVisitedBars(),
+        likedBars: getLikedBarsFromStorage(),
+    };
+}
+clientLoader.hydrate = true;
+
 export default function Account() {
-    const [user, setUser] = useState(null);
+    const { user, visitedBars, likedBars: initialLikedBars } = useLoaderData();
     const [activeTab, setActiveTab] = useState("liked");
     const [visibleCount, setVisibleCount] = useState(5);
-    const [visitedBars, setVisitedBars] = useState([]);
-    const [likedBars, setLikedBars] = useState([]);
+    const [likedBars, setLikedBars] = useState(initialLikedBars);
 
     function switchTab(tab) {
         setActiveTab(tab);
@@ -55,20 +65,6 @@ export default function Account() {
         setLikedBars(updated);
     }
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const stored = localStorage.getItem("user");
-        if (stored) {
-            setUser(JSON.parse(stored));
-        } else {
-            navigate("/login");
-            return;
-        }
-        setVisitedBars(getVisitedBars());
-        setLikedBars(getLikedBarsFromStorage());
-    }, [navigate]);
-
-    if (!user) return null;
 
     async function handleLogout() {
         await supabase.auth.signOut();

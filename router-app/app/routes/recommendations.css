@@ -259,7 +259,7 @@ html, body {
   width: 100%;
   box-sizing: border-box;
 
-  background: #e8dcc6;
+  background: var(--beige-dark);
   border: 3px solid var(--green);
 
   font-size: 1rem;
@@ -402,7 +402,7 @@ html, body {
 
 .tag.green.tag--selected .tag__fill {
   background: var(--green);
-  color: #173628;
+  color: var(--dark-green-deep);
 }
 
 .tag__remove {
@@ -454,7 +454,7 @@ html, body {
   width: 21.875rem;
   height: 21.875rem;
   border-radius: 50%;
-  background: #264a3a;
+  background: var(--dark-green-mid);
   border: 10px solid var(--beige);
   box-sizing: border-box;
 

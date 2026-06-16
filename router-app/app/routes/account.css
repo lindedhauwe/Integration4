@@ -166,7 +166,7 @@
 .bar-item--empty p {
     font-family: var(--font-interstate);
     font-size: 0.875rem;
-    color: #999;
+    color: var(--grey-muted);
     margin: 0;
 }
 
@@ -253,7 +253,7 @@
 }
 
 .see-more:disabled {
-    color: #bbb;
+    color: var(--grey-lighter);
     cursor: default;
     text-decoration: underline;
 }

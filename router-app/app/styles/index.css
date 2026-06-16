@@ -40,15 +40,28 @@
     --pink: #FF6EE5;
     --blue: #009AFF;
     --bar-brown: #312C1C;
+    --bar-brown-translucent: rgba(49, 44, 28, 0.76);
     --beige: #FFEFD9;
+    --beige-dark: #e8dcc6;
+    --beige-warm: #efe4d1;
     --light-green: #B6FF00;
     --green: #00DF66;
+    --green-bright: #00e46f;
     --orange: #FF6700;
     --dark-green: #2C6B56;
+    --dark-green-hover: #3a5e4e;
+    --dark-green-mid: #264a3a;
+    --dark-green-deep: #173628;
 
     /* FUNDAMENTALS */
     --white: #FFFFFB;
     --black: #303030;
+    --pure-black: #000;
+    --near-black: #111;
+    --grey-muted: #999;
+    --grey-light: #aaa;
+    --grey-lighter: #bbb;
+    --error: #ff6b6b;
 
     /* FONT VARIABLES (LOCAL) */
     --font-antwerpen-regular: "Antwerpen-Regular", sans-serif;
