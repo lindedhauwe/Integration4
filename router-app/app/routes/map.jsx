@@ -541,11 +541,14 @@ export default function Map() {
     }, []);
 
     useEffect(() => {
-        if (!showFinish) return;
+        if (!showFinish) {
+            setFinishMapUrl(null);
+            return;
+        }
         let cancelled = false;
-        buildMapCanvas(getMapSpots(), 800).then(canvas => {
-            if (!cancelled) setFinishMapUrl(canvas.toDataURL('image/png'));
-        });
+        buildMapCanvas(getMapSpots(), 1000).then(canvas => {
+            if (!cancelled) setFinishMapUrl(canvas.toDataURL('image/jpeg', 0.9));
+        }).catch(() => {});
         return () => { cancelled = true; };
     }, [showFinish]);
 
@@ -842,7 +845,7 @@ export default function Map() {
                         </div>
 
                         <div className="map-finish__circle">
-                            <img src={finishMapUrl || pubcrawlVb} alt="pub crawl" className="map-finish__map-img" />
+                            {finishMapUrl && <img src={finishMapUrl} alt="pub crawl" className="map-finish__map-img" />}
                         </div>
 
                         <button className="map-finish__share" disabled={isSharing} onClick={async () => {
