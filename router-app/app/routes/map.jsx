@@ -287,7 +287,7 @@ async function generateShareImage(spots, userName) {
     const pinGap = 12;
 
     ctx.save();
-    ctx.translate(W * 0.11, H * 0.10 + cardH + 14);
+    ctx.translate(W * 0.11, H * 0.085 + cardH + 14);
     ctx.rotate(0.04);
 
     ctx.font = `bold ${badgeSize}px "interstate", system-ui, sans-serif`;
