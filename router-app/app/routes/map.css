@@ -412,8 +412,8 @@ body:has(.map-page) {
 }
 
 .map-finish__location-pin {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: auto;
+    height: 1.25rem;
     filter: brightness(0) invert(1);
     flex-shrink: 0;
 }
@@ -459,6 +459,11 @@ body:has(.map-page) {
     width: 1.25rem;
     height: 1.25rem;
     filter: brightness(0) invert(1);
+}
+
+.map-finish__share:disabled {
+    opacity: 0.65;
+    cursor: default;
 }
 
 /* ── AUTH GATE ── */
