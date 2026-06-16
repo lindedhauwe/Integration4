@@ -106,7 +106,7 @@ export default function Map() {
     const [wapper, setWapper] = useState(null); // { side: 'left'|'right' }
 
     useEffect(() => {
-        if (!isNight) return;
+        if (isNight) return;
         let timeout;
         function scheduleWapper() {
             const delay = 8000 + Math.random() * 20000; // 8-28s
@@ -317,7 +317,7 @@ export default function Map() {
             <div ref={mapRef} className="map-canvas" />
 
             {/* ── WAPPER ── */}
-            {isNight && wapper && (
+            {!isNight && wapper && (
                 <img
                     src={langeWapper}
                     alt=""
