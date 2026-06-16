@@ -244,7 +244,7 @@ async function generateShareImage(spots, userName) {
     if (arrowsImg) {
         const arrowW = W * 0.44;
         const arrowH = arrowW * (225 / 386);
-        ctx.drawImage(arrowsImg, W * 0.33, H * 0.852, arrowW, arrowH);
+        ctx.drawImage(arrowsImg, W * 0.54, H * 0.872, arrowW, arrowH);
     }
 
     // Title card (rotated dark green rectangle)
