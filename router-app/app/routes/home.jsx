@@ -284,7 +284,9 @@ export default function Home() {
               <img src={media[mediaIndex]} alt="recommendation" className="home-card__photo" />
             )
           ) : (
-            <div className="home-card__photo-placeholder" />
+            <div className="home-card__photo-placeholder">
+              <span className="home-card__no-photo">No photo taken</span>
+            </div>
           )}
 
           {media.length > 1 && (

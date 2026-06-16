@@ -103,7 +103,7 @@ export default function PhotoDropzone({ onUpload }) {
 
                 <div className="dropzone-card" onClick={openCamera}>
                     <img src={cameraIcon} alt="" className="dropzone-card__icon" />
-                    <span>Take photo/ video</span>
+                    <span>Take photo</span>
                 </div>
             </div>
 
