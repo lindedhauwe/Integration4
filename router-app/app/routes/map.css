@@ -1015,15 +1015,6 @@ body:has(.map-page) {
     display: block;
 }
 
-.mpp__handtap {
-    position: absolute;
-    bottom: 0.25rem;
-    right: 0.25rem;
-    width: 1.375rem;
-    height: 1.375rem;
-    object-fit: contain;
-    pointer-events: none;
-}
 
 .mpp__photo-full {
     position: absolute;
@@ -1057,11 +1048,11 @@ body:has(.map-page) {
 }
 
 .mpp__arrow--left {
-    left: 0;
+    left: calc(1rem + 10px);
 }
 
 .mpp__arrow--right {
-    right: 0;
+    right: calc(1rem + 10px);
 }
 
 .mpp__arrow-icon {
