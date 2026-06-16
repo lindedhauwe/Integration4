@@ -22,6 +22,7 @@ import handtap from '../assets/icons/handtap.svg';
 import addrecIcon from '../assets/icons/addrec.svg';
 
 import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
+import arrowsShareSvg from '../assets/images/arrows_share.svg';
 import langeWapper from '../assets/images/lange-wapper.png';
 
 import coasterPink from '../assets/icons/coasterPink.png';
@@ -81,6 +82,234 @@ function parsePhotos(raw) {
     } catch { return raw ? [raw] : []; }
 }
 
+// ── Share image helpers ──────────────────────────────────────────────────────
+
+const TILE_SZ = 256;
+function lng2tile(lng, zoom) { return (lng + 180) / 360 * 2 ** zoom; }
+function lat2tile(lat, zoom) {
+    const s = Math.sin(lat * Math.PI / 180);
+    return (1 - Math.log((1 + s) / (1 - s)) / (2 * Math.PI)) / 2 * 2 ** zoom;
+}
+function loadImg(src, cors) {
+    return new Promise(resolve => {
+        const img = new Image();
+        if (cors) img.crossOrigin = cors;
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+    });
+}
+async function loadSvgRecolored(svgUrl, fromColor, toColor) {
+    try {
+        const txt = await fetch(svgUrl).then(r => r.text());
+        const recolored = txt.replace(new RegExp(fromColor, 'gi'), toColor);
+        const blobUrl = URL.createObjectURL(new Blob([recolored], { type: 'image/svg+xml' }));
+        const img = await loadImg(blobUrl);
+        URL.revokeObjectURL(blobUrl);
+        return img;
+    } catch { return null; }
+}
+async function buildMapCanvas(spots, size) {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    const positions = spots.length > 0 ? spots.map(s => s.position) : [[51.2213, 4.4050]];
+    const lats = positions.map(p => p[0]);
+    const lngs = positions.map(p => p[1]);
+    const midLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+    const midLng = (Math.min(...lngs) + Math.max(...lngs)) / 2;
+
+    let zoom = 16;
+    while (zoom > 13) {
+        const dw = (lng2tile(Math.max(...lngs), zoom) - lng2tile(Math.min(...lngs), zoom)) * TILE_SZ;
+        const dh = (lat2tile(Math.min(...lats), zoom) - lat2tile(Math.max(...lats), zoom)) * TILE_SZ;
+        if (dw < size * 0.65 && dh < size * 0.65) break;
+        zoom--;
+    }
+
+    const fcx = lng2tile(midLng, zoom);
+    const fcy = lat2tile(midLat, zoom);
+    const ftlx = fcx - size / (2 * TILE_SZ);
+    const ftly = fcy - size / (2 * TILE_SZ);
+
+    const tileTasks = [];
+    for (let ty = Math.floor(ftly); ty < Math.ceil(ftly + size / TILE_SZ); ty++) {
+        for (let tx = Math.floor(ftlx); tx < Math.ceil(ftlx + size / TILE_SZ); tx++) {
+            const url = `https://a.basemaps.cartocdn.com/rastertiles/voyager/${zoom}/${tx}/${ty}.png`;
+            const dx = Math.round((tx - ftlx) * TILE_SZ);
+            const dy = Math.round((ty - ftly) * TILE_SZ);
+            tileTasks.push(loadImg(url, 'anonymous').then(img => ({ img, dx, dy })));
+        }
+    }
+    const tiles = await Promise.all(tileTasks);
+    tiles.forEach(({ img, dx, dy }) => { if (img) ctx.drawImage(img, dx, dy, TILE_SZ, TILE_SZ); });
+
+    if (spots.length > 1) {
+        ctx.strokeStyle = '#312C1C';
+        ctx.lineWidth = Math.max(5, size * 0.007);
+        ctx.setLineDash([size * 0.024, size * 0.016]);
+        ctx.beginPath();
+        spots.forEach((spot, i) => {
+            const px = (lng2tile(spot.position[1], zoom) - ftlx) * TILE_SZ;
+            const py = (lat2tile(spot.position[0], zoom) - ftly) * TILE_SZ;
+            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    const iconSize = size * 0.1;
+    const markerImgs = await Promise.all(spots.map(s => loadImg(ICON_MAP[s.type] || coasterBrown)));
+    spots.forEach((spot, i) => {
+        const img = markerImgs[i];
+        if (!img) return;
+        const px = (lng2tile(spot.position[1], zoom) - ftlx) * TILE_SZ;
+        const py = (lat2tile(spot.position[0], zoom) - ftly) * TILE_SZ;
+        ctx.drawImage(img, px - iconSize / 2, py - iconSize, iconSize, iconSize);
+    });
+
+    return canvas;
+}
+
+async function generateShareImage(spots, userName) {
+    const W = 1080;
+    const H = 1920;
+
+    const BEIGE = '#FFEFD9';
+    const DARK_GREEN = '#2C6B56';
+    const LIGHT_GREEN = '#B6FF00';
+    const PINK = '#FF6EE5';
+    const WHITE = '#FFFFFB';
+
+    const [mapCanvas, arrowsImg, whitePinImg] = await Promise.all([
+        buildMapCanvas(spots, W),
+        loadImg(arrowsShareSvg),
+        loadSvgRecolored(locationPin, '#FF6EE5', '#FFFFFB'),
+    ]);
+
+    await document.fonts.ready;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // Beige background
+    ctx.fillStyle = BEIGE;
+    ctx.fillRect(0, 0, W, H);
+
+    // Top-left dark green angular shape
+    ctx.fillStyle = DARK_GREEN;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(W * 0.78, 0);
+    ctx.lineTo(W * 0.48, H * 0.27);
+    ctx.lineTo(0, H * 0.27);
+    ctx.closePath();
+    ctx.fill();
+
+    // Bottom-right lime green shape
+    ctx.fillStyle = LIGHT_GREEN;
+    ctx.beginPath();
+    ctx.moveTo(W * 0.38, H);
+    ctx.lineTo(W, H);
+    ctx.lineTo(W, H * 0.81);
+    ctx.lineTo(W * 0.63, H * 0.81);
+    ctx.closePath();
+    ctx.fill();
+
+    // arrows_share.svg at bottom (386:225 aspect ratio)
+    if (arrowsImg) {
+        const arrowW = W * 0.44;
+        const arrowH = arrowW * (225 / 386);
+        ctx.drawImage(arrowsImg, W * 0.33, H * 0.852, arrowW, arrowH);
+    }
+
+    // Circle with real map
+    const cx = W * 0.50;
+    const cy = H * 0.535;
+    const cr = W * 0.435;
+    const bw = 22;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr - bw / 2, 0, Math.PI * 2);
+    ctx.clip();
+    if (mapCanvas) ctx.drawImage(mapCanvas, cx - cr, cy - cr, cr * 2, cr * 2);
+    ctx.restore();
+
+    ctx.strokeStyle = DARK_GREEN;
+    ctx.lineWidth = bw;
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr - bw / 2, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Title card (rotated dark green rectangle)
+    const titleSize = 68;
+    const padX = 28;
+    const padY = 22;
+
+    ctx.save();
+    ctx.translate(W * 0.07, H * 0.10);
+    ctx.rotate(-0.035);
+
+    ctx.font = `${titleSize}px "Antwerpen-Regular", sans-serif`;
+    const hasName = !!userName;
+    const pinkPart = hasName ? `${userName}'s` : null;
+    const greenPart = hasName ? ' pub crawl in...' : 'My pub crawl in...';
+    const pinkW = pinkPart ? ctx.measureText(pinkPart).width : 0;
+    const greenW = ctx.measureText(greenPart).width;
+    const cardW = pinkW + greenW + padX * 2;
+    const cardH = titleSize + padY * 2;
+
+    ctx.fillStyle = DARK_GREEN;
+    ctx.fillRect(0, 0, cardW, cardH);
+
+    if (pinkPart) {
+        ctx.fillStyle = PINK;
+        ctx.fillText(pinkPart, padX, titleSize + padY * 0.55);
+        ctx.fillStyle = LIGHT_GREEN;
+        ctx.fillText(greenPart, padX + pinkW, titleSize + padY * 0.55);
+    } else {
+        ctx.fillStyle = LIGHT_GREEN;
+        ctx.fillText(greenPart, padX, titleSize + padY * 0.55);
+    }
+
+    ctx.restore();
+
+    // Location badge (pink, opposite rotation)
+    const badgeSize = 42;
+    const pinDrawH = 56;
+    const pinDrawW = pinDrawH * (12 / 18);
+    const badgePad = 16;
+    const pinGap = 12;
+
+    ctx.save();
+    ctx.translate(W * 0.11, H * 0.10 + cardH + 14);
+    ctx.rotate(0.04);
+
+    ctx.font = `bold ${badgeSize}px "interstate", system-ui, sans-serif`;
+    const labelW = ctx.measureText('ANTWERP').width;
+    const badgeTotalW = badgePad + pinDrawW + pinGap + labelW + badgePad;
+    const badgeTotalH = badgeSize + 28;
+
+    ctx.fillStyle = PINK;
+    ctx.fillRect(0, 0, badgeTotalW, badgeTotalH);
+
+    if (whitePinImg) {
+        ctx.drawImage(whitePinImg, badgePad, (badgeTotalH - pinDrawH) / 2, pinDrawW, pinDrawH);
+    }
+
+    ctx.fillStyle = WHITE;
+    ctx.fillText('ANTWERP', badgePad + pinDrawW + pinGap, badgeSize + 8);
+
+    ctx.restore();
+
+    return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+}
+
 export default function Map() {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
@@ -89,6 +318,7 @@ export default function Map() {
     const navigate = useNavigate();
 
     const [showFinish, setShowFinish] = useState(false);
+    const [isSharing, setIsSharing] = useState(false);
     const [clock, setClock] = useState(() =>
         new Date().toLocaleTimeString('nl-BE', { timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit' })
     );
@@ -594,14 +824,34 @@ export default function Map() {
                             <img src={pubcrawlVb} alt="pub crawl" className="map-finish__map-img" />
                         </div>
 
-                        <button className="map-finish__share" onClick={async () => {
-                            if (navigator.share) {
-                                await navigator.share({ title: 'My Antwerp Pub Crawl', url: window.location.origin });
-                            } else {
-                                await navigator.clipboard.writeText(window.location.origin);
+                        <button className="map-finish__share" disabled={isSharing} onClick={async () => {
+                            try {
+                                setIsSharing(true);
+                                const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
+                                const userName = user?.name || null;
+                                const spots = getMapSpots();
+                                const blob = await generateShareImage(spots, userName);
+                                const file = new File([blob], 'pub-crawl-antwerp.png', { type: 'image/png' });
+                                const shareTitle = userName ? `${userName}'s pub crawl in Antwerp` : 'My pub crawl in Antwerp';
+                                if (navigator.canShare?.({ files: [file] })) {
+                                    await navigator.share({ files: [file], title: shareTitle });
+                                } else if (navigator.share) {
+                                    await navigator.share({ title: shareTitle, url: window.location.origin });
+                                } else {
+                                    const url = URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = 'pub-crawl-antwerp.png';
+                                    a.click();
+                                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                                }
+                            } catch (err) {
+                                if (err?.name !== 'AbortError') console.error('Share failed:', err);
+                            } finally {
+                                setIsSharing(false);
                             }
                         }}>
-                            Share your pub crawl
+                            {isSharing ? 'Generating...' : 'Share your pub crawl'}
                             <img src={shareIcon} alt="" className="map-finish__share-icon" />
                         </button>
                     </div>
