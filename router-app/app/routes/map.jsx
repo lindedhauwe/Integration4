@@ -544,7 +544,6 @@ export default function Map() {
                             {panel.type === 'rec' && panel.rec && panelView === 'story' && hasPhotos && (
                                 <button className="mpp__thumb-wrap" onClick={() => setPanelView('photos')} aria-label="Bekijk foto's">
                                     <img src={photos[0]} alt="" className="mpp__thumb" />
-                                    <img src={handtap} alt="" className="mpp__handtap" />
                                 </button>
                             )}
 
