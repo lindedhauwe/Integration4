@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useActionData, useSubmit, useNavigate } from "react-router";
+import { useSubmit, useNavigate } from "react-router";
 import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
 import HomeButton from "~/components/HomeButton";
@@ -48,8 +48,7 @@ export async function clientAction({ request }) {
 }
 
 
-export default function Recommendations() {
-  const actionData = useActionData();
+export default function Recommendations({ actionData }) {
   const submit = useSubmit();
   const navigate = useNavigate();
 

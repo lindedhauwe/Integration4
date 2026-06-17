@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router";
 import { useState, useRef } from "react";
 import { supabase } from "../supabase";
 import Footer from "../components/Footer";
@@ -52,8 +51,8 @@ export async function clientLoader({ request }) {
 }
 clientLoader.hydrate = true;
 
-export default function TheSpot() {
-  const { cafe, recs, spots } = useLoaderData();
+export default function TheSpot({ loaderData }) {
+  const { cafe, recs, spots } = loaderData;
   const [recIndex, setRecIndex] = useState(0);
   const [spotIndex, setSpotIndex] = useState(0);
   const [showHoursPopup, setShowHoursPopup] = useState(false);

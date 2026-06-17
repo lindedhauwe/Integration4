@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Form, Link, redirect, useNavigation } from "react-router";
 import { supabase } from "../supabase";
 import "./login.css";
 import keysImg from "../assets/images/keys.png";
@@ -10,18 +10,31 @@ import eyeClosed from "../assets/icons/eyeclosed.svg";
 import errorIcon from "../assets/icons/error.svg";
 import HomeButton from "../components/HomeButton";
 
-export default function Login() {
-    const [identifier, setIdentifier] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-    const [serverError, setServerError] = useState(null);
-    const navigate = useNavigate();
+export async function clientAction({ request }) {
+    const formData = await request.formData();
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "");
 
-    const errors = submitted ? {
-        identifier: !identifier.trim() ? "Please fill in your email" : null,
-        password: !password.trim() ? "Please fill in your password" : null,
-    } : {};
+    const errors = {};
+    if (!email) errors.email = "Please fill in your email";
+    if (!password) errors.password = "Please fill in your password";
+    if (Object.keys(errors).length > 0) return { errors };
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error || !data.user) return { errors: { server: "Incorrect email or password. Try again." } };
+
+    const user = data.user;
+    const name = user.user_metadata?.name || user.email;
+    localStorage.setItem("user", JSON.stringify({ uid: user.id, name, email: user.email }));
+    return redirect("/account");
+}
+
+export default function Login({ actionData }) {
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
+    const [showPassword, setShowPassword] = useState(false);
+    const errors = actionData?.errors || {};
 
     function FieldError({ msg }) {
         if (!msg) return null;
@@ -31,29 +44,6 @@ export default function Login() {
                 {msg}
             </span>
         );
-    }
-
-    async function handleLogin(e) {
-        e.preventDefault();
-        setSubmitted(true);
-        setServerError(null);
-
-        if (!identifier.trim() || !password.trim()) return;
-
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: identifier.trim(),
-            password,
-        });
-
-        if (error || !data.user) {
-            setServerError("Incorrect email or password. Try again.");
-            return;
-        }
-
-        const user = data.user;
-        const name = user.user_metadata?.name || user.email;
-        localStorage.setItem("user", JSON.stringify({ uid: user.id, name, email: user.email }));
-        navigate("/account");
     }
 
     return (
@@ -67,23 +57,22 @@ export default function Login() {
             <h1 className="login-title">Log In</h1>
 
             <main className="login-main">
-                <form onSubmit={handleLogin} className="login-form">
-                    {serverError && (
+                <Form method="post" className="login-form">
+                    {errors.server && (
                         <span className="field-error field-error--server">
                             <img src={errorIcon} alt="" className="field-error__icon" />
-                            {serverError}
+                            {errors.server}
                         </span>
                     )}
 
                     <div className="form-group">
                         <label className="form-label">Email</label>
                         <input
-                            className={`form-input ${errors.identifier ? "input-error" : ""}`}
+                            className={`form-input ${errors.email ? "input-error" : ""}`}
                             type="text"
-                            value={identifier}
-                            onChange={(e) => setIdentifier(e.target.value)}
+                            name="email"
                         />
-                        <FieldError msg={errors.identifier} />
+                        <FieldError msg={errors.email} />
                     </div>
 
                     <div className="form-group">
@@ -92,8 +81,7 @@ export default function Login() {
                             <input
                                 className={`form-input ${errors.password ? "input-error" : ""}`}
                                 type={showPassword ? "text" : "password"}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                name="password"
                             />
                             <button
                                 type="button"
@@ -101,19 +89,20 @@ export default function Login() {
                                 onClick={() => setShowPassword((p) => !p)}
                                 aria-label="Toggle password visibility"
                             >
-                                {showPassword ? (
-                                    <img src={eyeOpen} alt="Show password" />
-                                ) : (
-                                    <img src={eyeClosed} alt="Hide password" />
-                                )}
+                                {showPassword
+                                    ? <img src={eyeOpen} alt="Show password" />
+                                    : <img src={eyeClosed} alt="Hide password" />
+                                }
                             </button>
                         </div>
                         <FieldError msg={errors.password} />
                         <a href="#" className="forgot-pw">Forgot Password?</a>
                     </div>
 
-                    <button type="submit" className="btn-login">Log In</button>
-                </form>
+                    <button type="submit" className="btn-login" disabled={isSubmitting}>
+                        {isSubmitting ? "Logging in..." : "Log In"}
+                    </button>
+                </Form>
 
                 <Link to="/create-profile" className="signup-link">
                     <img src={arrowRight} alt="" className="signup-arrow" />

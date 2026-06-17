@@ -1,7 +1,7 @@
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "../supabase";
-import "./home.css";
+import "./_index.css";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
 
@@ -83,8 +83,8 @@ function removeLikedCafe(cafeId) {
   localStorage.setItem("liked_cafes", JSON.stringify(liked));
 }
 
-export default function Home() {
-  const { filtered, all, cafeMap, scannedCafeId } = useLoaderData();
+export default function Home({ loaderData }) {
+  const { filtered, all, cafeMap, scannedCafeId } = loaderData;
   const navigate = useNavigate();
   const scannedCafeName = scannedCafeId ? (cafeMap[scannedCafeId]?.name || "") : "";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Form, Link, redirect, useNavigation } from "react-router";
 import { supabase } from "../supabase";
-import "./createprofile.css";
+import "./create-profile.css";
 import "./login.css";
 import typewriterImg from "../assets/images/typewriter.png";
 import loginVierkant from "../assets/icons/square-login-top.svg";
@@ -11,23 +11,56 @@ import eyeClosed from "../assets/icons/eyeclosed.svg";
 import errorIcon from "../assets/icons/error.svg";
 import HomeButton from "../components/HomeButton";
 
-export default function CreateProfile() {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirm, setConfirm] = useState("");
+export async function clientAction({ request }) {
+    const formData = await request.formData();
+    const username = String(formData.get("username") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "");
+    const confirm = String(formData.get("confirm") || "");
+
+    const errors = {};
+    if (!username) errors.username = "Please fill in a username";
+    if (!email) errors.email = "Please fill in your email";
+    if (!password) errors.password = "Please fill in a password";
+    else if (password.length < 8) errors.password = "Password must be at least 8 characters";
+    if (!confirm) errors.confirm = "Please confirm your password";
+    else if (confirm !== password) errors.confirm = "Passwords do not match";
+    if (Object.keys(errors).length > 0) return { errors };
+
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { name: username } },
+    });
+
+    if (error) return { errors: { server: "Something went wrong: " + error.message } };
+
+    const user = data.user;
+    localStorage.removeItem("liked_cafes");
+    localStorage.removeItem("visited_cafes");
+    localStorage.removeItem("current_cafe");
+    sessionStorage.removeItem("current_cafe");
+    localStorage.setItem("user", JSON.stringify({ uid: user.id, name: username, email: user.email }));
+
+    const { data: cafes } = await supabase.from("cafés").select("id, name, adress, gps_lat, gps_lng");
+    if (cafes && cafes.length > 0) {
+        const shuffled = [...cafes].sort(() => Math.random() - 0.5);
+        const randomCafe = shuffled[0];
+        localStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng }));
+        sessionStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress }));
+        const visitCount = Math.floor(Math.random() * 6);
+        const visited = shuffled.slice(1, 1 + visitCount).map((c) => ({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
+        localStorage.setItem("visited_cafes", JSON.stringify(visited));
+    }
+
+    return redirect("/account");
+}
+
+export default function CreateProfile({ actionData }) {
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
     const [showPassword, setShowPassword] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-    const [serverError, setServerError] = useState(null);
-
-    const navigate = useNavigate();
-
-    const errors = submitted ? {
-        username: !username.trim() ? "Please fill in a username" : null,
-        email: !email.trim() ? "Please fill in your email" : null,
-        password: !password.trim() ? "Please fill in a password" : password.length < 8 ? "Password must be at least 8 characters" : null,
-        confirm: !confirm.trim() ? "Please confirm your password" : confirm !== password ? "Passwords do not match" : null,
-    } : {};
+    const errors = actionData?.errors || {};
 
     function FieldError({ msg }) {
         if (!msg) return null;
@@ -37,49 +70,6 @@ export default function CreateProfile() {
                 {msg}
             </span>
         );
-    }
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        setSubmitted(true);
-        setServerError(null);
-
-        if (!username.trim() || !email.trim() || !password.trim() || !confirm.trim()) return;
-        if (password.length < 8) return;
-        if (password !== confirm) return;
-
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: { data: { name: username } },
-        });
-
-        if (error) {
-            setServerError("Er ging iets mis: " + error.message);
-            return;
-        }
-
-        const user = data.user;
-        localStorage.removeItem("liked_cafes");
-        localStorage.removeItem("visited_cafes");
-        localStorage.removeItem("current_cafe");
-        sessionStorage.removeItem("current_cafe");
-        localStorage.setItem("user", JSON.stringify({ uid: user.id, name: username, email: user.email }));
-
-        const { data: cafes } = await supabase.from("cafés").select("id, name, adress, gps_lat, gps_lng");
-        if (cafes && cafes.length > 0) {
-            const shuffled = [...cafes].sort(() => Math.random() - 0.5);
-
-            const randomCafe = shuffled[0];
-            localStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng }));
-            sessionStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress }));
-
-            const visitCount = Math.floor(Math.random() * 6);
-            const visited = shuffled.slice(1, 1 + visitCount).map((c) => ({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
-            localStorage.setItem("visited_cafes", JSON.stringify(visited));
-        }
-
-        navigate("/account");
     }
 
     return (
@@ -93,11 +83,11 @@ export default function CreateProfile() {
             <h1 className="createprofile-title">Create Profile</h1>
 
             <main className="createprofile-main">
-                <form onSubmit={handleSubmit} className="createprofile-form">
-                    {serverError && (
+                <Form method="post" className="createprofile-form">
+                    {errors.server && (
                         <span className="field-error field-error--server">
                             <img src={errorIcon} alt="" className="field-error__icon" />
-                            {serverError}
+                            {errors.server}
                         </span>
                     )}
 
@@ -106,9 +96,8 @@ export default function CreateProfile() {
                         <input
                             className={`form-input ${errors.username ? "input-error" : ""}`}
                             type="text"
+                            name="username"
                             placeholder="e.g anna_michiels"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
                         />
                         <FieldError msg={errors.username} />
                     </div>
@@ -118,9 +107,8 @@ export default function CreateProfile() {
                         <input
                             className={`form-input ${errors.email ? "input-error" : ""}`}
                             type="email"
+                            name="email"
                             placeholder="e.g anna.michiels@gmail.be"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <FieldError msg={errors.email} />
                     </div>
@@ -134,8 +122,7 @@ export default function CreateProfile() {
                             <input
                                 className={`form-input ${errors.password ? "input-error" : ""}`}
                                 type={showPassword ? "text" : "password"}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                name="password"
                             />
                             <button
                                 type="button"
@@ -143,11 +130,10 @@ export default function CreateProfile() {
                                 onClick={() => setShowPassword((p) => !p)}
                                 aria-label="Toggle password visibility"
                             >
-                                {showPassword ? (
-                                    <img src={eyeOpen} alt="Show password" />
-                                ) : (
-                                    <img src={eyeClosed} alt="Hide password" />
-                                )}
+                                {showPassword
+                                    ? <img src={eyeOpen} alt="Show password" />
+                                    : <img src={eyeClosed} alt="Hide password" />
+                                }
                             </button>
                         </div>
                         <FieldError msg={errors.password} />
@@ -158,14 +144,15 @@ export default function CreateProfile() {
                         <input
                             className={`form-input ${errors.confirm ? "input-error" : ""}`}
                             type="password"
-                            value={confirm}
-                            onChange={(e) => setConfirm(e.target.value)}
+                            name="confirm"
                         />
                         <FieldError msg={errors.confirm} />
                     </div>
 
-                    <button type="submit" className="btn-createprofile">Join the community</button>
-                </form>
+                    <button type="submit" className="btn-createprofile" disabled={isSubmitting}>
+                        {isSubmitting ? "Creating account..." : "Join the community"}
+                    </button>
+                </Form>
 
                 <Link to="/login" className="login-link">
                     <img src={arrowRight} alt="" className="login-arrow" />

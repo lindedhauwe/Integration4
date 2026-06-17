@@ -5,7 +5,7 @@ import type { GetInfo, GetAnnotations } from "react-router/internal";
 type Module = typeof import("../api.recommendations.js")
 
 type Info = GetInfo<{
-  file: "./routes/api.recommendations.ts",
+  file: "routes/api.recommendations.ts",
   module: Module
 }>
 
