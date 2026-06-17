@@ -40,6 +40,12 @@ This is our team with their connected Belbin Team Roles:
 
 ---
 
+## Docs:
+- [Setup Guide](SETUP_GUIDE.md) — how to install and run the project
+- [AI Reflectie](AIreflectie.md) — reflectie over het gebruik van AI
+
+---
+
 ## Links:
 figjam:
 https://www.figma.com/board/12Xd5BYnDTI9auqriyBxfw/Team-2-2026?node-id=0-1&t=lyHqFvtSQkhRSX8d-1 

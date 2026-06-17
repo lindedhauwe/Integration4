@@ -1,4 +1,4 @@
-# The Spot — Setup Guide
+# Antwerp on Tap — Setup Guide
 
 ## System Requirements
 
@@ -37,11 +37,11 @@ Create a file called `.env` inside the `router-app/` folder with the following c
 
 ```env
 VITE_SUPABASE_URL=https://kxbcmhntcgskcbduezpu.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4YmNtaG50Y2dza2NiZHVlenB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE4Njk5OCwiZXhwIjoyMDk1NzYyOTk4fQ.PGbg0B7-wgZ2k1Vina8iK96-QWz_sx5esKyTAKGIR24
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
 ```
 
-> These keys give read/write access to the project's Supabase database.
-> Do **not** share them publicly.
+> Copy the **URL** and **anon key** from your Supabase project under **Project Settings → API**.
+> Do **not** share these keys publicly.
 
 ---
 
@@ -74,8 +74,9 @@ npm run dev
 ```bash
 cd router-app
 npm run build
-npm run start
 ```
+
+This generates a `build/client/` folder with static files ready to be deployed to any static hosting provider (Vercel, Netlify, etc.).
 
 ---
 
@@ -93,17 +94,15 @@ The project uses [Supabase](https://supabase.com) as its backend. The database i
 | `recommendations` | User-submitted recommendations linked to a café |
 | `spots` | Neighbourhood spots linked to a café |
 
-**To import the database schema and seed data**, SQL files are included in the zip:
+**To import the database schema and seed data**, a SQL file is included in the project root:
 
-- `supabase_cafes.sql` — creates the `cafés` table and inserts café data
-- `supabase_recommendations.sql` — creates the `recommendations` table
-- `supabase_spots.sql` — creates the `spots` table and inserts spot data
+- `supabase_import.sql` — creates all tables and inserts all data
 
 **Steps to re-create the database on a new Supabase project:**
 
 1. Go to [supabase.com](https://supabase.com) and create a new project
 2. In the left sidebar go to **SQL Editor**
-3. Paste and run each `.sql` file in the order listed above
+3. Paste and run `supabase_import.sql`
 4. Copy your new project's **URL** and **anon key** from **Project Settings → API**
 5. Replace the values in `.env` with your new credentials
 
@@ -114,11 +113,15 @@ The project uses [Supabase](https://supabase.com) as its backend. The database i
 | URL | Page |
 |---|---|
 | `/` | Home — shows a random recommendation after NFC scan |
+| `/beerloading` | NFC entry point — triggers the full scan flow |
+| `/storytelling` | Onboarding story after NFC scan |
+| `/loadingrecommendation` | Loading screen before showing recommendation |
 | `/thespot?cafe_id=…` | Detail page of a specific café |
 | `/map` | Map with current + visited + liked cafés |
 | `/recommendations` | Submit a new recommendation |
 | `/login` | Log in / register |
 | `/account` | User account & liked places |
+| `/account/edit` | Edit account details |
 
 ---
 
@@ -127,24 +130,23 @@ The project uses [Supabase](https://supabase.com) as its backend. The database i
 The app is designed to be triggered by NFC tags placed in cafés. Each tag encodes a URL:
 
 ```
-https://thespot.netlify.app/?cafe=<cafe_uuid>
+https://integration4-ten.vercel.app/beerloader
 ```
 
-Scanning the tag opens the home page with a recommendation filtered to that café's vibe.
+Scanning the tag opens the beerloading page which starts the full flow:
+**beerloading → storytelling → loadingrecommendation → home**
 
 For local testing you can simulate this by visiting:
 
 ```
-http://localhost:5173/?cafe=<cafe_uuid>
+http://localhost:5173/beerloader
 ```
-
-Replace `<cafe_uuid>` with a valid UUID from the `cafés` table in Supabase.
 
 ---
 
 ## Live Deployment
 
-The app is deployed on **Netlify** at:
-**https://thespot.netlify.app**
+The app is deployed on **Vercel** at:
+**https://integration4-ten.vercel.app**
 
 Deployment is automatic on every push to the `main` branch.

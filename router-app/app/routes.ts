@@ -40,6 +40,4 @@ export default [
   // LOADING RECOMMENDATION
   route("/loadingrecommendation", "./routes/loadingrecommendation.jsx"),
 
-  // TEST OVERLAY (development only)
-  route("/test-overlay", "./routes/test-overlay.jsx"),
 ];
