@@ -542,7 +542,8 @@ export default function Map() {
             return;
         }
         let cancelled = false;
-        buildMapCanvas(getMapSpots(), 1000).then(canvas => {
+        const shareSpots = getMapSpots().filter(s => s.type !== 'rec' && s.type !== 'recLiked');
+        buildMapCanvas(shareSpots, 1000).then(canvas => {
             if (!cancelled) setFinishMapUrl(canvas.toDataURL('image/jpeg', 0.9));
         }).catch(() => {});
         return () => { cancelled = true; };
@@ -848,7 +849,7 @@ export default function Map() {
                                 setIsSharing(true);
                                 const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
                                 const userName = user?.name || null;
-                                const spots = getMapSpots();
+                                const spots = getMapSpots().filter(s => s.type !== 'rec' && s.type !== 'recLiked');
                                 const blob = await generateShareImage(spots, userName);
                                 const file = new File([blob], 'pub-crawl-antwerp.png', { type: 'image/png' });
                                 const shareTitle = userName ? `${userName}'s pub crawl in Antwerp` : 'My pub crawl in Antwerp';
