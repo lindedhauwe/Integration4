@@ -14,40 +14,43 @@ type Pages = {
   "/": {
     params: {};
   };
-  "/recommendations": {
+  "/loadingrecommendation": {
     params: {};
   };
   "/api/recommendations": {
     params: {};
   };
-  "/thespot": {
-    params: {};
-  };
-  "/map": {
-    params: {};
-  };
-  "/account": {
-    params: {};
-  };
-  "/account/edit": {
+  "/recommendations": {
     params: {};
   };
   "/create-profile": {
     params: {};
   };
-  "/login": {
+  "/account/edit": {
     params: {};
   };
-  "/otherbar": {
-    params: {};
-  };
-  "/beerloading": {
+  "/api/cafe-recs": {
     params: {};
   };
   "/storytelling": {
     params: {};
   };
-  "/loadingrecommendation": {
+  "/beerloading": {
+    params: {};
+  };
+  "/otherbar": {
+    params: {};
+  };
+  "/account": {
+    params: {};
+  };
+  "/thespot": {
+    params: {};
+  };
+  "/login": {
+    params: {};
+  };
+  "/map": {
     params: {};
   };
 };
@@ -55,75 +58,80 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/recommendations" | "/api/recommendations" | "/thespot" | "/map" | "/account" | "/account/edit" | "/create-profile" | "/login" | "/otherbar" | "/beerloading" | "/storytelling" | "/loadingrecommendation";
+    page: "/" | "/loadingrecommendation" | "/api/recommendations" | "/recommendations" | "/create-profile" | "/account/edit" | "/api/cafe-recs" | "/storytelling" | "/beerloading" | "/otherbar" | "/account" | "/thespot" | "/login" | "/map";
   };
-  "./routes/home.jsx": {
-    id: "routes/home";
-    page: "/";
+  "routes/loadingrecommendation.jsx": {
+    id: "routes/loadingrecommendation";
+    page: "/loadingrecommendation";
   };
-  "./routes/recommendations.jsx": {
-    id: "routes/recommendations";
-    page: "/recommendations";
-  };
-  "./routes/api.recommendations.ts": {
+  "routes/api.recommendations.ts": {
     id: "routes/api.recommendations";
     page: "/api/recommendations";
   };
-  "./routes/thespot.jsx": {
-    id: "routes/thespot";
-    page: "/thespot";
+  "routes/recommendations.jsx": {
+    id: "routes/recommendations";
+    page: "/recommendations";
   };
-  "./routes/map.jsx": {
-    id: "routes/map";
-    page: "/map";
-  };
-  "./routes/account.jsx": {
-    id: "routes/account";
-    page: "/account";
-  };
-  "./routes/editaccount.jsx": {
-    id: "routes/editaccount";
-    page: "/account/edit";
-  };
-  "./routes/createprofile.jsx": {
-    id: "routes/createprofile";
+  "routes/create-profile.jsx": {
+    id: "routes/create-profile";
     page: "/create-profile";
   };
-  "./routes/login.jsx": {
-    id: "routes/login";
-    page: "/login";
+  "routes/account_.edit.jsx": {
+    id: "routes/account_.edit";
+    page: "/account/edit";
   };
-  "./routes/otherbar.jsx": {
-    id: "routes/otherbar";
-    page: "/otherbar";
+  "routes/api.cafe-recs.jsx": {
+    id: "routes/api.cafe-recs";
+    page: "/api/cafe-recs";
   };
-  "./routes/beerloading.jsx": {
-    id: "routes/beerloading";
-    page: "/beerloading";
-  };
-  "./routes/storytelling.jsx": {
+  "routes/storytelling.jsx": {
     id: "routes/storytelling";
     page: "/storytelling";
   };
-  "./routes/loadingrecommendation.jsx": {
-    id: "routes/loadingrecommendation";
-    page: "/loadingrecommendation";
+  "routes/beerloading.jsx": {
+    id: "routes/beerloading";
+    page: "/beerloading";
+  };
+  "routes/otherbar.jsx": {
+    id: "routes/otherbar";
+    page: "/otherbar";
+  };
+  "routes/account.jsx": {
+    id: "routes/account";
+    page: "/account";
+  };
+  "routes/thespot.jsx": {
+    id: "routes/thespot";
+    page: "/thespot";
+  };
+  "routes/_index.jsx": {
+    id: "routes/_index";
+    page: "/";
+  };
+  "routes/login.jsx": {
+    id: "routes/login";
+    page: "/login";
+  };
+  "routes/map.jsx": {
+    id: "routes/map";
+    page: "/map";
   };
 };
 
 type RouteModules = {
   "root": typeof import("./app/root.tsx");
-  "routes/home": typeof import("./app/./routes/home.jsx");
-  "routes/recommendations": typeof import("./app/./routes/recommendations.jsx");
-  "routes/api.recommendations": typeof import("./app/./routes/api.recommendations.ts");
-  "routes/thespot": typeof import("./app/./routes/thespot.jsx");
-  "routes/map": typeof import("./app/./routes/map.jsx");
-  "routes/account": typeof import("./app/./routes/account.jsx");
-  "routes/editaccount": typeof import("./app/./routes/editaccount.jsx");
-  "routes/createprofile": typeof import("./app/./routes/createprofile.jsx");
-  "routes/login": typeof import("./app/./routes/login.jsx");
-  "routes/otherbar": typeof import("./app/./routes/otherbar.jsx");
-  "routes/beerloading": typeof import("./app/./routes/beerloading.jsx");
-  "routes/storytelling": typeof import("./app/./routes/storytelling.jsx");
-  "routes/loadingrecommendation": typeof import("./app/./routes/loadingrecommendation.jsx");
+  "routes/loadingrecommendation": typeof import("./app/routes/loadingrecommendation.jsx");
+  "routes/api.recommendations": typeof import("./app/routes/api.recommendations.ts");
+  "routes/recommendations": typeof import("./app/routes/recommendations.jsx");
+  "routes/create-profile": typeof import("./app/routes/create-profile.jsx");
+  "routes/account_.edit": typeof import("./app/routes/account_.edit.jsx");
+  "routes/api.cafe-recs": typeof import("./app/routes/api.cafe-recs.jsx");
+  "routes/storytelling": typeof import("./app/routes/storytelling.jsx");
+  "routes/beerloading": typeof import("./app/routes/beerloading.jsx");
+  "routes/otherbar": typeof import("./app/routes/otherbar.jsx");
+  "routes/account": typeof import("./app/routes/account.jsx");
+  "routes/thespot": typeof import("./app/routes/thespot.jsx");
+  "routes/_index": typeof import("./app/routes/_index.jsx");
+  "routes/login": typeof import("./app/routes/login.jsx");
+  "routes/map": typeof import("./app/routes/map.jsx");
 };

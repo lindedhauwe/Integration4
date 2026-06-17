@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLoaderData, redirect } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import { useState } from "react";
 import { supabase } from "../supabase";
 
@@ -7,7 +7,6 @@ import HomeButton from "../components/HomeButton";
 
 import footerHandImg from "../assets/images/handphone.png";
 import editIcon from "../assets/icons/edit.svg";
-import phoneIcon from "../assets/icons/phone.svg";
 import mailIcon from "../assets/icons/mail.svg";
 import leaveIcon from "../assets/icons/leave.svg";
 import keysImg from "../assets/images/keys.png";
@@ -47,8 +46,14 @@ export function clientLoader() {
 }
 clientLoader.hydrate = true;
 
-export default function Account() {
-    const { user, visitedBars, likedBars: initialLikedBars } = useLoaderData();
+export async function clientAction() {
+    await supabase.auth.signOut();
+    localStorage.removeItem("user");
+    return redirect("/login");
+}
+
+export default function Account({ loaderData }) {
+    const { user, visitedBars, likedBars: initialLikedBars } = loaderData;
     const [activeTab, setActiveTab] = useState("liked");
     const [visibleCount, setVisibleCount] = useState(5);
     const [likedBars, setLikedBars] = useState(initialLikedBars);
@@ -64,13 +69,6 @@ export default function Account() {
         localStorage.setItem("liked_cafes", JSON.stringify(updated));
         setLikedBars(updated);
     }
-    const navigate = useNavigate();
-
-    async function handleLogout() {
-        await supabase.auth.signOut();
-        localStorage.removeItem("user");
-        navigate("/login");
-    }
 
     return (
         <div className="account-page">
@@ -82,14 +80,16 @@ export default function Account() {
                 <p className="account-email">{user.email}</p>
 
                 <div className="account-actions">
-                    <a href="/account/edit" className="btn-edit">
+                    <Link to="/account/edit" className="btn-edit">
                         <img src={editIcon} alt="" className="btn-icon" />
                         Edit Profile
-                    </a>
-                    <button className="btn-logout" onClick={handleLogout}>
-                        <img src={leaveIcon} alt="" className="btn-icon" />
-                        Log Out
-                    </button>
+                    </Link>
+                    <Form method="post">
+                        <button type="submit" className="btn-logout">
+                            <img src={leaveIcon} alt="" className="btn-icon" />
+                            Log Out
+                        </button>
+                    </Form>
                 </div>
             </section>
 

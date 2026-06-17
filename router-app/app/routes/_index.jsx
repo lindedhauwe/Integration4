@@ -1,7 +1,7 @@
-import { useLoaderData, useNavigate } from "react-router";
-import { useState, useEffect, useRef } from "react";
-import { supabase } from "../supabase";
-import "./home.css";
+import { useNavigate } from "react-router";
+import { useState, useRef } from "react";
+import { supabase } from "../supabase"; // used only in clientLoader
+import "./_index.css";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
 
@@ -83,8 +83,8 @@ function removeLikedCafe(cafeId) {
   localStorage.setItem("liked_cafes", JSON.stringify(liked));
 }
 
-export default function Home() {
-  const { filtered, all, cafeMap, scannedCafeId } = useLoaderData();
+export default function Home({ loaderData }) {
+  const { filtered, all, cafeMap, scannedCafeId } = loaderData;
   const navigate = useNavigate();
   const scannedCafeName = scannedCafeId ? (cafeMap[scannedCafeId]?.name || "") : "";
 
@@ -181,7 +181,7 @@ export default function Home() {
     touchStartX.current = null;
   }
 
-  async function toggleLike() {
+  function toggleLike() {
     if (!localStorage.getItem("user")) {
       setShowLoginModal(true);
       return;
@@ -193,23 +193,14 @@ export default function Home() {
       return;
     }
 
-    // fetch GPS from cafes table
-    let lat = null, lng = null, name = cafeName, adress = cafeAddress;
-    if (rec.cafe_id) {
-      const { data } = await supabase
-        .from("cafés")
-        .select("name, adress, gps_lat, gps_lng")
-        .eq("id", rec.cafe_id)
-        .single();
-      if (data) {
-        lat = data.gps_lat;
-        lng = data.gps_lng;
-        name = data.name || cafeName;
-        adress = data.adress || "";
-      }
-    }
-
-    saveLikedCafe({ cafe_id: rec.cafe_id, name, adress, lat, lng });
+    const cafeData = cafeMap[rec.cafe_id];
+    saveLikedCafe({
+      cafe_id: rec.cafe_id,
+      name: cafeData?.name || cafeName,
+      adress: cafeData?.adress || cafeAddress,
+      lat: cafeData?.gps_lat || null,
+      lng: cafeData?.gps_lng || null,
+    });
     setLiked(getLikedCafes());
   }
 

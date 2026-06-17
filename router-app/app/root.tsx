@@ -9,7 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./styles/index.css";
-import "./routes/home.css";
+import "./routes/_index.css";
 import Nav from "~/components/Nav";
 
 export function meta() {
