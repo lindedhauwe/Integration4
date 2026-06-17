@@ -29,6 +29,9 @@ type Pages = {
   "/account/edit": {
     params: {};
   };
+  "/api/cafe-recs": {
+    params: {};
+  };
   "/storytelling": {
     params: {};
   };
@@ -55,7 +58,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/loadingrecommendation" | "/api/recommendations" | "/recommendations" | "/create-profile" | "/account/edit" | "/storytelling" | "/beerloading" | "/otherbar" | "/account" | "/thespot" | "/login" | "/map";
+    page: "/" | "/loadingrecommendation" | "/api/recommendations" | "/recommendations" | "/create-profile" | "/account/edit" | "/api/cafe-recs" | "/storytelling" | "/beerloading" | "/otherbar" | "/account" | "/thespot" | "/login" | "/map";
   };
   "routes/loadingrecommendation.jsx": {
     id: "routes/loadingrecommendation";
@@ -76,6 +79,10 @@ type RouteFiles = {
   "routes/account_.edit.jsx": {
     id: "routes/account_.edit";
     page: "/account/edit";
+  };
+  "routes/api.cafe-recs.jsx": {
+    id: "routes/api.cafe-recs";
+    page: "/api/cafe-recs";
   };
   "routes/storytelling.jsx": {
     id: "routes/storytelling";
@@ -118,6 +125,7 @@ type RouteModules = {
   "routes/recommendations": typeof import("./app/routes/recommendations.jsx");
   "routes/create-profile": typeof import("./app/routes/create-profile.jsx");
   "routes/account_.edit": typeof import("./app/routes/account_.edit.jsx");
+  "routes/api.cafe-recs": typeof import("./app/routes/api.cafe-recs.jsx");
   "routes/storytelling": typeof import("./app/routes/storytelling.jsx");
   "routes/beerloading": typeof import("./app/routes/beerloading.jsx");
   "routes/otherbar": typeof import("./app/routes/otherbar.jsx");
