@@ -28,7 +28,6 @@ export function meta() {
 }
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { seedDevData } from "./devSeed";
 
 import beerImg from "./assets/images/beer-animation.png";
 import coasterImg from "./assets/images/coaster-animation.png";
@@ -70,11 +69,7 @@ export default function App() {
   const location = useLocation();
   const [overlayPhase, setOverlayPhase] = useState(0);
 
-  useEffect(() => {
-    seedDevData();
-  }, []);
-
-  useEffect(() => {
+useEffect(() => {
     if (location.pathname !== "/") return;
     const skip = sessionStorage.getItem("skip_home_animation");
     const alreadyVisited = sessionStorage.getItem("home_visited");
