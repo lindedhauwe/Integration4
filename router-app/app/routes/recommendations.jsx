@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSubmit, useNavigate } from "react-router";
+import { Form, useSubmit, useNavigate } from "react-router";
 import "./recommendations.css";
 import PhotoDropzone from "~/components/PhotoDropzone";
 import HomeButton from "~/components/HomeButton";
@@ -202,11 +202,11 @@ export default function Recommendations({ actionData }) {
           </div>
         )}
 
-        <form
+        <Form
+          method="post"
           className="form"
           ref={formRef}
           onSubmit={(e) => {
-            e.preventDefault();
             setSubmitted(true);
             const hasErrors =
               (mode === "another" && !location.trim()) ||
@@ -214,15 +214,13 @@ export default function Recommendations({ actionData }) {
               !age.trim() ||
               !city.trim() ||
               description.trim().length < 15;
-            if (hasErrors) return;
+            if (hasErrors) { e.preventDefault(); return; }
 
             const isLoggedIn = !!localStorage.getItem("user");
             if (!isLoggedIn) {
+              e.preventDefault();
               setShowAuthModal(true);
-              return;
             }
-
-            submit(new FormData(formRef.current), { method: "post" });
           }}
         >
           {actionData?.error && <p className="error">Error: {actionData.error}</p>}
@@ -353,7 +351,7 @@ export default function Recommendations({ actionData }) {
             <img src={uploadIcon} alt="" className="submit-btn__icon" />
           </button>
 
-        </form>
+        </Form>
       </div>
 
       <img src={recommendationPeaceHand} className="peace-hand" />

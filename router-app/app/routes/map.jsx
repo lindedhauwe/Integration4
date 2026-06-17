@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router';
-import { supabase } from '../supabase';
+import { useFetcher, useNavigate } from 'react-router';
 import './map.css';
 
 import swirlMapPage from '../assets/images/swirlMapPage.png';
@@ -321,7 +320,17 @@ async function generateShareImage(spots, userName) {
     return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
 
-export default function Map() {
+export function clientLoader() {
+    const liked = (() => { try { return JSON.parse(localStorage.getItem('liked_cafes') || '[]'); } catch { return []; } })();
+    const current = (() => { try { return JSON.parse(localStorage.getItem('current_cafe') || 'null'); } catch { return null; } })();
+    const visited = (() => { try { return JSON.parse(localStorage.getItem('visited_cafes') || '[]'); } catch { return []; } })();
+    const rec = (() => { try { return JSON.parse(sessionStorage.getItem('rec_cafe') || 'null'); } catch { return null; } })();
+    const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
+    return { liked, current, visited, rec, user };
+}
+clientLoader.hydrate = true;
+
+export default function Map({ loaderData }) {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
     const markersRef = useRef({});
@@ -375,9 +384,7 @@ export default function Map() {
         }, 1000);
         return () => clearInterval(tick);
     }, []);
-    const [showAuthGate, setShowAuthGate] = useState(() => {
-        try { return !localStorage.getItem('user'); } catch { return true; }
-    });
+    const [showAuthGate, setShowAuthGate] = useState(!loaderData.user);
     const [showIntro, setShowIntro] = useState(true);
 
     function dismissIntro() {
@@ -449,29 +456,22 @@ export default function Map() {
         }
     }
 
-    // Fetch rec from DB when panel type is 'pending'
+    // Fetch rec from API route when panel type is 'pending'
+    const recFetcher = useFetcher();
     useEffect(() => {
         if (panel?.type !== 'pending') return;
-        let cancelled = false;
-
-        async function fetchRec() {
-            const { data } = await supabase
-                .from('recommendations')
-                .select('*')
-                .eq('cafe_id', panel.cafeId)
-                .limit(5);
-
-            if (cancelled) return;
-            if (data && data.length > 0) {
-                setPanel((prev) => ({ ...prev, type: 'rec', rec: data[0] }));
-            } else {
-                setPanel((prev) => ({ ...prev, type: 'add' }));
-            }
-        }
-
-        fetchRec();
-        return () => { cancelled = true; };
+        recFetcher.load(`/api/cafe-recs?cafe_id=${panel.cafeId}`);
     }, [panel?.type, panel?.cafeId]);
+
+    useEffect(() => {
+        if (!recFetcher.data) return;
+        const recs = recFetcher.data.recs;
+        if (recs.length > 0) {
+            setPanel((prev) => ({ ...prev, type: 'rec', rec: recs[0] }));
+        } else {
+            setPanel((prev) => ({ ...prev, type: 'add' }));
+        }
+    }, [recFetcher.data]);
 
     // Leaflet init
     useEffect(() => {

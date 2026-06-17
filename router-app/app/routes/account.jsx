@@ -80,10 +80,10 @@ export default function Account({ loaderData }) {
                 <p className="account-email">{user.email}</p>
 
                 <div className="account-actions">
-                    <a href="/account/edit" className="btn-edit">
+                    <Link to="/account/edit" className="btn-edit">
                         <img src={editIcon} alt="" className="btn-icon" />
                         Edit Profile
-                    </a>
+                    </Link>
                     <Form method="post">
                         <button type="submit" className="btn-logout">
                             <img src={leaveIcon} alt="" className="btn-icon" />
