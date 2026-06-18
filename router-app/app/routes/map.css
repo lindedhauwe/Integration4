@@ -303,24 +303,6 @@ body:has(.map-page) {
     font-size: 1rem;
 }
 
-.map-bottom__share {
-    width: 3rem;
-    height: 2.5rem;
-    background: var(--orange);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.map-bottom__share img {
-    width: 1.375rem;
-    height: 1.375rem;
-    filter: brightness(0) invert(1);
-}
-
 .map-bottom__legend {
     position: relative;
     display: flex;
