@@ -41,7 +41,7 @@ This is our team with their connected Belbin Team Roles:
 ---
 
 ## Docs:
-- [Setup Guide](SETUP_GUIDE.md) — how to install and run the project
+- [Stappenplan](router-app/stappenplan.md) — hoe je het project installeert en opstart
 - [AI Reflectie](AIreflectie.md) — reflectie over het gebruik van AI
 
 ---
