@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useFetcher, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { supabase } from '../supabase';
 import './map.css';
 
 import swirlMapPage from '../assets/images/swirlMapPage.png';
@@ -23,7 +24,7 @@ import addrecIcon from '../assets/icons/addrec.svg';
 import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
 import arrowsShareSvg from '../assets/images/arrows_share.svg';
 import antwerpLogo from '../assets/images/Antwerpen.svg.png';
-import langeWapper from '../assets/images/lange-wapper.png';
+import langeWapper from '../assets/images/langeWapper_circ.svg';
 
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
@@ -320,17 +321,7 @@ async function generateShareImage(spots, userName) {
     return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
 
-export function clientLoader() {
-    const liked = (() => { try { return JSON.parse(localStorage.getItem('liked_cafes') || '[]'); } catch { return []; } })();
-    const current = (() => { try { return JSON.parse(localStorage.getItem('current_cafe') || 'null'); } catch { return null; } })();
-    const visited = (() => { try { return JSON.parse(localStorage.getItem('visited_cafes') || '[]'); } catch { return []; } })();
-    const rec = (() => { try { return JSON.parse(sessionStorage.getItem('rec_cafe') || 'null'); } catch { return null; } })();
-    const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
-    return { liked, current, visited, rec, user };
-}
-clientLoader.hydrate = true;
-
-export default function Map({ loaderData }) {
+export default function Map() {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
     const markersRef = useRef({});
@@ -384,7 +375,9 @@ export default function Map({ loaderData }) {
         }, 1000);
         return () => clearInterval(tick);
     }, []);
-    const [showAuthGate, setShowAuthGate] = useState(!loaderData.user);
+    const [showAuthGate, setShowAuthGate] = useState(() => {
+        try { return !localStorage.getItem('user'); } catch { return true; }
+    });
     const [showIntro, setShowIntro] = useState(true);
 
     function dismissIntro() {
@@ -456,22 +449,29 @@ export default function Map({ loaderData }) {
         }
     }
 
-    // Fetch rec from API route when panel type is 'pending'
-    const recFetcher = useFetcher();
+    // Fetch rec from DB when panel type is 'pending'
     useEffect(() => {
         if (panel?.type !== 'pending') return;
-        recFetcher.load(`/api/cafe-recs?cafe_id=${panel.cafeId}`);
-    }, [panel?.type, panel?.cafeId]);
+        let cancelled = false;
 
-    useEffect(() => {
-        if (!recFetcher.data) return;
-        const recs = recFetcher.data.recs;
-        if (recs.length > 0) {
-            setPanel((prev) => ({ ...prev, type: 'rec', rec: recs[0] }));
-        } else {
-            setPanel((prev) => ({ ...prev, type: 'add' }));
+        async function fetchRec() {
+            const { data } = await supabase
+                .from('recommendations')
+                .select('*')
+                .eq('cafe_id', panel.cafeId)
+                .limit(5);
+
+            if (cancelled) return;
+            if (data && data.length > 0) {
+                setPanel((prev) => ({ ...prev, type: 'rec', rec: data[0] }));
+            } else {
+                setPanel((prev) => ({ ...prev, type: 'add' }));
+            }
         }
-    }, [recFetcher.data]);
+
+        fetchRec();
+        return () => { cancelled = true; };
+    }, [panel?.type, panel?.cafeId]);
 
     // Leaflet init
     useEffect(() => {
@@ -672,7 +672,6 @@ export default function Map({ loaderData }) {
                         <img src={rectBottomMap} alt="" className="map-bottom__deco" />
                         <div className="map-bottom__actions">
                             <button className="map-bottom__finish" onClick={() => setShowFinish(true)}>Finish Pub Crawl</button>
-                            <button className="map-bottom__share"><img src={shareIcon} alt="share" /></button>
                         </div>
                         <div className="map-bottom__legend" onClick={() => setShowIntro(true)} style={{ cursor: 'pointer' }}>
                             <div className="map-legend-item"><img src={coasterBrown} alt="" /><span>visited</span></div>
