@@ -41,20 +41,20 @@ export async function clientLoader({ request }) {
   if (cafeId && cafeMap[cafeId]) {
     const c = cafeMap[cafeId];
     const newCurrent = { id: c.id, name: c.name, lat: c.gps_lat, lng: c.gps_lng };
+    const userId = (() => { try { return JSON.parse(localStorage.getItem("user") || "{}").uid || "anon"; } catch { return "anon"; } })();
 
-    // Zet vorige "current" in visited als het een ander café is
     try {
-      const oldCurrent = JSON.parse(localStorage.getItem("current_cafe") || "null");
+      const oldCurrent = JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || "null");
       if (oldCurrent && oldCurrent.id !== newCurrent.id) {
-        const visited = JSON.parse(localStorage.getItem("visited_cafes") || "[]");
+        const visited = JSON.parse(localStorage.getItem(`visited_cafes_${userId}`) || "[]");
         if (!visited.find((v) => v.id === oldCurrent.id)) {
           visited.push(oldCurrent);
-          localStorage.setItem("visited_cafes", JSON.stringify(visited));
+          localStorage.setItem(`visited_cafes_${userId}`, JSON.stringify(visited));
         }
       }
     } catch {}
 
-    localStorage.setItem("current_cafe", JSON.stringify({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
+    localStorage.setItem(`current_cafe_${userId}`, JSON.stringify({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
     sessionStorage.setItem("current_cafe", JSON.stringify({ id: c.id, name: c.name, adress: c.adress }));
   }
 

@@ -54,8 +54,9 @@ export default function Recommendations({ actionData }) {
 
   const currentCafe = (() => {
     try {
+      const userId = (() => { try { return JSON.parse(localStorage.getItem("user") || "{}").uid || "anon"; } catch { return "anon"; } })();
       return JSON.parse(sessionStorage.getItem("current_cafe") || "null")
-        || JSON.parse(localStorage.getItem("current_cafe") || "null");
+        || JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || "null");
     }
     catch { return null; }
   })();
