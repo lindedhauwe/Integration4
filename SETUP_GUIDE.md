@@ -5,9 +5,9 @@
 | Requirement | Minimum |
 |---|---|
 | OS | macOS 13+ or Windows 10/11 |
-| Node.js | v22 (tested on v22.20.0) |
+| Node.js | v18+ (v22 recommended) |
 | npm | v10+ |
-| Internet connection | Required (Supabase is a cloud database) |
+| Internet connection | Required (Supabase & Cloudinary are cloud services) |
 | Browser | Chrome, Firefox, Safari, Edge (modern versions) |
 
 > **Recommended:** use [nvm](https://github.com/nvm-sh/nvm) to manage Node versions.
@@ -21,90 +21,78 @@
 Integration4/
 └── router-app/        ← all source code lives here
     ├── app/
-    │   ├── routes/    ← pages (home, thespot, map, recommendations, …)
+    │   ├── routes/    ← pages (_index, thespot, map, recommendations, …)
     │   ├── components/
     │   └── assets/
     ├── public/
     ├── package.json
-    └── .env           ← environment variables (see below)
+    └── .env           ← environment variables (see Step 2)
 ```
 
 ---
 
-## Environment Variables
+## Step 1 — Clone the repository
+
+```bash
+git clone https://github.com/lindedhauwe/Integration4.git
+cd Integration4/router-app
+```
+
+---
+
+## Step 2 — Create the .env file
 
 Create a file called `.env` inside the `router-app/` folder with the following content:
 
 ```env
+SUPABASE_URL=https://kxbcmhntcgskcbduezpu.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4YmNtaG50Y2dza2NiZHVlenB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE4Njk5OCwiZXhwIjoyMDk1NzYyOTk4fQ.PGbg0B7-wgZ2k1Vina8iK96-QWz_sx5esKyTAKGIR24
+
 VITE_SUPABASE_URL=https://kxbcmhntcgskcbduezpu.supabase.co
-VITE_SUPABASE_ANON_KEY=your_anon_key_here
+VITE_SUPABASE_ANON_KEY=sb_publishable_fxNwDK9vM24IZ3Jw8_r7nw_e0VyTRcj
+VITE_SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4YmNtaG50Y2dza2NiZHVlenB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDE4Njk5OCwiZXhwIjoyMDk1NzYyOTk4fQ.PGbg0B7-wgZ2k1Vina8iK96-QWz_sx5esKyTAKGIR24
 ```
 
-> Copy the **URL** and **anon key** from your Supabase project under **Project Settings → API**.
-> Do **not** share these keys publicly.
+> This file is not included in the repository for security reasons, but the values above are correct and give access to our Supabase database.
 
 ---
 
-## Step-by-step Installation
-
-### First time
+## Step 3 — Install dependencies
 
 ```bash
-# 1. Navigate into the app folder
-cd router-app
-
-# 2. Install all dependencies
 npm install
+```
 
-# 3. Start the development server
+This installs all required packages (React Router, Supabase, GSAP, …).
+
+---
+
+## Step 4 — Start the development server
+
+```bash
 npm run dev
 ```
 
 The app will be available at **http://localhost:5173** (or another port if 5173 is taken — check the terminal output).
 
-### After the first install
+---
+
+## Step 5 — Build for production (optional)
 
 ```bash
-cd router-app
-npm run dev
-```
-
-### Build for production
-
-```bash
-cd router-app
 npm run build
 ```
 
-This generates a `build/client/` folder with static files ready to be deployed to any static hosting provider (Vercel, Netlify, etc.).
+This generates a `build/client/` folder with static files ready to deploy.
 
 ---
 
 ## Online Services
 
-### Supabase (database + auth + storage)
-
-The project uses [Supabase](https://supabase.com) as its backend. The database is already live — no local setup needed as long as the `.env` values above are in place.
-
-**Tables used:**
-
-| Table | Description |
-|---|---|
-| `cafés` | All café data: name, address, GPS, opening hours, vibe tags, beer info, photo |
-| `recommendations` | User-submitted recommendations linked to a café |
-| `spots` | Neighbourhood spots linked to a café |
-
-**To import the database schema and seed data**, a SQL file is included in the project root:
-
-- `supabase_import.sql` — creates all tables and inserts all data
-
-**Steps to re-create the database on a new Supabase project:**
-
-1. Go to [supabase.com](https://supabase.com) and create a new project
-2. In the left sidebar go to **SQL Editor**
-3. Paste and run `supabase_import.sql`
-4. Copy your new project's **URL** and **anon key** from **Project Settings → API**
-5. Replace the values in `.env` with your new credentials
+| Service | Purpose | Setup needed? |
+|---|---|---|
+| **Supabase** | Database (cafés, recommendations, users) + Auth | No — credentials are in `.env` |
+| **Cloudinary** | Photo uploads for recommendations | No — linked via our account |
 
 ---
 
@@ -119,7 +107,8 @@ The project uses [Supabase](https://supabase.com) as its backend. The database i
 | `/thespot?cafe_id=…` | Detail page of a specific café |
 | `/map` | Map with current + visited + liked cafés |
 | `/recommendations` | Submit a new recommendation |
-| `/login` | Log in / register |
+| `/login` | Log in |
+| `/create-profile` | Create an account |
 | `/account` | User account & liked places |
 | `/account/edit` | Edit account details |
 
@@ -127,26 +116,39 @@ The project uses [Supabase](https://supabase.com) as its backend. The database i
 
 ## NFC Flow
 
-The app is designed to be triggered by NFC tags placed in cafés. Each tag encodes a URL:
+The app is designed to be triggered by NFC tags placed in cafés. Each tag encodes a URL that opens the beerloading page, which starts the full flow:
 
-```
-https://integration4-ten.vercel.app/beerloader
-```
-
-Scanning the tag opens the beerloading page which starts the full flow:
 **beerloading → storytelling → loadingrecommendation → home**
 
 For local testing you can simulate this by visiting:
 
 ```
-http://localhost:5173/beerloader
+http://localhost:5173/beerloading
 ```
+
+---
+
+## Creating an account in the app
+
+You can create your own account via the app ("Create Profile" button). No email confirmation is required. After creating an account you automatically get a random current location and a few visited cafés on your map.
+
+To log in with an existing test account, contact one of the team members.
 
 ---
 
 ## Live Deployment
 
-The app is deployed on **Vercel** at:
-**https://integration4-ten.vercel.app**
+The app is deployed on **Netlify** at:
+**https://integration4-ten.netlify.app**
 
 Deployment is automatic on every push to the `main` branch.
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| `npm install` gives errors | Check that Node.js is correctly installed: `node -v` |
+| Page loads but shows nothing | Check that the `.env` file is correctly created inside `router-app/` |
+| Photos don't upload | This only works with an internet connection (Cloudinary) |
