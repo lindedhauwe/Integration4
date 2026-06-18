@@ -221,6 +221,11 @@
     font-size: 0.85rem;
 }
 
+.nav-footer-link-text{
+    text-decoration: none;
+    color: var(--light-green);
+}
+
 .play-icon {
     width: 1.375rem;
     height: 1.375rem;
