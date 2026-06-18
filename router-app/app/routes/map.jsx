@@ -24,7 +24,8 @@ import addrecIcon from '../assets/icons/addrec.svg';
 import pubcrawlVb from '../assets/images/pubcrawl-vb.png';
 import arrowsShareSvg from '../assets/images/arrows_share.svg';
 import antwerpLogo from '../assets/images/Antwerpen.svg.png';
-import langeWapper from '../assets/images/langeWapper_circ.svg';
+// import langeWapper from '../assets/images/langeWapper_circ.svg';
+import langeWapper from "../assets/scrollytelling/story/lange-wapper.svg";
 
 import coasterPink from '../assets/icons/coasterPink.png';
 import coasterPinkHeart from '../assets/icons/coasterPinkHeart.png';
