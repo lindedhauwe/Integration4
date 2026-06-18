@@ -20,8 +20,9 @@ import antwerpLogo from "../assets/images/Antwerpen.svg.png";
 
 function getVisitedBars() {
     try {
-        const visited = JSON.parse(localStorage.getItem("visited_cafes") || "[]");
-        const current = JSON.parse(localStorage.getItem("current_cafe") || "null");
+        const userId = JSON.parse(localStorage.getItem("user") || "{}").uid || "anon";
+        const visited = JSON.parse(localStorage.getItem(`visited_cafes_${userId}`) || "[]");
+        const current = JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || "null");
         const all = [...visited];
         if (current && !all.find((v) => String(v.id) === String(current.id))) {
             all.unshift(current);
