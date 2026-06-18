@@ -322,7 +322,6 @@ async function generateShareImage(spots, userName) {
     return new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 }
 
-export default function Map() {
 export function clientLoader() {
     const liked = (() => { try { return JSON.parse(localStorage.getItem('liked_cafes') || '[]'); } catch { return []; } })();
     const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
