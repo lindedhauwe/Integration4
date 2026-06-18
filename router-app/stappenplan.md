@@ -1,12 +1,33 @@
 # Stappenplan — Project opstarten
 
-## Vereisten
+## Systeemvereisten
 
-Zorg dat het volgende geïnstalleerd is op je computer:
+| Vereiste | Minimum |
+|---|---|
+| OS | macOS 13+ of Windows 10/11 |
+| Node.js | v18+ (v22 aanbevolen) |
+| npm | v10+ |
+| Internetverbinding | Vereist (Supabase & Cloudinary zijn clouddiensten) |
+| Browser | Chrome, Firefox, Safari, Edge (recente versies) |
 
-- [Node.js](https://nodejs.org/) versie 18 of hoger
-- Een terminal (Terminal op Mac, PowerShell of Git Bash op Windows)
-- [Git](https://git-scm.com/)
+> **Aanbevolen:** gebruik [nvm](https://github.com/nvm-sh/nvm) om Node versies te beheren.
+> Voer `nvm install 22 && nvm use 22` uit indien nodig.
+
+---
+
+## Projectstructuur
+
+```
+Integration4/
+└── router-app/        ← alle broncode staat hier
+    ├── app/
+    │   ├── routes/    ← pagina's (_index, thespot, map, recommendations, …)
+    │   ├── components/
+    │   └── assets/
+    ├── public/
+    ├── package.json
+    └── .env           ← omgevingsvariabelen (zie Stap 2)
+```
 
 ---
 
@@ -52,23 +73,58 @@ Dit installeert alle benodigde packages (React Router, Supabase, GSAP, ...).
 npm run dev
 ```
 
-De terminal toont een lokale URL, normaal gezien:
-
-```
-http://localhost:5173
-```
-
-Open deze URL in je browser.
+De app is beschikbaar op **http://localhost:5173** (of een andere poort als 5173 bezet is — check de terminal output).
 
 ---
 
-## Wat wordt er gebruikt?
+## Stap 5 — Bouwen voor productie (optioneel)
 
-| Service | Waarvoor | Toegang nodig? |
+```bash
+npm run build
+```
+
+Dit genereert een `build/client/` map met statische bestanden klaar om te deployen.
+
+---
+
+## Gebruikte diensten
+
+| Dienst | Waarvoor | Toegang nodig? |
 |---|---|---|
-| **Supabase** | Database (cafés, aanbevelingen, gebruikers) | Nee — credentials zitten in `.env` |
+| **Supabase** | Database (cafés, aanbevelingen, gebruikers) + Auth | Nee — credentials zitten in `.env` |
 | **Cloudinary** | Foto-uploads bij aanbevelingen | Nee — gekoppeld via onze account |
-| **Supabase Auth** | Inloggen & account aanmaken | Nee — werkt via Supabase |
+
+---
+
+## Overzicht van pagina's
+
+| URL | Pagina |
+|---|---|
+| `/` | Home — toont een willekeurige aanbeveling na NFC scan |
+| `/beerloading` | NFC startpunt — triggert de volledige scan flow |
+| `/storytelling` | Onboarding verhaal na NFC scan |
+| `/loadingrecommendation` | Laadscherm voor de aanbeveling |
+| `/thespot?cafe_id=…` | Detailpagina van een specifiek café |
+| `/map` | Kaart met huidig + bezocht + geliket cafés |
+| `/recommendations` | Aanbeveling indienen |
+| `/login` | Inloggen |
+| `/create-profile` | Account aanmaken |
+| `/account` | Gebruikersprofiel & gelikete plekken |
+| `/account/edit` | Accountgegevens bewerken |
+
+---
+
+## NFC Flow
+
+De app is ontworpen om geactiveerd te worden door NFC-tags in cafés. Elke tag bevat een URL die de beerloading-pagina opent, waarna de volledige flow start:
+
+**beerloading → storytelling → loadingrecommendation → home**
+
+Voor lokaal testen kan je dit simuleren door naar het volgende te navigeren:
+
+```
+http://localhost:5173/beerloading
+```
 
 ---
 
@@ -80,8 +136,19 @@ Wil je inloggen met een bestaand testaccount, neem dan contact op met een van de
 
 ---
 
+## Live deployment
+
+De app staat live op **Netlify**:
+**https://integration4-ten.netlify.app**
+
+Elke push naar de `main` branch triggert automatisch een nieuwe deployment.
+
+---
+
 ## Problemen?
 
-- **`npm install` geeft errors** → controleer of Node.js correct geïnstalleerd is (`node -v`)
-- **Pagina laadt maar toont niets** → controleer of het `.env` bestand correct aangemaakt is in `router-app/`
-- **Foto's uploaden niet** → dit werkt enkel met een internetverbinding (Cloudinary)
+| Probleem | Oplossing |
+|---|---|
+| `npm install` geeft errors | Controleer of Node.js correct geïnstalleerd is: `node -v` |
+| Pagina laadt maar toont niets | Controleer of het `.env` bestand correct aangemaakt is in `router-app/` |
+| Foto's uploaden niet | Dit werkt enkel met een internetverbinding (Cloudinary) |
