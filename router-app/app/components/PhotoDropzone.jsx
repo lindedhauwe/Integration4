@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import imgIcon from "../assets/icons/imgIcon.png";
 import cameraIcon from "../assets/icons/cameraIcon.png";
 import "./PhotoDropzone.css";
@@ -8,6 +8,15 @@ export default function PhotoDropzone({ onUpload }) {
     const [cameraOpen, setCameraOpen] = useState(false);
     const videoRef = useRef(null);
     const streamRef = useRef(null);
+    const isFirstRender = useRef(true);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        if (onUpload) onUpload(media);
+    }, [media]);
 
     async function uploadToCloudinary(blob) {
         const formData = new FormData();
@@ -32,11 +41,7 @@ export default function PhotoDropzone({ onUpload }) {
             urls.push(url);
         }
 
-        setMedia((prev) => {
-            const all = [...prev, ...urls];
-            if (onUpload) onUpload(all);
-            return all;
-        });
+        setMedia((prev) => [...prev, ...urls]);
     }
 
     async function openCamera() {
@@ -62,9 +67,7 @@ export default function PhotoDropzone({ onUpload }) {
     }
 
     function removeMedia(index) {
-        const updated = media.filter((_, i) => i !== index);
-        setMedia(updated);
-        if (onUpload) onUpload(updated);
+        setMedia((prev) => prev.filter((_, i) => i !== index));
     }
 
     async function takePhoto() {
@@ -76,11 +79,7 @@ export default function PhotoDropzone({ onUpload }) {
 
         canvas.toBlob(async (blob) => {
             const url = await uploadToCloudinary(blob);
-            setMedia((prev) => {
-                const all = [...prev, url];
-                if (onUpload) onUpload(all);
-                return all;
-            });
+            setMedia((prev) => [...prev, url]);
             closeCamera();
         }, "image/jpeg");
     }
