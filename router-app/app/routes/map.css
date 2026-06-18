@@ -122,19 +122,20 @@ body:has(.map-page) {
     width: auto;
     z-index: 6;
     pointer-events: none;
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .map-wapper--left {
     left: 0;
     transform-origin: bottom left;
-    filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.3));
     animation: wapper-in-left 0.7s ease-out forwards, wapper-out-left 0.7s ease-in 1.8s forwards;
 }
 
 .map-wapper--right {
     right: 0;
     transform-origin: bottom right;
-    filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.3));
     animation: wapper-in-right 0.7s ease-out forwards, wapper-out-right 0.7s ease-in 1.8s forwards;
 }
 
