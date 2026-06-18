@@ -54,8 +54,9 @@ export default function Recommendations({ actionData }) {
 
   const currentCafe = (() => {
     try {
+      const userId = (() => { try { return JSON.parse(localStorage.getItem("user") || "{}").uid || "anon"; } catch { return "anon"; } })();
       return JSON.parse(sessionStorage.getItem("current_cafe") || "null")
-        || JSON.parse(localStorage.getItem("current_cafe") || "null");
+        || JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || "null");
     }
     catch { return null; }
   })();
@@ -183,7 +184,14 @@ export default function Recommendations({ actionData }) {
             <div className="hero">
               <p className="small">You're currently at...</p>
               <h1>{currentCafe?.name || "Onbekend café"}</h1>
-              <div className="location"><img src={locationIcon} alt="" className="location-icon" />{currentCafe?.adress || ""}</div>
+              <a
+                className="location"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((currentCafe?.name || "") + ' ' + (currentCafe?.adress || ""))}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={locationIcon} alt="" className="location-icon" />{currentCafe?.adress || ""}
+              </a>
             </div>
             <div className="intro">
               <h2>Capture the moment</h2>

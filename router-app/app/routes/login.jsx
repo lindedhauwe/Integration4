@@ -27,6 +27,23 @@ export async function clientAction({ request }) {
     const user = data.user;
     const name = user.user_metadata?.name || user.email;
     localStorage.setItem("user", JSON.stringify({ uid: user.id, name, email: user.email }));
+
+    if (!localStorage.getItem(`current_cafe_${user.id}`)) {
+        const { data: cafes } = await supabase.from("cafés").select("id, name, adress, gps_lat, gps_lng");
+        if (cafes && cafes.length > 0) {
+            const shuffled = [...cafes].sort(() => Math.random() - 0.5);
+            const randomCafe = shuffled[0];
+            localStorage.setItem(`current_cafe_${user.id}`, JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng }));
+            sessionStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress }));
+            const visitCount = Math.floor(Math.random() * 4) + 2;
+            const visited = shuffled.slice(1, 1 + visitCount).map((c) => ({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
+            localStorage.setItem(`visited_cafes_${user.id}`, JSON.stringify(visited));
+        }
+    } else {
+        const current = JSON.parse(localStorage.getItem(`current_cafe_${user.id}`) || "null");
+        if (current) sessionStorage.setItem("current_cafe", JSON.stringify({ id: current.id, name: current.name, adress: current.adress }));
+    }
+
     return redirect("/account");
 }
 

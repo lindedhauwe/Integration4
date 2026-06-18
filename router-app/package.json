@@ -10,18 +10,18 @@
   },
   "dependencies": {
     "@netlify/vite-plugin-react-router": "^3.1.1",
-    "@react-router/fs-routes": "^7.18.0",
-    "@react-router/node": "^7.18.0",
-    "@react-router/serve": "^7.18.0",
+    "@react-router/fs-routes": "7.18.0",
+    "@react-router/node": "7.18.0",
+    "@react-router/serve": "7.18.0",
     "@supabase/supabase-js": "^2.108.1",
     "gsap": "^3.15.0",
     "isbot": "^5.1.36",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router": "^7.18.0"
+    "react-router": "7.18.0"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.18.0",
+    "@react-router/dev": "7.18.0",
     "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^22",
     "@types/react": "^19.2.14",

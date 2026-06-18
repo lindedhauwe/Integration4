@@ -37,20 +37,17 @@ export async function clientAction({ request }) {
 
     const user = data.user;
     localStorage.removeItem("liked_cafes");
-    localStorage.removeItem("visited_cafes");
-    localStorage.removeItem("current_cafe");
-    sessionStorage.removeItem("current_cafe");
     localStorage.setItem("user", JSON.stringify({ uid: user.id, name: username, email: user.email }));
 
     const { data: cafes } = await supabase.from("cafés").select("id, name, adress, gps_lat, gps_lng");
     if (cafes && cafes.length > 0) {
         const shuffled = [...cafes].sort(() => Math.random() - 0.5);
         const randomCafe = shuffled[0];
-        localStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng }));
+        localStorage.setItem(`current_cafe_${user.id}`, JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress, lat: randomCafe.gps_lat, lng: randomCafe.gps_lng }));
         sessionStorage.setItem("current_cafe", JSON.stringify({ id: randomCafe.id, name: randomCafe.name, adress: randomCafe.adress }));
-        const visitCount = Math.floor(Math.random() * 6);
+        const visitCount = Math.floor(Math.random() * 4) + 2;
         const visited = shuffled.slice(1, 1 + visitCount).map((c) => ({ id: c.id, name: c.name, adress: c.adress, lat: c.gps_lat, lng: c.gps_lng }));
-        localStorage.setItem("visited_cafes", JSON.stringify(visited));
+        localStorage.setItem(`visited_cafes_${user.id}`, JSON.stringify(visited));
     }
 
     return redirect("/account");

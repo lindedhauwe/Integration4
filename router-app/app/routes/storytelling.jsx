@@ -407,8 +407,21 @@ export default function Storytelling() {
 
     const modal = activeModal ? MODAL_CONTENT[activeModal] : null;
 
+    const handleSkip = () => {
+        exitTriggered.current = true;
+        ScrollTrigger.getAll().forEach(st => st.kill());
+        mainTweenRef.current?.kill();
+        bottleTweenRef.current?.kill();
+        langeWapperSway.current?.kill();
+        langeWapperTableSway.current?.kill();
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => navigate("/loadingrecommendation"));
+        });
+    };
+
     return (
         <>
+            <button className="st-skip" onClick={handleSkip}>skip</button>
             {/* ── Pinned horizontal scroll wrapper ── */}
             <div ref={wrapperRef} className="st-wrapper">
 

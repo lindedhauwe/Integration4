@@ -40,13 +40,14 @@ function getMapSpots() {
         const spots = [];
         const addedIds = new Set();
 
-        const current = JSON.parse(localStorage.getItem('current_cafe') || 'null');
+        const userId = (() => { try { return JSON.parse(localStorage.getItem('user') || '{}').uid || 'anon'; } catch { return 'anon'; } })();
+        const current = JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || 'null');
         if (current?.lat && current?.lng) {
             spots.push({ id: `current-${current.id}`, cafeId: current.id, name: current.name, adress: current.adress || '', position: [current.lat, current.lng], type: likedIds.has(String(current.id)) ? 'currentLiked' : 'current' });
             addedIds.add(String(current.id));
         }
 
-        const visited = JSON.parse(localStorage.getItem('visited_cafes') || '[]');
+        const visited = JSON.parse(localStorage.getItem(`visited_cafes_${userId}`) || '[]');
         visited.forEach((c) => {
             if (!c.lat || !c.lng) return;
             spots.push({ id: `visited-${c.id}`, cafeId: c.id, name: c.name, adress: c.adress || '', position: [c.lat, c.lng], type: likedIds.has(String(c.id)) ? 'visitedLiked' : 'visited' });
@@ -322,6 +323,18 @@ async function generateShareImage(spots, userName) {
 }
 
 export default function Map() {
+export function clientLoader() {
+    const liked = (() => { try { return JSON.parse(localStorage.getItem('liked_cafes') || '[]'); } catch { return []; } })();
+    const user = (() => { try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } })();
+    const userId = user?.uid || 'anon';
+    const current = (() => { try { return JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || 'null'); } catch { return null; } })();
+    const visited = (() => { try { return JSON.parse(localStorage.getItem(`visited_cafes_${userId}`) || '[]'); } catch { return []; } })();
+    const rec = (() => { try { return JSON.parse(sessionStorage.getItem('rec_cafe') || 'null'); } catch { return null; } })();
+    return { liked, current, visited, rec, user };
+}
+clientLoader.hydrate = true;
+
+export default function Map({ loaderData }) {
     const mapRef = useRef(null);
     const instanceRef = useRef(null);
     const markersRef = useRef({});
@@ -485,7 +498,8 @@ export default function Map() {
             leafletRef.current = L;
 
             const antwerpenBounds = L.latLngBounds([51.15, 4.28], [51.31, 4.52]);
-            const current = (() => { try { return JSON.parse(localStorage.getItem('current_cafe') || 'null'); } catch { return null; } })();
+            const userId = (() => { try { return JSON.parse(localStorage.getItem('user') || '{}').uid || 'anon'; } catch { return 'anon'; } })();
+            const current = (() => { try { return JSON.parse(localStorage.getItem(`current_cafe_${userId}`) || 'null'); } catch { return null; } })();
             const center = (current?.lat && current?.lng) ? [current.lat, current.lng] : [51.2194, 4.4025];
 
             const map = L.map(mapRef.current, {
