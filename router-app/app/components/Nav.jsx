@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import hamburger from "~/assets/icons/hamburgermenu.svg";
 import hamburgerBeige from "~/assets/icons/hamburgermenu-beige.svg";
 import bgNav from "~/assets/icons/bg-nav.svg";
@@ -90,9 +90,11 @@ export default function Nav() {
             </NavLink>
           </div>
 
-          <NavLink to="#" className="nav-footer-link" onClick={() => setOpen(false)}>
+          <NavLink to="/storytelling" className="nav-footer-link" onClick={() => setOpen(false)}>
             <img src={playIcon} alt="" className="play-icon" />
-            <span>Rewatch info / Story of Antwerp</span>
+            <span className="nav-footer-link-text">
+              Rewatch info / Story of Antwerp
+            </span>
           </NavLink>
         </div>
       )}
